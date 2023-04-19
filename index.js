@@ -27,24 +27,20 @@ class ProductManager {
 			this.products.push(newProduct);
 			ProductManager.id += 1; //incremento contador ID
 
-			await fs.promises.writeFile(
-				//Escribo el file utilizando promesas y esperando a que se cumpla la misma
-				`${this.path}`,
-				JSON.stringify(this.products)
-			);
+			//Escribo el file utilizando promesas y esperando a que se cumpla la misma
+			await fs.promises.writeFile(`${this.path}`, JSON.stringify(this.products));
 		} else {
 			return console.log("Error: product already exist");
 		}
 	}
 
-	getProducts() {
-		return this.products;
+	async getProducts() {
+		const actualProducts = await fs.promises.readFile(`${this.path}`, "utf-8");
+		return JSON.parse(actualProducts);
 	}
 
 	getProductsById(idBuscado) {
-		const result = this.products.find(
-			(element) => element.id === idBuscado
-		); // busco el elemento que coincida con el ID indicado
+		const result = this.products.find((element) => element.id === idBuscado); // busco el elemento que coincida con el ID indicado
 		if (result) {
 			// Si tengo un resultado lo retorno, sino devuelvo error
 			return result;
@@ -58,51 +54,32 @@ class ProductManager {
 let ProductList = new ProductManager("./ProductManager.json");
 
 //Solicito ver el listado de productos, en este caso se devuelve el array vacio
-console.log(ProductList.getProducts());
+const test = async () => {
+	try {
+		await ProductList.addProducts("producto prueba", "este es un producto de prueba", 200, "sin imagen", "abc123", 5);
+		await ProductList.addProducts("producto prueba", "este es un producto de prueba", 200, "sin imagen", "abc123", 5);
+		console.log(await ProductList.getProducts());
+	} catch (error) {
+		console.log("Error en el test");
+	}
+};
+test();
 
 //Agrego un producto
-ProductList.addProducts(
-	"producto prueba",
-	"este es un producto de prueba",
-	200,
-	"sin imagen",
-	"abc123",
-	5
-);
+//ProductList.addProducts("producto prueba", "este es un producto de prueba", 200, "sin imagen", "abc123", 5);
 
-ProductList.addProducts(
-	"producto prueba2",
-	"este es un producto de prueba2",
-	300,
-	"sin imagen",
-	"abc",
-	10
-);
+//ProductList.addProducts("producto prueba2", "este es un producto de prueba2", 300, "sin imagen", "abc", 10);
 
-ProductList.addProducts(
-	"producto prueba3",
-	"este es un producto de prueba3",
-	100,
-	"sin imagen",
-	"123",
-	8
-);
+//ProductList.addProducts("producto prueba3", "este es un producto de prueba3", 100, "sin imagen", "123", 8);
 
 //Solicito ver el listado de productos, en este caso se devuelve el array con el producto ingresado
-console.log(ProductList.getProducts());
+//console.log(ProductList.getProducts());
 
 //Intento agregar el mismo producto nuevamente, obtengo un Error
-ProductList.addProducts(
-	"producto prueba",
-	"este es un producto de prueba",
-	200,
-	"sin imagen",
-	"abc123",
-	5
-);
+//ProductList.addProducts("producto prueba", "este es un producto de prueba", 200, "sin imagen", "abc123", 5);
 
 //Solicito mostrar el producto con ID 0, y muestra el mismo
-console.log(ProductList.getProductsById(0));
+//console.log(ProductList.getProductsById(0));
 
 //Solicito mostrar el producto con ID 10, y muestra Error porque el mismo no existe
-ProductList.getProductsById(10);
+//ProductList.getProductsById(10);
