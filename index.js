@@ -39,13 +39,15 @@ class ProductManager {
 		return JSON.parse(actualProducts);
 	}
 
-	getProductsById(idBuscado) {
-		const result = this.products.find((element) => element.id === idBuscado); // busco el elemento que coincida con el ID indicado
+	async getProductsById(idBuscado) {
+		const productList = await this.getProducts();
+		const result = productList.find((element) => element.id === idBuscado); // busco el elemento que coincida con el ID indicado
+
 		if (result) {
 			// Si tengo un resultado lo retorno, sino devuelvo error
 			return result;
 		} else {
-			return console.log("Error: Product not found");
+			return "Error: Product not found";
 		}
 	}
 }
@@ -56,30 +58,22 @@ let ProductList = new ProductManager("./ProductManager.json");
 //Solicito ver el listado de productos, en este caso se devuelve el array vacio
 const test = async () => {
 	try {
+		//Agrego un producto
 		await ProductList.addProducts("producto prueba", "este es un producto de prueba", 200, "sin imagen", "abc123", 5);
-		await ProductList.addProducts("producto prueba", "este es un producto de prueba", 200, "sin imagen", "abc123", 5);
+
+		//Solicito ver el listado de productos, en este caso se devuelve el array con el producto ingresado
 		console.log(await ProductList.getProducts());
+
+		//Intento agregar el mismo producto nuevamente, obtengo un Error
+		await ProductList.addProducts("producto prueba", "este es un producto de prueba", 200, "sin imagen", "abc123", 5);
+
+		//Solicito mostrar el producto con ID 0, y muestra el mismo
+		console.log(await ProductList.getProductsById(0));
+
+		//Solicito mostrar el producto con ID 10, y muestra Error porque el mismo no existe
+		console.log(await ProductList.getProductsById(0));
 	} catch (error) {
 		console.log("Error en el test");
 	}
 };
 test();
-
-//Agrego un producto
-//ProductList.addProducts("producto prueba", "este es un producto de prueba", 200, "sin imagen", "abc123", 5);
-
-//ProductList.addProducts("producto prueba2", "este es un producto de prueba2", 300, "sin imagen", "abc", 10);
-
-//ProductList.addProducts("producto prueba3", "este es un producto de prueba3", 100, "sin imagen", "123", 8);
-
-//Solicito ver el listado de productos, en este caso se devuelve el array con el producto ingresado
-//console.log(ProductList.getProducts());
-
-//Intento agregar el mismo producto nuevamente, obtengo un Error
-//ProductList.addProducts("producto prueba", "este es un producto de prueba", 200, "sin imagen", "abc123", 5);
-
-//Solicito mostrar el producto con ID 0, y muestra el mismo
-//console.log(ProductList.getProductsById(0));
-
-//Solicito mostrar el producto con ID 10, y muestra Error porque el mismo no existe
-//ProductList.getProductsById(10);
