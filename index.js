@@ -8,6 +8,7 @@ class ProductManager {
 	constructor(myPath) {
 		this.products = [];
 		this.path = myPath;
+		fs.promises.writeFile(`${this.path}`, JSON.stringify(this.products));
 	}
 
 	//Método para agregar productos al archivo
@@ -78,45 +79,68 @@ class ProductManager {
 	async deleteProduct(idBuscado) {
 		const productList = await this.getProducts(); //obtengo lista de productos
 		const index = productList.indexOf(productList.find((elemento) => elemento.id === idBuscado)); //obtengo el índice del elemento a borrar
+
+		if (index === -1) return "Error: Product not found"; //si no encuentro producto retorno error
+
 		productList.splice(index, 1); // elimino el elemento seleccionado
 		await fs.promises.writeFile(`${this.path}`, JSON.stringify(productList)); //reescribo archivo
 		return productList; //retorno nuevo listado
 	}
 }
 
+/*---------------------------------------TEST--------------------------------------- */
 //Genero nueva instancia de ProductManager
 let ProductList = new ProductManager("./ProductManager.json");
 
 //Solicito ver el listado de productos, en este caso se devuelve el array vacio
 const test = async () => {
 	const newProd = {
-		title: "producto prueba2",
-		description: "este es un producto de prueba2",
+		title: "producto modificado",
+		description: "este es un producto modificado",
 		price: 20,
-		thumbnail: "sin imagen 2",
+		thumbnail: "sin imagen",
 		code: "asdasd",
 		stock: 25,
 	};
 
 	try {
+		//Solicito ver el listado de productos, en este caso se devuelve el array vacio
+		console.log("Solicito ver el listado de productos, en este caso se devuelve el array vacio:");
+		console.log(await ProductList.getProducts());
+
 		//Agrego un producto
+		console.log("Agrego productos:");
 		await ProductList.addProducts("producto prueba", "este es un producto de prueba", 200, "sin imagen", "abc123", 5);
 		await ProductList.addProducts("producto prueba2", "este es un producto de prueba2", 100, "sin imagen2", "123", 51);
 		await ProductList.addProducts("producto prueba3", "este es un producto de prueba3", 1000, "sin imagen3", "abc", 25);
 
-		//console.log(await ProductList.updateProduct(0, newProd));
 		//Solicito ver el listado de productos, en este caso se devuelve el array con el producto ingresado
-		//console.log(await ProductList.getProducts());
+		console.log("Solicito ver el listado de productos, en este caso se devuelve el array con el producto ingresado");
+		console.log(await ProductList.getProducts());
 
 		//Intento agregar el mismo producto nuevamente, obtengo un Error
-		//await ProductList.addProducts("producto prueba", "este es un producto de prueba", 200, "sin imagen", "abc123", 5);
+		console.log("Intento agregar el mismo producto nuevamente, obtengo un Error:");
+		await ProductList.addProducts("producto prueba", "este es un producto de prueba", 200, "sin imagen", "abc123", 5);
 
 		//Solicito mostrar el producto con ID 0, y muestra el mismo
-		//console.log(await ProductList.getProductsById(0));
+		console.log("Solicito mostrar el producto con ID 0, y muestra el mismo");
+		console.log(await ProductList.getProductsById(0));
 
 		//Solicito mostrar el producto con ID 10, y muestra Error porque el mismo no existe
-		//console.log(await ProductList.getProductsById(0));
+		console.log("Solicito mostrar el producto con ID 10, y muestra Error porque el mismo no existe");
+		console.log(await ProductList.getProductsById(10));
+
+		//Actualizo producto
+		console.log("Actualizo producto");
+		console.log(await ProductList.updateProduct(1, newProd));
+
+		//Elimino un producto del array
+		console.log("Elimino un producto del array:");
 		console.log(await ProductList.deleteProduct(1));
+
+		//Intento de borrar un elemento que no existe y arroja error
+		console.log("Intento de borrar un elemento que no existe y arroja error:");
+		console.log(await ProductList.deleteProduct(5));
 	} catch (error) {
 		console.log("Error en el test");
 	}
