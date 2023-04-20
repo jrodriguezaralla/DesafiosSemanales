@@ -73,6 +73,15 @@ class ProductManager {
 		await fs.promises.writeFile(`${this.path}`, JSON.stringify(productList));
 		return productList;
 	}
+
+	//Método para eliminar un producto del archivo
+	async deleteProduct(idBuscado) {
+		const productList = await this.getProducts(); //obtengo lista de productos
+		const index = productList.indexOf(productList.find((elemento) => elemento.id === idBuscado)); //obtengo el índice del elemento a borrar
+		productList.splice(index, 1); // elimino el elemento seleccionado
+		await fs.promises.writeFile(`${this.path}`, JSON.stringify(productList)); //reescribo archivo
+		return productList; //retorno nuevo listado
+	}
 }
 
 //Genero nueva instancia de ProductManager
@@ -92,8 +101,10 @@ const test = async () => {
 	try {
 		//Agrego un producto
 		await ProductList.addProducts("producto prueba", "este es un producto de prueba", 200, "sin imagen", "abc123", 5);
+		await ProductList.addProducts("producto prueba2", "este es un producto de prueba2", 100, "sin imagen2", "123", 51);
+		await ProductList.addProducts("producto prueba3", "este es un producto de prueba3", 1000, "sin imagen3", "abc", 25);
 
-		console.log(await ProductList.updateProduct(0, newProd));
+		//console.log(await ProductList.updateProduct(0, newProd));
 		//Solicito ver el listado de productos, en este caso se devuelve el array con el producto ingresado
 		//console.log(await ProductList.getProducts());
 
@@ -105,6 +116,7 @@ const test = async () => {
 
 		//Solicito mostrar el producto con ID 10, y muestra Error porque el mismo no existe
 		//console.log(await ProductList.getProductsById(0));
+		console.log(await ProductList.deleteProduct(1));
 	} catch (error) {
 		console.log("Error en el test");
 	}
