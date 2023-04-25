@@ -1,8 +1,8 @@
 //Desafio Clase 4 - Manejo de archivos en Javascript
 
-const fs = require("fs");
+import fs from "fs";
 
-class ProductManager {
+export default class ProductManager {
 	static id = 0; // ID que será vistos por todas las instancias
 
 	constructor(myPath) {
@@ -89,6 +89,7 @@ class ProductManager {
 }
 
 /*---------------------------------------TEST--------------------------------------- */
+/*
 //Genero nueva instancia de ProductManager
 let ProductList = new ProductManager("./ProductManager.json");
 
@@ -146,3 +147,4 @@ const test = async () => {
 	}
 };
 test();
+*/
