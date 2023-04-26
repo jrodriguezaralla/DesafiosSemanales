@@ -7,10 +7,23 @@ const ProductList = new ProductManager('./ProductManager.json');
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/products', async (req, res) => {
-	let limit = req.query.limit;
 	try {
 		let allProducts = await ProductList.getProducts();
-		res.send(allProducts);
+		let limit = req.query.limit;
+		if (limit) {
+			let productLimit = allProducts.slice(0, limit);
+			res.send(productLimit);
+		} else res.send(allProducts);
+	} catch (error) {
+		res.send(error);
+	}
+});
+
+app.get('/products/:pid', async (req, res) => {
+	try {
+		let product = await ProductList.getProductsById(parseInt(req.params.pid));
+		console.log(typeof product);
+		res.send(product);
 	} catch (error) {
 		res.send(error);
 	}
