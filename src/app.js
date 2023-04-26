@@ -6,9 +6,14 @@ const ProductList = new ProductManager('./ProductManager.json');
 
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/products', (req, res) => {
+app.get('/products', async (req, res) => {
 	let limit = req.query.limit;
-	res.send('Hola a Todoos!');
+	try {
+		let allProducts = await ProductList.getProducts();
+		res.send(allProducts);
+	} catch (error) {
+		res.send(error);
+	}
 });
 
 app.listen(8080, () => {
