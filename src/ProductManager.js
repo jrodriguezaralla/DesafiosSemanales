@@ -1,6 +1,6 @@
 //Desafio Clase 4 - Manejo de archivos en Javascript
 
-import fs from "fs";
+import fs from 'fs';
 
 export default class ProductManager {
 	static id = 0; // ID que será vistos por todas las instancias
@@ -8,7 +8,10 @@ export default class ProductManager {
 	constructor(myPath) {
 		this.products = [];
 		this.path = myPath;
-		fs.promises.writeFile(`${this.path}`, JSON.stringify(this.products));
+		//Si no existe el archivo lo creo con un array vacío
+		if (!fs.existsSync('./ProductManager.json')) {
+			fs.promises.writeFile(`${this.path}`, JSON.stringify(this.products));
+		}
 	}
 
 	//Método para agregar productos al archivo
@@ -33,13 +36,13 @@ export default class ProductManager {
 			//Si no existe, Escribo el file utilizando promesas y esperando a que se cumpla la misma
 			await fs.promises.writeFile(`${this.path}`, JSON.stringify(this.products));
 		} else {
-			return console.log("Error: product already exist");
+			return console.log('Error: product already exist');
 		}
 	}
 
 	//Método para adquirir el listado de productos desde el archivo.
 	async getProducts() {
-		const actualProducts = await fs.promises.readFile(`${this.path}`, "utf-8");
+		const actualProducts = await fs.promises.readFile(`${this.path}`, 'utf-8');
 		return JSON.parse(actualProducts);
 	}
 
@@ -52,7 +55,7 @@ export default class ProductManager {
 			// Si tengo un resultado lo retorno, sino devuelvo error
 			return result;
 		} else {
-			return "Error: Product not found";
+			return 'Error: Product not found';
 		}
 	}
 
@@ -80,7 +83,7 @@ export default class ProductManager {
 		const productList = await this.getProducts(); //obtengo lista de productos
 		const index = productList.indexOf(productList.find((elemento) => elemento.id === idBuscado)); //obtengo el índice del elemento a borrar
 
-		if (index === -1) return "Error: Product not found"; //si no encuentro producto retorno error
+		if (index === -1) return 'Error: Product not found'; //si no encuentro producto retorno error
 
 		productList.splice(index, 1); // elimino el elemento seleccionado
 		await fs.promises.writeFile(`${this.path}`, JSON.stringify(productList)); //reescribo archivo

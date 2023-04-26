@@ -1,12 +1,13 @@
 import express from 'express';
-import ProductManager from './ProductManager';
+import ProductManager from './ProductManager.js';
 
 const app = express();
 const ProductList = new ProductManager('./ProductManager.json');
 
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/saludo', (req, res) => {
+app.get('/products', (req, res) => {
+	let limit = req.query.limit;
 	res.send('Hola a Todoos!');
 });
 
