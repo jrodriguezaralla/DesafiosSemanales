@@ -8,7 +8,7 @@ export default class ProductManager {
 	constructor(myPath) {
 		this.products = [];
 		this.path = myPath;
-		//Si no existe el archivo lo creo con un array vacío
+		//Si no existe el archivo lo creo de forma sincronica con un array vacío
 		if (!fs.existsSync('./ProductManager.json')) {
 			fs.promises.writeFile(`${this.path}`, JSON.stringify(this.products));
 		}
@@ -36,7 +36,8 @@ export default class ProductManager {
 			//Si no existe, Escribo el file utilizando promesas y esperando a que se cumpla la misma
 			await fs.promises.writeFile(`${this.path}`, JSON.stringify(this.products));
 		} else {
-			return console.log('Error: product already exist');
+			let e = { error: 'Error: product already exist' };
+			return e;
 		}
 	}
 
@@ -55,7 +56,8 @@ export default class ProductManager {
 			// Si tengo un resultado lo retorno, sino devuelvo error
 			return result;
 		} else {
-			return 'Error: Product not found';
+			let e = { error: 'Error: Product not found' };
+			return e;
 		}
 	}
 
