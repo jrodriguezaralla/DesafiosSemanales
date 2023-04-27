@@ -36,8 +36,7 @@ export default class ProductManager {
 			//Si no existe, Escribo el file utilizando promesas y esperando a que se cumpla la misma
 			await fs.promises.writeFile(`${this.path}`, JSON.stringify(this.products));
 		} else {
-			let e = { error: 'Error: product already exist' };
-			return e;
+			return { error: 'Error: product already exist' };
 		}
 	}
 
@@ -56,8 +55,7 @@ export default class ProductManager {
 			// Si tengo un resultado lo retorno, sino devuelvo error
 			return result;
 		} else {
-			let e = { error: 'Error: Product not found' };
-			return e;
+			return { error: 'Error: Product not found' };
 		}
 	}
 
@@ -85,7 +83,7 @@ export default class ProductManager {
 		const productList = await this.getProducts(); //obtengo lista de productos
 		const index = productList.indexOf(productList.find((elemento) => elemento.id === idBuscado)); //obtengo el índice del elemento a borrar
 
-		if (index === -1) return 'Error: Product not found'; //si no encuentro producto retorno error
+		if (index === -1) return { error: 'Error: Product not found' }; //si no encuentro producto retorno error
 
 		productList.splice(index, 1); // elimino el elemento seleccionado
 		await fs.promises.writeFile(`${this.path}`, JSON.stringify(productList)); //reescribo archivo
