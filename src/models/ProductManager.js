@@ -1,4 +1,4 @@
-//Desafio Clase 4 - Manejo de archivos en Javascript
+//Primer Pre entrega
 
 import fs from 'fs';
 
@@ -16,6 +16,23 @@ export default class ProductManager {
 
 	//Método para agregar productos al archivo
 	async addProducts(productToAdd) {
+		this.products = await this.getProducts();
+
+		let Ids = this.products.map((prod) => prod.id);
+
+		let maxId = Ids.reduce(function (mayor, numero) {
+			if (numero > mayor) {
+				mayor = numero;
+			}
+			return mayor;
+		}, Ids[0]);
+
+		if (this.products.length === 0) {
+			ProductManager.id = 0;
+		} else {
+			ProductManager.id = maxId + 1;
+		}
+
 		let newProduct = {
 			id: ProductManager.id,
 			title: productToAdd.title,
@@ -29,16 +46,16 @@ export default class ProductManager {
 		};
 
 		let codes = this.products.map((cod) => cod.code); // me quedo con todos los códigos del array productos
-
+		console.log(codes);
 		//evaluo si el codigo del nuevo producto no existe
 		if (!codes.includes(productToAdd.code)) {
-			this.products = await this.getProducts();
 			this.products.push(newProduct);
 			ProductManager.id += 1; //incremento contador ID
 
 			//Si no existe, Escribo el file utilizando promesas y esperando a que se cumpla la misma
 			await fs.promises.writeFile(`${this.path}`, JSON.stringify(this.products));
 		} else {
+			console.log('ok');
 			return { error: 'Error: product already exist' };
 		}
 	}
