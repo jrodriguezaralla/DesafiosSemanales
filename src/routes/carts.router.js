@@ -9,7 +9,7 @@ const CartList = new CartManager('./carrito.json');
 cartRouter.post('/', async (req, res) => {
 	try {
 		CartList.addNewCart();
-		res.send(`{"status": "sucess", "message":"new cart added"}`);
+		res.send(`{"status": "sucess", "message":"New cart added"}`);
 	} catch (error) {
 		res.status(400).send(error);
 	}
