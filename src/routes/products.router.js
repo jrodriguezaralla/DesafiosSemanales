@@ -4,7 +4,7 @@ import ProductManager from '../models/ProductManager.js';
 const productsRouter = Router();
 
 //Instancio una nueva clase de Product Manager con el archivo ya creado
-const ProductList = new ProductManager('./ProductManager.json');
+const ProductList = new ProductManager('./datos.json');
 
 //Endpoint que muestra todos los productos
 productsRouter.get('/', async (req, res) => {
@@ -14,10 +14,10 @@ productsRouter.get('/', async (req, res) => {
 		if (limit) {
 			// Si recibo el limite de productos a mostrar
 			let productLimit = allProducts.slice(0, limit); //Solo muestro desde el primer elemento al limite indicado por query
-			res.send(productLimit); //envio la respeusta
+			res.send(productLimit); //envio la respuesta
 		} else res.send(allProducts); // Si no tengo query envio el listado completo
 	} catch (error) {
-		res.send(error);
+		res.status(400).send(error);
 	}
 });
 
@@ -28,7 +28,27 @@ productsRouter.get('/:pid', async (req, res) => {
 		let product = await ProductList.getProductsById(parseInt(req.params.pid));
 		res.send(product);
 	} catch (error) {
-		res.send(error);
+		res.status(400).send(error);
+	}
+});
+
+productsRouter.post('/', async (req, res) => {
+	try {
+		let newProduct = req.body;
+		ProductList.addProducts(newProduct);
+		res.send(`{"status": "sucess", "message":"product ${newProduct.code} created"}`);
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
+productsRouter.put('/:pid', async (req, res) => {
+	try {
+		let productUpdated = req.body;
+		let product = await ProductList.updateProduct(parseInt(req.params.pid), productUpdated);
+		res.send(product);
+	} catch (error) {
+		res.status(400).send(error);
 	}
 });
 

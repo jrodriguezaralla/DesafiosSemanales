@@ -1,5 +1,5 @@
 //Imports
-import express, { json } from 'express';
+import express from 'express';
 import { productsRouter } from './routes/products.router.js';
 import { cartRouter } from './routes/carts.router.js';
 
