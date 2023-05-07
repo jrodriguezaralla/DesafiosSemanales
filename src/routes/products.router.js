@@ -4,7 +4,7 @@ import ProductManager from '../models/ProductManager.js';
 const productsRouter = Router();
 
 //Instancio una nueva clase de Product Manager con el archivo ya creado
-const ProductList = new ProductManager('./datos.json');
+const ProductList = new ProductManager('./productos.json');
 
 //Endpoint que muestra todos los productos
 productsRouter.get('/', async (req, res) => {

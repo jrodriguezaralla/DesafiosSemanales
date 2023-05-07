@@ -9,7 +9,7 @@ export default class ProductManager {
 		this.products = [];
 		this.path = myPath;
 		//Si no existe el archivo lo creo de forma sincronica con un array vacío
-		if (!fs.existsSync('./datos.json')) {
+		if (!fs.existsSync('./productos.json')) {
 			fs.promises.writeFile(`${this.path}`, JSON.stringify(this.products));
 		}
 	}
