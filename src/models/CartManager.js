@@ -86,7 +86,7 @@ export default class CartManager {
 				}
 			}
 		});
-
 		await fs.promises.writeFile(`${this.path}`, JSON.stringify(productCarts));
+		return newProduct;
 	}
 }
