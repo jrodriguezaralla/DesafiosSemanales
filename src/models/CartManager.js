@@ -53,8 +53,8 @@ export default class CartManager {
 	//Método para adquirir un producto especifico por ID
 	async getCartById(idBuscado) {
 		const cartById = await this.getCarts();
-		const result = cartById.find((element) => element.id === idBuscado); // busco el elemento que coincida con el ID indicado
 
+		const result = cartById.find((element) => element.id === idBuscado); // busco el elemento que coincida con el ID indicado
 		if (result) {
 			// Si tengo un resultado lo retorno, sino devuelvo error
 			return result.products;
