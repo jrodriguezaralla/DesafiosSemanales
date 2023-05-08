@@ -46,7 +46,6 @@ export default class ProductManager {
 		};
 
 		let codes = this.products.map((cod) => cod.code); // me quedo con todos los códigos del array productos
-		console.log(codes);
 		//evaluo si el codigo del nuevo producto no existe
 		if (!codes.includes(productToAdd.code)) {
 			this.products.push(newProduct);

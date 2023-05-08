@@ -72,6 +72,10 @@ export default class CartManager {
 			quantity: 1,
 		};
 
+		let cartsId = productCarts.map((element) => element.id); // me quedo con todos los códigos del array productos
+		const result = cartsId.find((element) => element === cartId); // busco el elemento que coincida con el ID indicado
+		if (result === undefined) return { error: `Error: Cart ID=${cartId} not found` };
+
 		productCarts.map((cart) => {
 			if (cart.id === cartId) {
 				cart.products.map((prod) => {
