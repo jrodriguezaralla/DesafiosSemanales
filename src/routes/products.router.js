@@ -32,19 +32,20 @@ productsRouter.get('/:pid', async (req, res) => {
 	}
 });
 
+//Endpoint que agrega un producto
 productsRouter.post('/', async (req, res) => {
 	try {
-		let newProduct = await ProductList.addProducts(req.body);
-		console.log(newProduct);
-		res.send(newProduct);
+		let newProduct = await ProductList.addProducts(req.body); //recibo por body el producto a agregar
+		res.send(newProduct); //respondo con el producto agregado
 	} catch (error) {
 		res.status(400).send(error);
 	}
 });
 
+//Endpoint que modifica un producto
 productsRouter.put('/:pid', async (req, res) => {
 	try {
-		let productUpdated = req.body;
+		let productUpdated = req.body; //recibo por body los datos modificados
 		let product = await ProductList.updateProduct(parseInt(req.params.pid), productUpdated);
 		res.send(product);
 	} catch (error) {
@@ -52,10 +53,10 @@ productsRouter.put('/:pid', async (req, res) => {
 	}
 });
 
+//Endpoint que elimina un producto
 productsRouter.delete('/:pid', async (req, res) => {
 	try {
 		let product = await ProductList.deleteProduct(parseInt(req.params.pid));
-		console.log(product);
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);

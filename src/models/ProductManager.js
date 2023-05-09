@@ -18,9 +18,10 @@ export default class ProductManager {
 	async addProducts(productToAdd) {
 		this.products = await this.getProducts();
 
-		let Ids = this.products.map((prod) => prod.id);
+		let Ids = this.products.map((prod) => prod.id); //traigo todos los IDs de los productos
 
 		let maxId = Ids.reduce(function (mayor, numero) {
+			//evaluo cual es el mayor ID y me quedo con el mayor
 			if (numero > mayor) {
 				mayor = numero;
 			}
@@ -28,8 +29,10 @@ export default class ProductManager {
 		}, Ids[0]);
 
 		if (this.products.length === 0) {
+			// Si el array esta vacío, inicializo el generador de ID con 0
 			ProductManager.id = 0;
 		} else {
+			//Sino, sumo 1 unidad
 			ProductManager.id = maxId + 1;
 		}
 
@@ -55,7 +58,7 @@ export default class ProductManager {
 			await fs.promises.writeFile(`${this.path}`, JSON.stringify(this.products));
 			return { status: 'sucess', message: `product ${newProduct.code} created` };
 		} else {
-			return { error: 'Error: product already exist' };
+			return { error: 'Error: product already exist' }; //Si el producto ya existe arrojo error
 		}
 	}
 
@@ -82,6 +85,7 @@ export default class ProductManager {
 	async updateProduct(idBuscado, productUpdated) {
 		const productList = await this.getProducts();
 		productList.map((product) => {
+			//recorro el array buscando el prducto indicado, cuando lo encuentro reemplazo valores, menos el ID
 			if (product.id === idBuscado) {
 				product.title = productUpdated.title;
 				product.description = productUpdated.description;
@@ -110,6 +114,6 @@ export default class ProductManager {
 		const code = productList[index].code;
 		productList.splice(index, 1); // elimino el elemento seleccionado
 		await fs.promises.writeFile(`${this.path}`, JSON.stringify(productList)); //reescribo archivo
-		return { status: 'sucess', message: `product ${code} deleted` }; //retorno nuevo listado
+		return { status: 'sucess', message: `product ${code} deleted` }; //retorno sucess con el producto eliminado
 	}
 }
