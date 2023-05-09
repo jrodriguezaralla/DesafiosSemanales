@@ -53,8 +53,8 @@ export default class ProductManager {
 
 			//Si no existe, Escribo el file utilizando promesas y esperando a que se cumpla la misma
 			await fs.promises.writeFile(`${this.path}`, JSON.stringify(this.products));
+			return { status: 'sucess', message: `product ${newProduct.code} created` };
 		} else {
-			console.log('ok');
 			return { error: 'Error: product already exist' };
 		}
 	}

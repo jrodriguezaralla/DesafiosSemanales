@@ -34,9 +34,9 @@ productsRouter.get('/:pid', async (req, res) => {
 
 productsRouter.post('/', async (req, res) => {
 	try {
-		let newProduct = req.body;
-		ProductList.addProducts(newProduct);
-		res.send(`{"status": "sucess", "message":"product ${newProduct.code} created"}`);
+		let newProduct = await ProductList.addProducts(req.body);
+		console.log(newProduct);
+		res.send(newProduct);
 	} catch (error) {
 		res.status(400).send(error);
 	}
