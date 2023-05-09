@@ -55,6 +55,7 @@ productsRouter.put('/:pid', async (req, res) => {
 productsRouter.delete('/:pid', async (req, res) => {
 	try {
 		let product = await ProductList.deleteProduct(parseInt(req.params.pid));
+		console.log(product);
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);

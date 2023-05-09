@@ -103,11 +103,13 @@ export default class ProductManager {
 	async deleteProduct(idBuscado) {
 		const productList = await this.getProducts(); //obtengo lista de productos
 		const index = productList.indexOf(productList.find((elemento) => elemento.id === idBuscado)); //obtengo el índice del elemento a borrar
+		if (index === -1) {
+			return { error: 'Error: Product not found' }; //si no encuentro producto retorno error
+		}
 
-		if (index === -1) return { error: 'Error: Product not found' }; //si no encuentro producto retorno error
-
+		const code = productList[index].code;
 		productList.splice(index, 1); // elimino el elemento seleccionado
 		await fs.promises.writeFile(`${this.path}`, JSON.stringify(productList)); //reescribo archivo
-		return productList; //retorno nuevo listado
+		return { status: 'sucess', message: `product ${code} deleted` }; //retorno nuevo listado
 	}
 }
