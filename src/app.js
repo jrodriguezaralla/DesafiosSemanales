@@ -8,9 +8,17 @@ import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
 import path from 'path';
 import { viewsRouter } from './routes/views.router.js';
+import { Server } from 'socket.io';
 
 //Inicializo Express
 const app = express();
+
+//Monto el servidor en el puerto 8080
+const httpServer = app.listen(8080, () => {
+	console.log('Servidor montado en puerto 8080');
+});
+
+const socketServer = new Server(httpServer);
 
 //Handlebars
 app.engine('handlebars', handlebars.engine()); // Inicializamos el motor de plantillas de Handlebars
@@ -29,7 +37,9 @@ app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
 app.use('/', viewsRouter);
 
-//Monto el servidor en el puerto 8080
-app.listen(8080, () => {
-	console.log('Servidor montado en puerto 8080');
+socketServer.on('connection', (socket) => {
+	console.log('Nuevo cliente conectado');
+	socket.on('message', (data) => {
+		console.log(data);
+	});
 });
