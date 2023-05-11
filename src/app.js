@@ -7,6 +7,7 @@ import { cartRouter } from './routes/carts.router.js';
 import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
 import path from 'path';
+import { viewsRouter } from './routes/views.router.js';
 
 //Inicializo Express
 const app = express();
@@ -26,19 +27,7 @@ app.use(express.urlencoded({ extended: true })); //Middleware para que express p
 //Definición de rutas
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
-
-//Endpoint que muestra todos los productos
-app.get('/', async (req, res) => {
-	try {
-		let testUser = {
-			name: 'hilda',
-			last_name: 'martinez',
-		};
-		res.render('index', testUser);
-	} catch (error) {
-		res.status(400).send(error);
-	}
-});
+app.use('/', viewsRouter);
 
 //Monto el servidor en el puerto 8080
 app.listen(8080, () => {
