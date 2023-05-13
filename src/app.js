@@ -42,4 +42,6 @@ socketServer.on('connection', (socket) => {
 	socket.on('message', (data) => {
 		console.log(data);
 	});
+
+	socketServer.emit('evento_para_todos', 'hola a todos');
 });
