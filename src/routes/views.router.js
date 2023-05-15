@@ -19,4 +19,15 @@ viewsRouter.get('/', async (req, res) => {
 	}
 });
 
+//Endpoint que muestra un usuario
+viewsRouter.get('/realtimeproducts', async (req, res) => {
+	try {
+		res.render('realtimeproducts', {
+			style: 'index.css',
+		});
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
 export { viewsRouter };

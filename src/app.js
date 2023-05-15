@@ -9,16 +9,15 @@ import __dirname from './utils.js';
 import path from 'path';
 import { viewsRouter } from './routes/views.router.js';
 import { Server } from 'socket.io';
+import ProductManager from './models/ProductManager.js';
 
 //Inicializo Express
 const app = express();
 
 //Monto el servidor en el puerto 8080
-const httpServer = app.listen(8080, () => {
+const webServer = app.listen(8080, () => {
 	console.log('Servidor montado en puerto 8080');
 });
-
-const socketServer = new Server(httpServer);
 
 //Handlebars
 app.engine('handlebars', handlebars.engine()); // Inicializamos el motor de plantillas de Handlebars
@@ -37,11 +36,16 @@ app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
 app.use('/', viewsRouter);
 
-socketServer.on('connection', (socket) => {
-	console.log('Nuevo cliente conectado');
-	socket.on('message', (data) => {
-		console.log(data);
-	});
+// Inicialización de socket.io
+const io = new Server(webServer);
 
-	socketServer.emit('evento_para_todos', 'hola a todos');
+//Instancio una nueva clase de Product Manager con el archivo ya creado
+const ProductList = new ProductManager('./productos.json');
+
+// Eventos de socket.io
+io.on('connection', async (socket) => {
+	console.log('Nuevo cliente conectado!');
+	// Propago el evento a todos los clientes conectados
+	io.emit('products', await ProductList.getProducts());
+	//});
 });
