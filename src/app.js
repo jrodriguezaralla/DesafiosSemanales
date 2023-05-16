@@ -43,9 +43,8 @@ const io = new Server(webServer);
 const ProductList = new ProductManager('./productos.json');
 
 // Eventos de socket.io
-io.on('connection', async (socket) => {
+io.on('connection', async () => {
 	console.log('Nuevo cliente conectado!');
 	// Propago el evento a todos los clientes conectados
-	io.emit('products', await ProductList.getProducts());
-	//});
+	io.emit('real_time_products', await ProductList.getProducts());
 });
