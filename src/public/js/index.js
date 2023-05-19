@@ -23,7 +23,7 @@ function render(data) {
 	});
 }
 
-// Escucho el evento real_time_products y renderizo los productos
+// Escucho el evento real_time_products y renderizo los productos que recibo por parametro
 socket.on('real_time_products', (data) => {
 	render(data);
 });

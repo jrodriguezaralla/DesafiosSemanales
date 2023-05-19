@@ -1,15 +1,13 @@
 import { Router } from 'express';
-import ProductManager from '../models/ProductManager.js';
+import { ProductList } from './products.router.js';
+import { io } from '../app.js';
 
 const viewsRouter = Router();
-
-//Instancio una nueva clase de Product Manager con el archivo ya creado
-const ProductList = new ProductManager('./productos.json');
 
 //Endpoint que muestra un usuario
 viewsRouter.get('/', async (req, res) => {
 	try {
-		let products = await ProductList.getProducts();
+		let products = await ProductList.getProducts(); //traigo el listado de productos y los renderizo en home
 		res.render('home', {
 			products,
 			style: 'index.css',
@@ -21,8 +19,15 @@ viewsRouter.get('/', async (req, res) => {
 
 //Endpoint que muestra un usuario
 viewsRouter.get('/realtimeproducts', async (req, res) => {
+	// Inicio la conección y envio el listado de productos para rederizarlos en pantalla
+	io.on('connection', async (socket) => {
+		//cuando se conecta un cliente le envío el listado de productos
+		socket.emit('real_time_products', await ProductList.getProducts());
+	});
+
 	try {
-		res.render('realtimeproducts', {
+		res.render('realTimeProducts', {
+			//renderizo los productos en tiempo real
 			style: 'index.css',
 		});
 	} catch (error) {

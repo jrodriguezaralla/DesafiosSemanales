@@ -9,7 +9,7 @@ import __dirname from './utils.js';
 import path from 'path';
 import { viewsRouter } from './routes/views.router.js';
 import { Server } from 'socket.io';
-import ProductManager from './models/ProductManager.js';
+import { ProductList } from '../src/routes/products.router.js';
 
 //Inicializo Express
 const app = express();
@@ -39,12 +39,4 @@ app.use('/', viewsRouter);
 // Inicialización de socket.io
 const io = new Server(webServer);
 
-//Instancio una nueva clase de Product Manager con el archivo ya creado
-const ProductList = new ProductManager('./productos.json');
-
-// Eventos de socket.io
-io.on('connection', async () => {
-	console.log('Nuevo cliente conectado!');
-	// Propago el evento a todos los clientes conectados
-	io.emit('real_time_products', await ProductList.getProducts());
-});
+export { io };

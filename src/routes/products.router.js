@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import ProductManager from '../models/ProductManager.js';
+import { io } from '../app.js';
 
 const productsRouter = Router();
 
@@ -36,6 +37,7 @@ productsRouter.get('/:pid', async (req, res) => {
 productsRouter.post('/', async (req, res) => {
 	try {
 		let newProduct = await ProductList.addProducts(req.body); //recibo por body el producto a agregar
+		io.emit('real_time_products', await ProductList.getProducts()); //propago el evento a todos los clientes
 		res.send(newProduct); //respondo con el producto agregado
 	} catch (error) {
 		res.status(400).send(error);
@@ -47,6 +49,7 @@ productsRouter.put('/:pid', async (req, res) => {
 	try {
 		let productUpdated = req.body; //recibo por body los datos modificados
 		let product = await ProductList.updateProduct(parseInt(req.params.pid), productUpdated);
+		io.emit('real_time_products', await ProductList.getProducts()); //propago el evento a todos los clientes
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);
@@ -57,10 +60,11 @@ productsRouter.put('/:pid', async (req, res) => {
 productsRouter.delete('/:pid', async (req, res) => {
 	try {
 		let product = await ProductList.deleteProduct(parseInt(req.params.pid));
+		io.emit('real_time_products', await ProductList.getProducts()); //propago el evento a todos los clientes
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);
 	}
 });
 
-export { productsRouter };
+export { productsRouter, ProductList };

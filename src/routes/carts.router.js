@@ -38,4 +38,4 @@ cartRouter.post('/:cid/product/:pid', async (req, res) => {
 	}
 });
 
-export { cartRouter };
+export { cartRouter, CartList };
