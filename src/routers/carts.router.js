@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import CartManager from '../service/CartManager.js';
+import CartListDb from '../service/Cart.service.js';
 
 const cartRouter = Router();
 
@@ -8,8 +9,14 @@ const CartList = new CartManager('./carrito.json');
 
 //Endpoint que agrega un nuevo carrito
 cartRouter.post('/', async (req, res) => {
-	try {
+	/*try {
 		CartList.addNewCart();
+		res.send({ status: 'sucess', message: 'New cart added' });
+	} catch (error) {
+		res.status(400).send(error);
+	}*/
+	try {
+		CartListDb.addNewCart();
 		res.send({ status: 'sucess', message: 'New cart added' });
 	} catch (error) {
 		res.status(400).send(error);
