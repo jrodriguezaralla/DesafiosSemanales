@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import ProductManager from '../service/ProductManager.js';
 import { io } from '../app.js';
-import ProductService from '../service/Product.service.js';
+import ProductListDb from '../service/Product.service.js';
 
 const productsRouter = Router();
 
@@ -22,7 +22,7 @@ productsRouter.get('/', async (req, res) => {
 		res.status(400).send(error);
 	}*/
 	try {
-		let allProducts = await ProductService.getProducts();
+		let allProducts = await ProductListDb.getProducts();
 		let limit = req.query.limit;
 		if (limit) {
 			// Si recibo el limite de productos a mostrar
@@ -36,9 +36,16 @@ productsRouter.get('/', async (req, res) => {
 
 //Endpoint que muestra un producto en particular
 productsRouter.get('/:pid', async (req, res) => {
-	try {
+	/*try {
 		//Recibo un params y muestro el producto con ese ID, como el ID es un string lo paso a entero
 		let product = await ProductList.getProductsById(parseInt(req.params.pid));
+		res.send(product);
+	} catch (error) {
+		res.status(400).send(error);
+	}*/
+	try {
+		//Recibo un params y muestro el producto con ese ID, como el ID es un string lo paso a entero
+		let product = await ProductListDb.getProductsById(req.params.pid);
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);
@@ -47,9 +54,16 @@ productsRouter.get('/:pid', async (req, res) => {
 
 //Endpoint que agrega un producto
 productsRouter.post('/', async (req, res) => {
-	try {
+	/*try {
 		let newProduct = await ProductList.addProducts(req.body); //recibo por body el producto a agregar
 		io.emit('real_time_products', await ProductList.getProducts()); //propago el evento a todos los clientes
+		res.send(newProduct); //respondo con el producto agregado
+	} catch (error) {
+		res.status(400).send(error);
+	}*/
+	try {
+		let newProduct = await ProductListDb.addProducts(req.body); //recibo por body el producto a agregar
+		io.emit('real_time_products', await ProductListDb.getProducts()); //propago el evento a todos los clientes
 		res.send(newProduct); //respondo con el producto agregado
 	} catch (error) {
 		res.status(400).send(error);
