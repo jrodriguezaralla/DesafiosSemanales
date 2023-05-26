@@ -9,6 +9,7 @@ import __dirname from './utils.js';
 import path from 'path';
 import { viewsRouter } from './routers/views.router.js';
 import { Server } from 'socket.io';
+import mongoose from 'mongoose';
 
 //Inicializo Express
 const app = express();
@@ -37,5 +38,8 @@ app.use('/', viewsRouter);
 
 // Inicialización de socket.io
 const io = new Server(webServer);
+
+//Me conecto a la base de datos
+mongoose.connect('mongodb+srv://jrodriguezaralla:1234@freecluster.mxzp3zq.mongodb.net/?retryWrites=true&w=majority');
 
 export { io };

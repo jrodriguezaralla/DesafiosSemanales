@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import ProductManager from '../service/ProductManager.js';
 import { io } from '../app.js';
+import ProductService from '../service/Product.service.js';
 
 const productsRouter = Router();
 
@@ -9,8 +10,19 @@ const ProductList = new ProductManager('./productos.json');
 
 //Endpoint que muestra todos los productos
 productsRouter.get('/', async (req, res) => {
-	try {
+	/*try {
 		let allProducts = await ProductList.getProducts();
+		let limit = req.query.limit;
+		if (limit) {
+			// Si recibo el limite de productos a mostrar
+			let productLimit = allProducts.slice(0, limit); //Solo muestro desde el primer elemento al limite indicado por query
+			res.send(productLimit); //envio la respuesta
+		} else res.send(allProducts); // Si no tengo query envio el listado completo
+	} catch (error) {
+		res.status(400).send(error);
+	}*/
+	try {
+		let allProducts = await ProductService.getProducts();
 		let limit = req.query.limit;
 		if (limit) {
 			// Si recibo el limite de productos a mostrar
