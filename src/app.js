@@ -2,14 +2,13 @@
 
 //Imports
 import express from 'express';
-import { productsRouter } from './routes/products.router.js';
-import { cartRouter } from './routes/carts.router.js';
+import { productsRouter } from './routers/products.router.js';
+import { cartRouter } from './routers/carts.router.js';
 import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
 import path from 'path';
-import { viewsRouter } from './routes/views.router.js';
+import { viewsRouter } from './routers/views.router.js';
 import { Server } from 'socket.io';
-import { ProductList } from '../src/routes/products.router.js';
 
 //Inicializo Express
 const app = express();
