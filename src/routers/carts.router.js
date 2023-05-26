@@ -25,9 +25,17 @@ cartRouter.post('/', async (req, res) => {
 
 //Endpoint que muestra los productos de un carrito en particular
 cartRouter.get('/:cid', async (req, res) => {
-	try {
+	/*try {
 		//Recibo un params y muestro el producto con ese ID, como el ID es un string lo paso a entero
 		let products = await CartList.getCartById(parseInt(req.params.cid));
+		res.send(products);
+	} catch (error) {
+		res.status(400).send(error);
+	}*/
+	try {
+		//Recibo un params y muestro el listado de productos de un carrito determinado
+		let products = await CartListDb.getCartById(req.params.cid);
+		console.log(products);
 		res.send(products);
 	} catch (error) {
 		res.status(400).send(error);
