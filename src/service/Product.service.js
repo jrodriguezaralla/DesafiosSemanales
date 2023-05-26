@@ -47,6 +47,29 @@ class ProductService {
 			return { error: 'Error: Product not found' };
 		}
 	}
+
+	//Método para actualizar producto
+	async updateProduct(idBuscado, productUpdated) {
+		if (!idBuscado) {
+			return { error: 'Error: field ID is missing' };
+		}
+		await this.model.updateOne({ _id: idBuscado }, productUpdated);
+		return { status: 'sucess', message: `product ID:${idBuscado} Updated` };
+	}
+
+	//Método para eliminar un producto del archivo
+	async deleteProduct(idBuscado) {
+		let result = await this.model.find({ _id: idBuscado });
+
+		if (result.length == 0) {
+			return { error: 'Error: Product not found' }; //si no encuentro producto retorno error
+		}
+
+		let deleted = this.model.deleteOne({ _id: idBuscado }); //elimino producto seleccionado
+		if ((await deleted).acknowledged) {
+			return { status: 'sucess', message: `product ID:${idBuscado} deleted` }; //retorno sucess con el producto eliminado
+		}
+	}
 }
 
 const ProductListDb = new ProductService();

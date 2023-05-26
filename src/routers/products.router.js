@@ -72,10 +72,18 @@ productsRouter.post('/', async (req, res) => {
 
 //Endpoint que modifica un producto
 productsRouter.put('/:pid', async (req, res) => {
-	try {
+	/*try {
 		let productUpdated = req.body; //recibo por body los datos modificados
 		let product = await ProductList.updateProduct(parseInt(req.params.pid), productUpdated);
 		io.emit('real_time_products', await ProductList.getProducts()); //propago el evento a todos los clientes
+		res.send(product);
+	} catch (error) {
+		res.status(400).send(error);
+	}*/
+
+	try {
+		let product = await ProductListDb.updateProduct(req.params.pid, req.body); //recibo por body los datos modificados
+		io.emit('real_time_products', await ProductListDb.getProducts()); //propago el evento a todos los clientes
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);
@@ -84,9 +92,16 @@ productsRouter.put('/:pid', async (req, res) => {
 
 //Endpoint que elimina un producto
 productsRouter.delete('/:pid', async (req, res) => {
-	try {
+	/*try {
 		let product = await ProductList.deleteProduct(parseInt(req.params.pid));
 		io.emit('real_time_products', await ProductList.getProducts()); //propago el evento a todos los clientes
+		res.send(product);
+	} catch (error) {
+		res.status(400).send(error);
+	}*/
+	try {
+		let product = await ProductListDb.deleteProduct(req.params.pid);
+		io.emit('real_time_products', await ProductListDb.getProducts()); //propago el evento a todos los clientes
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);
