@@ -15,11 +15,10 @@ class CartService {
 
 	//Método para adquirir un producto especifico por ID
 	async getCartById(idBuscado) {
-		const result = this.model.find({ _id: idBuscado }); // busco el elemento que coincida con el ID indicado
-
+		const result = await this.model.findById(idBuscado); // busco el elemento que coincida con el ID indicado
 		if (result) {
 			// Si tengo un resultado lo retorno, sino devuelvo error
-			return result;
+			return result.products;
 		} else {
 			return { error: `Error: Cart ID=${idBuscado} not found` };
 		}
@@ -27,13 +26,25 @@ class CartService {
 
 	//Método agregar un producto al carrito
 	async addProductToCart(cartId, productId) {
+		const newProduct = {
+			product: productId,
+			quantity: 1,
+		};
+
+		const cart = await this.model.findById(cartId);
+		console.log(cart);
+		cart.products.push(newProduct);
+		console.log(cart.products);
+		await cart.save();
+		return cart;
+		/*
 		let existe = false; // flag para indicar si el producto ya existe en el carrito
 		const newProduct = {
 			product: productId,
 			quantity: 1,
 		};
 
-		const result = this.model.find({ _id: cartId }); // busco el elemento que coincida con el ID indicado
+		const result = this.model.findById({ _id: cartId }); // busco el elemento que coincida con el ID indicado
 		if ((await result).length == 0) return { error: `Error: Cart ID=${cartId} not found` }; //si no lo encuentra retorno error
 
 		productCarts.map((cart) => {
@@ -55,7 +66,7 @@ class CartService {
 			}
 		});
 		await fs.promises.writeFile(`${this.path}`, JSON.stringify(productCarts));
-		return { status: 'sucess', message: `product ID=${productId} added to cart ID=${cartId}` };
+		return { status: 'sucess', message: `product ID=${productId} added to cart ID=${cartId}` };*/
 	}
 }
 
