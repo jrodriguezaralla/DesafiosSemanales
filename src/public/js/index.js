@@ -9,7 +9,7 @@ function render(data) {
 		let div = document.createElement('div');
 		div.className = 'card';
 		div.innerHTML = `
-					<h2>Product ID${elem.id} </h2>
+					<h2>Product ID:${elem._id} </h2>
 					<p>Title: ${elem.title}</p>
 					<p>description: ${elem.description} </p>
 					<p>code: ${elem.code} </p>

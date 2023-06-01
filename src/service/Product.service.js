@@ -7,7 +7,7 @@ class ProductService {
 
 	//Método para traer todos los productos de la base de datos
 	async getProducts() {
-		return await this.model.find();
+		return await this.model.find().lean();
 	}
 
 	//Método para agregar productos a la base de datos

@@ -10,6 +10,8 @@ import path from 'path';
 import { viewsRouter } from './routers/views.router.js';
 import { Server } from 'socket.io';
 import mongoose from 'mongoose';
+import { ProductList } from './routers/products.router.js';
+import ProductListDb from './service/Product.service.js';
 
 //Inicializo Express
 const app = express();
@@ -38,6 +40,12 @@ app.use('/', viewsRouter);
 
 // Inicialización de socket.io
 const io = new Server(webServer);
+
+// Inicio la conección y envio el listado de productos para rederizarlos en pantalla
+io.on('connection', async (socket) => {
+	//cuando se conecta un cliente le envío el listado de productos
+	socket.emit('real_time_products', await ProductListDb.getProducts());
+});
 
 //Me conecto a la base de datos
 mongoose.connect('mongodb+srv://jrodriguezaralla:1234@freecluster.mxzp3zq.mongodb.net/?retryWrites=true&w=majority');

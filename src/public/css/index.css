@@ -3,6 +3,12 @@ h1 {
 	text-align: center;
 }
 
+h2 {
+	color: black;
+
+	font-size: 1rem;
+}
+
 body {
 	background-color: rgb(206, 206, 206);
 }
