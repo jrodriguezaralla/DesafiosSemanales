@@ -1,9 +1,14 @@
-<div class="body_background">
-    <h1>Listado de productos en tiempo real</h1>
-    <div id="productsList" class="grid">
-        <!--En este espacio se agregan los productos en tiempo real-->
+<section>
+
+    <div id='Title'>Bienvenido al PiolaChat</div>
+    <div id='messages'></div>
+    <div>
+        <input type='text' id='msj' />
     </div>
-</div>
+
+</section>
+
+<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js'></script>
 
 <!-- Incluimos el script de Socket.IO -->
 <script src="/socket.io/socket.io.js"></script>

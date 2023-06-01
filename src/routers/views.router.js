@@ -40,10 +40,7 @@ viewsRouter.get('/chat', async (req, res) => {
 	});*/
 
 	try {
-		res.render('chat', {
-			//renderizo los productos en tiempo real
-			style: 'index.css',
-		});
+		res.render('chat');
 	} catch (error) {
 		res.status(400).send(error);
 	}

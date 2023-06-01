@@ -1,4 +1,6 @@
 const socket = io(); // se levantta socket del lado del cliente
+let user;
+const inputMSJ = document.getElementById('msj');
 
 //Función para renderizar los productos
 function render(data) {
@@ -23,7 +25,51 @@ function render(data) {
 	});
 }
 
+Swal.fire({
+	title: 'Bienvenido',
+	input: 'text',
+	text: 'Identificate para participar del PiolaChat',
+	icon: 'success',
+	inputValidator: (value) => {
+		return !value && 'Tenes que identificarte, aca fantasmas no...';
+	},
+	allowOutsideClick: false,
+}).then((result) => {
+	user = result.value;
+	socket.emit('sayhello', user);
+});
+
+function renderMensajes(data) {
+	// Genero el html
+	const html = data
+		.map((elem) => {
+			// Recorro el array de mensajes y genero el html
+			return `<div>
+				<strong>${elem.user}:</strong>
+                <em>${elem.msj}</em>
+            </div>`;
+		})
+		.join(' '); // Convierto el array de strings en un string
+
+	// Inserto el html en el elemento con id messages
+	document.getElementById('messages').innerHTML = html;
+}
+
+inputMSJ.addEventListener('keyup', (event) => {
+	if (event.key === 'Enter') {
+		let msj = inputMSJ.value;
+		if (msj.trim().length > 0) {
+			socket.emit('message', { user, msj });
+			inputMSJ.value = '';
+		}
+	}
+});
+
 // Escucho el evento real_time_products y renderizo los productos que recibo por parametro
 socket.on('real_time_products', (data) => {
 	render(data);
+});
+
+socket.on('messages', (data) => {
+	renderMensajes(data);
 });

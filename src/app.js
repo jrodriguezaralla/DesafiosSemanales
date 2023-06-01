@@ -37,12 +37,23 @@ app.use(express.urlencoded({ extended: true })); //Middleware para que express p
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
 app.use('/', viewsRouter);
+const messages = [];
 
 // Inicialización de socket.io
 const io = new Server(webServer);
 
 // Inicio la conección y envio el listado de productos para rederizarlos en pantalla
 io.on('connection', async (socket) => {
+	// Envio los mensajes al cliente que se conectó
+	socket.emit('messages', messages);
+
+	// Escucho los mensajes enviado por el cliente y se los propago a todos
+	socket.on('message', (message) => {
+		// Agrego el mensaje al array de mensajes
+		messages.push(message);
+		// Propago el evento a todos los clientes conectados
+		io.emit('messages', messages);
+	});
 	//cuando se conecta un cliente le envío el listado de productos
 	socket.emit('real_time_products', await ProductListDb.getProducts());
 });
