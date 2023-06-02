@@ -26,12 +26,14 @@ function render(data) {
 }
 
 Swal.fire({
-	title: 'Bienvenido',
-	input: 'text',
-	text: 'Identificate para participar del PiolaChat',
-	icon: 'success',
+	title: 'Ingrese dirección de email',
+	input: 'email',
+	inputPlaceholder: 'Ingrese su dirección de correo',
 	inputValidator: (value) => {
-		return !value && 'Tenes que identificarte, aca fantasmas no...';
+		return (
+			!/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(value) &&
+			'dirección de correo invalida, ingrese nuevamente' //Expresion regular para validar email
+		);
 	},
 	allowOutsideClick: false,
 }).then((result) => {
