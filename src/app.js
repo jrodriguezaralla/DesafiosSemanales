@@ -12,6 +12,8 @@ import { Server } from 'socket.io';
 import mongoose from 'mongoose';
 import { ProductList } from './routers/products.router.js';
 import ProductListDb from './service/Product.service.js';
+import MessageListDb from './service/Message.service.js';
+import { messagesRouter } from './routers/message.router.js';
 
 //Inicializo Express
 const app = express();
@@ -37,18 +39,25 @@ app.use(express.urlencoded({ extended: true })); //Middleware para que express p
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
 app.use('/', viewsRouter);
+app.use('/messages', messagesRouter);
 const messages = [];
 
 // Inicialización de socket.io
 const io = new Server(webServer);
-
+const newMessage = {
+	user: '',
+	message: '',
+};
 // Inicio la conección y envio el listado de productos para rederizarlos en pantalla
 io.on('connection', async (socket) => {
 	// Envio los mensajes al cliente que se conectó
 	socket.emit('messages', messages);
 
 	// Escucho los mensajes enviado por el cliente y se los propago a todos
-	socket.on('message', (message) => {
+	socket.on('message', async (message) => {
+		newMessage.user = message.user;
+		newMessage.message = message.msj;
+		await MessageListDb.addMessage(newMessage);
 		// Agrego el mensaje al array de mensajes
 		messages.push(message);
 		// Propago el evento a todos los clientes conectados

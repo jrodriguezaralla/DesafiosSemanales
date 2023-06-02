@@ -1,6 +1,7 @@
 const socket = io(); // se levantta socket del lado del cliente
-let user;
 const inputMSJ = document.getElementById('msj');
+const botonEnviar = document.getElementById('btnEnviar');
+let user = '';
 
 //Función para renderizar los productos
 function render(data) {
@@ -38,7 +39,6 @@ Swal.fire({
 	allowOutsideClick: false,
 }).then((result) => {
 	user = result.value;
-	socket.emit('sayhello', user);
 });
 
 function renderMensajes(data) {
@@ -56,6 +56,15 @@ function renderMensajes(data) {
 	// Inserto el html en el elemento con id messages
 	document.getElementById('messages').innerHTML = html;
 }
+/*
+botonEnviar.addEventListener('click', (e) => {
+	//e.preventDefault();
+	let msj = inputMSJ.value;
+	if (msj.trim().length > 0) {
+		socket.emit('message', { user, msj });
+		inputMSJ.value = '';
+	}
+});*/
 
 inputMSJ.addEventListener('keyup', (event) => {
 	if (event.key === 'Enter') {
