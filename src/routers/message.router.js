@@ -3,10 +3,10 @@ import MessageListDb from '../service/Message.service.js';
 
 const messagesRouter = Router();
 
-//Endpoint que muestra todos los productos
+//Endpoint que muestra los mensajes
 messagesRouter.get('/', async (req, res) => {
 	try {
-		res.send(await MessageListDb.getMessages()); // Si no tengo query envio el listado completo
+		res.send(await MessageListDb.getMessages()); // Adquiero todos los mensajes y los retorno
 	} catch (error) {
 		res.status(400).send(error);
 	}

@@ -1,4 +1,4 @@
-const socket = io(); // se levantta socket del lado del cliente
+const socket = io(); // se levanta socket del lado del cliente
 const inputMSJ = document.getElementById('msj');
 const botonEnviar = document.getElementById('btnEnviar');
 let user = '';
@@ -26,6 +26,7 @@ function render(data) {
 	});
 }
 
+//Logueo de sweet Alert
 Swal.fire({
 	title: 'Ingrese dirección de email',
 	input: 'email',
@@ -38,9 +39,10 @@ Swal.fire({
 	},
 	allowOutsideClick: false,
 }).then((result) => {
-	user = result.value;
+	user = result.value; // Guardo el usuario
 });
 
+//Funcion para renderizae los mensajes
 function renderMensajes(data) {
 	// Genero el html
 	const html = data
@@ -56,16 +58,8 @@ function renderMensajes(data) {
 	// Inserto el html en el elemento con id messages
 	document.getElementById('messages').innerHTML = html;
 }
-/*
-botonEnviar.addEventListener('click', (e) => {
-	//e.preventDefault();
-	let msj = inputMSJ.value;
-	if (msj.trim().length > 0) {
-		socket.emit('message', { user, msj });
-		inputMSJ.value = '';
-	}
-});*/
 
+//Event Listener para tomar el texto del input y enviarlo al servidor
 inputMSJ.addEventListener('keyup', (event) => {
 	if (event.key === 'Enter') {
 		let msj = inputMSJ.value;
@@ -81,6 +75,7 @@ socket.on('real_time_products', (data) => {
 	render(data);
 });
 
+//Escucho el evento messages y renderizo los mensajes en pantalla
 socket.on('messages', (data) => {
 	renderMensajes(data);
 });

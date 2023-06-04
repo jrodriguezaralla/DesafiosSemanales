@@ -5,7 +5,7 @@ class CartService {
 		this.model = CartModel;
 	}
 
-	//Método para agregar productos al archivo
+	//Método para agregar un nuevo carrito
 	async addNewCart() {
 		let newCart = {
 			products: [],
@@ -13,7 +13,7 @@ class CartService {
 		this.model.create(newCart); //agrego el nuevo carrito al archivo
 	}
 
-	//Método para adquirir un producto especifico por ID
+	//Método para adquirir un carrito especifico por ID
 	async getCartById(idBuscado) {
 		const result = await this.model.findById(idBuscado); // busco el elemento que coincida con el ID indicado
 		if (result) {

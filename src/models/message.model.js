@@ -1,3 +1,4 @@
+//Esquema de mensajes para guardar en la base de datos.
 import mongoose from 'mongoose';
 
 const messageSchema = new mongoose.Schema({

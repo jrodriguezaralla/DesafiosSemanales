@@ -1,4 +1,5 @@
-//Primer Pre entrega
+//Primer practica integradora
+//Manager de productos
 
 import fs from 'fs';
 

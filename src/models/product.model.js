@@ -1,3 +1,4 @@
+//Modelo de productos para guardar en la base de datos
 import mongoose from 'mongoose';
 
 const productSchema = new mongoose.Schema({

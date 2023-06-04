@@ -3,6 +3,7 @@ import { ProductList } from './products.router.js';
 import { io } from '../app.js';
 import ProductListDb from '../service/Product.service.js';
 
+//Inicializo Router
 const viewsRouter = Router();
 
 //Endpoint que muestra un usuario
@@ -11,7 +12,7 @@ viewsRouter.get('/', async (req, res) => {
 		let products = await ProductListDb.getProducts(); //traigo el listado de productos y los renderizo en home
 		res.render('home', {
 			products,
-			style: 'index.css',
+			style: 'index.css', // Envío los estilos css
 		});
 	} catch (error) {
 		res.status(400).send(error);
@@ -24,7 +25,7 @@ viewsRouter.get('/realtimeproducts', async (req, res) => {
 	try {
 		res.render('realTimeProducts', {
 			//renderizo los productos en tiempo real
-			style: 'index.css',
+			style: 'index.css', // Envío los estilos css
 		});
 	} catch (error) {
 		res.status(400).send(error);
@@ -40,7 +41,7 @@ viewsRouter.get('/chat', async (req, res) => {
 	});*/
 
 	try {
-		res.render('chat');
+		res.render('chat'); // Renderizo los mensajes en pantalla
 	} catch (error) {
 		res.status(400).send(error);
 	}

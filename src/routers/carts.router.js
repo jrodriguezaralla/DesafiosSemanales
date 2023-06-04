@@ -1,3 +1,4 @@
+//Router de carritos
 import { Router } from 'express';
 import CartManager from '../service/CartManager.js';
 import CartListDb from '../service/Cart.service.js';
@@ -51,7 +52,7 @@ cartRouter.post('/:cid/product/:pid', async (req, res) => {
 		res.status(400).send(error);
 	}*/
 	try {
-		//Recibo un params y muestro el producto con ese ID, como el ID es un string lo paso a entero
+		//Recibo por params el Id de carrito y el ID del producto y lo agrego al carrito indicado
 		let product = await CartListDb.addProductToCart(req.params.cid, req.params.pid);
 		res.send(product);
 	} catch (error) {

@@ -1,4 +1,4 @@
-//Primer Pre entrega//
+//Primer Practica integradora//
 
 //Imports
 import express from 'express';
@@ -44,10 +44,13 @@ const messages = [];
 
 // Inicialización de socket.io
 const io = new Server(webServer);
+
+//Estructura de mensaje para guardar en la base de datos
 const newMessage = {
 	user: '',
 	message: '',
 };
+
 // Inicio la conección y envio el listado de productos para rederizarlos en pantalla
 io.on('connection', async (socket) => {
 	// Envio los mensajes al cliente que se conectó
@@ -55,9 +58,9 @@ io.on('connection', async (socket) => {
 
 	// Escucho los mensajes enviado por el cliente y se los propago a todos
 	socket.on('message', async (message) => {
-		newMessage.user = message.user;
+		newMessage.user = message.user; //recibo el mensaje enviado por el cliente y su usuario
 		newMessage.message = message.msj;
-		await MessageListDb.addMessage(newMessage);
+		await MessageListDb.addMessage(newMessage); //Lo guardo en la base de datos
 		// Agrego el mensaje al array de mensajes
 		messages.push(message);
 		// Propago el evento a todos los clientes conectados

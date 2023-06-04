@@ -3,6 +3,7 @@ import ProductManager from '../service/ProductManager.js';
 import { io } from '../app.js';
 import ProductListDb from '../service/Product.service.js';
 
+//Inicializo Router
 const productsRouter = Router();
 
 //Instancio una nueva clase de Product Manager con el archivo ya creado
@@ -22,7 +23,7 @@ productsRouter.get('/', async (req, res) => {
 		res.status(400).send(error);
 	}*/
 	try {
-		let allProducts = await ProductListDb.getProducts();
+		let allProducts = await ProductListDb.getProducts(); //Traigo el listado de productos
 		let limit = req.query.limit;
 		if (limit) {
 			// Si recibo el limite de productos a mostrar
