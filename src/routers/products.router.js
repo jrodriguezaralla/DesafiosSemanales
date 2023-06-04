@@ -64,6 +64,7 @@ productsRouter.post('/', async (req, res) => {
 	}*/
 	try {
 		let newProduct = await ProductListDb.addProducts(req.body); //recibo por body el producto a agregar
+		console.log(await ProductListDb.getProducts());
 		io.emit('real_time_products', await ProductListDb.getProducts()); //propago el evento a todos los clientes
 		res.send(newProduct); //respondo con el producto agregado
 	} catch (error) {

@@ -53,6 +53,8 @@ const newMessage = {
 
 // Inicio la conección y envio el listado de productos para rederizarlos en pantalla
 io.on('connection', async (socket) => {
+	//cuando se conecta un cliente le envío el listado de productos
+	socket.emit('real_time_products', await ProductListDb.getProducts());
 	// Envio los mensajes al cliente que se conectó
 	socket.emit('messages', messages);
 
@@ -66,8 +68,6 @@ io.on('connection', async (socket) => {
 		// Propago el evento a todos los clientes conectados
 		io.emit('messages', messages);
 	});
-	//cuando se conecta un cliente le envío el listado de productos
-	socket.emit('real_time_products', await ProductListDb.getProducts());
 });
 
 //Me conecto a la base de datos
