@@ -30,7 +30,6 @@ class CartService {
 			product: productId,
 			quantity: 1,
 		};
-		//console.log(cartId);
 		const cart = await this.model.findById(cartId); //me quedo con el carrito a modificar
 		const prod = await cart.products.id(productId); //dentro del carrito busco el id de mongo asignado al producto
 		if (prod) {
