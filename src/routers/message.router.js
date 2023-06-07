@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import MessageListDb from '../service/Message.service.js';
+import MessageListDb from '../dao/service/Message.service.js';
 
 const messagesRouter = Router();
 

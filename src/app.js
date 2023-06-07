@@ -11,8 +11,8 @@ import { viewsRouter } from './routers/views.router.js';
 import { Server } from 'socket.io';
 import mongoose from 'mongoose';
 import { ProductList } from './routers/products.router.js';
-import ProductListDb from './service/Product.service.js';
-import MessageListDb from './service/Message.service.js';
+import ProductListDb from './dao/service/Product.service.js';
+import MessageListDb from './dao/service/Message.service.js';
 import { messagesRouter } from './routers/message.router.js';
 
 //Inicializo Express
