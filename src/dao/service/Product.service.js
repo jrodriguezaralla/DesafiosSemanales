@@ -7,8 +7,12 @@ class ProductService {
 	}
 
 	//Método para traer todos los productos de la base de datos
-	async getProducts() {
-		return await this.model.find().lean();
+	async getProducts(limit, page, query, sort) {
+		if (!limit && !page && !query && !sort) {
+			return await this.model.find().lean();
+		} else if (limit) {
+			return await this.model.aggregate({ $limit: limit });
+		}
 	}
 
 	//Método para agregar productos a la base de datos
