@@ -22,6 +22,7 @@ productsRouter.get('/', async (req, res) => {
 	} catch (error) {
 		res.status(400).send(error);
 	}*/
+
 	let limit = req.query.limit;
 	let page = req.query.page;
 	let category = req.query.category;
@@ -29,7 +30,22 @@ productsRouter.get('/', async (req, res) => {
 	let sort = req.query.sort;
 	try {
 		let showProducts = await ProductListDb.getProducts(limit, page, category, sort, availability); //Traigo el listado de productos
-		res.send(showProducts); //envio la respuesta
+		res.send({
+			status: 'success',
+			payload: showProducts.docs,
+			totalPages: showProducts.totalPages,
+			prevPage: showProducts.prevPage,
+			nextPage: showProducts.nextPage,
+			page: showProducts.page,
+			hasPrevPage: showProducts.hasPrevPage,
+			hasNextPage: showProducts.hasNextPage,
+			prevLink: !showProducts.hasPrevPage
+				? null
+				: `/api/products/?limit=${limit}&page=${parseInt(page) - 1}&category=${category}&sort=${sort}&availability=${availability}`,
+			nextLink: !showProducts.hasNextPage
+				? null
+				: `/api/products/?limit=${limit}&page=${parseInt(page) + 1}&category=${category}&sort=${sort}&availability=${availability}`,
+		}); //envio la respuesta
 	} catch (error) {
 		res.status(400).send(error);
 	}
