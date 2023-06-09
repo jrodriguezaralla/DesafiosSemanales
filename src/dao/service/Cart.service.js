@@ -31,7 +31,7 @@ class CartService {
 			quantity: 1,
 		};
 		const cart = await this.model.findById(cartId); //me quedo con el carrito a modificar
-		const prod = await cart.products.id(productId); //dentro del carrito busco el id de mongo asignado al producto
+		const prod = cart.products.find((element) => element.product.toString() === productId);
 		if (prod) {
 			//Si existe sumo una unidad
 			prod.quantity += 1;
