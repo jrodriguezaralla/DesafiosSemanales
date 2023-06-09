@@ -1,5 +1,8 @@
 //Servicio de productos
+import { Query } from 'mongoose';
 import { ProductModel } from '../models/product.model.js';
+const LIMITdEFAULT = 10;
+const PAGEdEFAULT = 1;
 
 class ProductService {
 	constructor() {
@@ -7,12 +10,19 @@ class ProductService {
 	}
 
 	//Método para traer todos los productos de la base de datos
-	async getProducts(limit, page, query, sort) {
-		if (!limit && !page && !query && !sort) {
-			return await this.model.find().lean();
-		} else if (limit) {
-			return await this.model.aggregate({ $limit: limit });
+	async getProducts(limit, page, category, sort, availability) {
+		let query = {};
+		if (category) {
+			query.category = category;
+			if (availability) {
+				query.status = availability;
+			}
 		}
+
+		if (!limit) limit = LIMITdEFAULT;
+		if (!page) page = PAGEdEFAULT;
+
+		return await this.model.paginate(query, { limit: limit, page: page, sort: { price: sort } });
 	}
 
 	//Método para agregar productos a la base de datos
@@ -29,7 +39,7 @@ class ProductService {
 		) {
 			return { error: 'Error: fields missing' }; //Si falta algun campo, arrojo error
 		}
-		let products = await this.getProducts();
+		let products = await this.model.find().lean();
 
 		let codes = products.map((cod) => cod.code); // me quedo con todos los códigos del array productos
 		//evaluo si el codigo del nuevo producto no existe

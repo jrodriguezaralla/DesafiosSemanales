@@ -22,14 +22,14 @@ productsRouter.get('/', async (req, res) => {
 	} catch (error) {
 		res.status(400).send(error);
 	}*/
+	let limit = req.query.limit;
+	let page = req.query.page;
+	let category = req.query.category;
+	let availability = req.query.availability;
+	let sort = req.query.sort;
 	try {
-		let allProducts = await ProductListDb.getProducts(); //Traigo el listado de productos
-		let limit = req.query.limit;
-		if (limit) {
-			// Si recibo el limite de productos a mostrar
-			let productLimit = allProducts.slice(0, limit); //Solo muestro desde el primer elemento al limite indicado por query
-			res.send(productLimit); //envio la respuesta
-		} else res.send(allProducts); // Si no tengo query envio el listado completo
+		let showProducts = await ProductListDb.getProducts(limit, page, category, sort, availability); //Traigo el listado de productos
+		res.send(showProducts); //envio la respuesta
 	} catch (error) {
 		res.status(400).send(error);
 	}
@@ -64,7 +64,7 @@ productsRouter.post('/', async (req, res) => {
 	}*/
 	try {
 		let newProduct = await ProductListDb.addProducts(req.body); //recibo por body el producto a agregar
-		io.emit('real_time_products', await ProductListDb.getProducts()); //propago el evento a todos los clientes
+		//io.emit('real_time_products', await ProductListDb.getProducts()); //propago el evento a todos los clientes
 		res.send(newProduct); //respondo con el producto agregado
 	} catch (error) {
 		res.status(400).send(error);

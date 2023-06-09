@@ -1,11 +1,13 @@
 //Modelo de carritos para guardar en la base de datos
 import mongoose from 'mongoose';
-import { ProductModel } from './product.model.js';
 
 const cartSchema = new mongoose.Schema({
 	products: [
 		{
-			product: String, //Id de producto
+			product: {
+				type: mongoose.Schema.Types.ObjectId, //Id de producto
+				ref: 'products',
+			},
 			quantity: Number,
 		},
 	],
