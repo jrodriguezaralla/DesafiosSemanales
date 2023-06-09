@@ -60,4 +60,15 @@ cartRouter.post('/:cid/product/:pid', async (req, res) => {
 	}
 });
 
+//Endpoint para borrar un producto del carrito
+cartRouter.delete('/:cid/product/:pid', async (req, res) => {
+	try {
+		//Recibo por params el Id de carrito y el ID del producto y lo agrego al carrito indicado
+		let product = await CartListDb.deleteProduct(req.params.cid, req.params.pid);
+		res.send(product);
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
 export { cartRouter, CartList };

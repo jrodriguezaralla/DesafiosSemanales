@@ -31,7 +31,7 @@ class CartService {
 			quantity: 1,
 		};
 		const cart = await this.model.findById(cartId); //me quedo con el carrito a modificar
-		const prod = cart.products.find((element) => element.product.toString() === productId);
+		const prod = cart.products.find((element) => element.product.toString() === productId); // busco el elemento que coincida con el ID indicado
 		if (prod) {
 			//Si existe sumo una unidad
 			prod.quantity += 1;
@@ -42,6 +42,19 @@ class CartService {
 
 		await cart.save(); //guardo cambios
 		return { status: 'sucess', message: `product ID=${productId} added to cart ID=${cartId}` }; // retorno el carrito con el producto agregado
+	}
+
+	//Método para borrar un producto del carrito
+	async deleteProduct(cartId, productId) {
+		const cart = await this.model.findById(cartId); //me quedo con el carrito a modificar
+		const index = cart.products.indexOf(cart.products.find((element) => element.product.toString() === productId)); // busco el elemento que coincida con el ID indicado y retorno index
+		if (index === -1) {
+			return { error: 'Error: Product not found' }; //si no encuentro producto retorno error
+		}
+		cart.products.splice(index, 1); //Elimino elemento del array
+
+		await cart.save(); //guardo cambios
+		return { status: 'sucess', message: `product ID=${productId} deleted from cart ID=${cartId}` }; // retorno el carrito con el producto agregado
 	}
 }
 
