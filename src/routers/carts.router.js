@@ -71,4 +71,37 @@ cartRouter.delete('/:cid/product/:pid', async (req, res) => {
 	}
 });
 
+//Endpoint para actualizar los productos completos de un carrito
+cartRouter.put('/:cid', async (req, res) => {
+	try {
+		//Recibo por params el Id de carrito y el ID del producto y lo agrego al carrito indicado
+		let result = await CartListDb.updateAllProducts(req.params.cid, req.body);
+		res.send(result);
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
+//Endpoint para actualizar los productos completos de un carrito
+cartRouter.put('/:cid/product/:pid', async (req, res) => {
+	try {
+		//Recibo por params el Id de carrito y el ID del producto y lo agrego al carrito indicado
+		let result = await CartListDb.updateProductQuantity(req.params.cid, req.params.pid, req.body);
+		res.send(result);
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
+//Endpoint para borrar todos los productos del carrito
+cartRouter.delete('/:cid', async (req, res) => {
+	try {
+		//Recibo por params el Id de carrito
+		let product = await CartListDb.deleteAllProducts(req.params.cid);
+		res.send(product);
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
 export { cartRouter, CartList };
