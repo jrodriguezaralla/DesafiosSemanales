@@ -22,7 +22,25 @@ class ProductService {
 		if (!limit) limit = LIMITdEFAULT;
 		if (!page) page = PAGEdEFAULT;
 
-		return await this.model.paginate(query, { limit: limit, page: page, sort: { price: sort } });
+		let products = await this.model.paginate(query, { limit: limit, page: page, sort: { price: sort }, lean: true });
+		let returnProducts = {
+			status: 'success',
+			payload: products.docs,
+			totalPages: products.totalPages,
+			prevPage: products.prevPage,
+			nextPage: products.nextPage,
+			page: products.page,
+			hasPrevPage: products.hasPrevPage,
+			hasNextPage: products.hasNextPage,
+			prevLink: !products.hasPrevPage
+				? null
+				: `/api/products/?limit=${limit}&page=${parseInt(page) - 1}&category=${category}&sort=${sort}&availability=${availability}`,
+			nextLink: !products.hasNextPage
+				? null
+				: `/api/products/?limit=${limit}&page=${parseInt(page) + 1}&category=${category}&sort=${sort}&availability=${availability}`,
+		};
+
+		return returnProducts;
 	}
 
 	//Método para agregar productos a la base de datos

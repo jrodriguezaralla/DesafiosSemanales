@@ -59,9 +59,8 @@ class CartService {
 
 	//Método para actualizar todo el array de productos
 	async updateAllProducts(cartId, newArray) {
-		console.log(newArray.products);
 		await this.model.findOneAndUpdate({ _id: cartId }, { products: newArray.products }); //me quedo con el carrito a modificar
-		return { status: 'sucess', message: `cart ID=${cartId} updated` }; // retorno el carrito con el producto agregado
+		return { status: 'sucess', message: `prdocuts from cart ID=${cartId} updated` }; // retorno el carrito con el producto agregado
 	}
 
 	async updateProductQuantity(cartId, productId, newQuantity) {

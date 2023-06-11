@@ -2,7 +2,7 @@
     <h1>Listado de productos</h1>
     <div class="grid">
         <!-- Por cada producto imprimo una card con los datos-->
-        {{#each products}}
+        {{#each products.payload}}
             <div class="card">
                 <h2>Product ID:{{this._id}} </h2>
                 <p>Title: {{this.title}}</p>
