@@ -1,42 +1,61 @@
 <div>
     <h1>Listado de productos</h1>
-    <div class="grid">
-        <!-- Por cada producto imprimo una card con los datos-->
-        {{#each products.payload}}
-            <div class="card">
-                <h2>Product ID:{{this._id}} </h2>
-                <p>Title: {{this.title}}</p>
-                <p>description: {{this.description}} </p>
-                <p>code: {{this.code}} </p>
-                <p>price: {{this.price}} </p>
-                <p>status: {{this.status}} </p>
-                <p>stock: {{this.stock}} </p>
-                <p>category: {{this.category}} </p>
-                <p>thumbnail: {{this.thumbnail}} </p>
-            </div>
-        {{/each}}
-    </div>
-    <div class="p-2 col-12">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                {{#if products.hasPrevPage}}
-                    <li class="page-item">
-                {{else}}
-                    <li class="page-item disabled">
-                {{/if}}
-                        <a class="page-link" href="{{products.prevLink}}">Previous</a>
-                    </li>
-                
-                    <li class="page-item active" aria-current="page"><a class="page-link" href="#">{{products.page}}</a></li>
 
+    <div class="p-2">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center pagination-sm">
+                {{#if products.hasPrevPage}}
+                <li class="page-item">
+                    {{else}}
+                <li class="page-item disabled">
+                    {{/if}}
+                    <a class="page-link" href="{{products.prevLink}}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                </li>
+    
+                <li class="page-item dark" aria-current="page"><a class="page-link" href="#">{{products.page}}</a></li>
+    
                 {{#if products.hasNextPage}}
-                    <li class="page-item">
-                {{else}}
-                    <li class="page-item disabled">
-                {{/if}}
-                        <a class="page-link" href="{{products.nextLink}}">Next</a>
-                    </li>
+                <li class="page-item">
+                    {{else}}
+                <li class="page-item disabled">
+                    {{/if}}
+                    <a class="page-link" href="{{products.nextLink}}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                </li>
             </ul>
         </nav>
     </div>
+
+    <div class="grid">
+        <!-- Por cada producto imprimo una card con los datos-->
+        {{#each products.payload}}
+            <div class="card card_producto">
+
+                <div class="card-header">
+                    <h5 class="m-0 fw-semibold fs-5 text-center">{{this.code}}</h5>
+                </div>
+                <div class="d-flex flex-column justify-content-between align-items-center p-2">
+                    <img class="card-img" src="{{this.thumbnail}} " alt="{{this.thumbnail}} ">
+                    <p class="fw-bold fst-italic fs-6 text-center">{{this.title}}</p>
+                    <p class="fw-lighter">{{this.description}}</p>
+                    <p class="fw-bold fst-italic fs-5">{{this.price}} USD</p>
+                    <footer class="blockquote-footer">Stock: {{this.stock}}</footer>
+                    <div class="d-flex justify-content-center">
+                        <button id="{{this._id}} " class="btnAgregarCarrito btn btn-dark" type="submit">Agregar al carrito</button>
+                    </div>
+                </div>
+                {{!-- <h2>Product ID:</h2>
+                <p>Title: </p>
+                <p>description: </p>
+                <p>code:  </p>
+                <p>price:  </p>
+                <p>status: {{this.status}} </p>
+                <p>stock:  </p>
+                <p>category: {{this.category}} </p>
+                <p>thumbnail: </p> --}}
+            </div>
+        {{/each}}
+    </div>
+
 </div>
+
+<script src="/js/products.js"></script>

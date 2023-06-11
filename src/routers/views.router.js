@@ -49,4 +49,19 @@ viewsRouter.get('/chat', async (req, res) => {
 	}
 });
 
+//Endpoint que muestra los produuctos
+viewsRouter.get('/carts/:cid', async (req, res) => {
+	try {
+		const { limit, page, category, availability, sort } = req.query;
+		let products = await ProductListDb.getProducts(limit, page, category, sort, availability); //traigo el listado de productos y los renderizo en home
+		//let showProducts = products.payload;
+		res.render('home', {
+			products,
+			style: 'index.css', // Envío los estilos css
+		});
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
 export { viewsRouter };
