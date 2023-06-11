@@ -16,4 +16,27 @@
             </div>
         {{/each}}
     </div>
+    <div class="p-2 col-12">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {{#if products.hasPrevPage}}
+                    <li class="page-item">
+                {{else}}
+                    <li class="page-item disabled">
+                {{/if}}
+                        <a class="page-link" href="{{products.prevLink}}">Previous</a>
+                    </li>
+                
+                    <li class="page-item active" aria-current="page"><a class="page-link" href="#">{{products.page}}</a></li>
+
+                {{#if products.hasNextPage}}
+                    <li class="page-item">
+                {{else}}
+                    <li class="page-item disabled">
+                {{/if}}
+                        <a class="page-link" href="{{products.nextLink}}">Next</a>
+                    </li>
+            </ul>
+        </nav>
+    </div>
 </div>

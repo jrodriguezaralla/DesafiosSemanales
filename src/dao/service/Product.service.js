@@ -1,5 +1,4 @@
 //Servicio de productos
-import { Query } from 'mongoose';
 import { ProductModel } from '../models/product.model.js';
 const LIMITdEFAULT = 10;
 const PAGEdEFAULT = 1;
@@ -10,19 +9,29 @@ class ProductService {
 	}
 
 	//Método para traer todos los productos de la base de datos
-	async getProducts(limit, page, category, sort, availability) {
+	async getProducts(limit = LIMITdEFAULT, page = PAGEdEFAULT, category = false, sort = false, availability = false) {
 		let query = {};
+		let options = {
+			limit: limit,
+			page: page,
+			lean: true,
+		};
+		let link = '';
+
 		if (category) {
-			query.category = category;
-			if (availability) {
-				query.status = availability;
-			}
+			query = { ...query, category };
+			link += `&category=${category}`;
+		}
+		if (availability) {
+			query = { ...query, availability };
+			link += `&availability=${availability}`;
+		}
+		if (sort) {
+			options = { ...options, sort: { price: sort } };
+			link += `&sort=${sort}`;
 		}
 
-		if (!limit) limit = LIMITdEFAULT;
-		if (!page) page = PAGEdEFAULT;
-
-		let products = await this.model.paginate(query, { limit: limit, page: page, sort: { price: sort }, lean: true });
+		let products = await this.model.paginate(query, options);
 		let returnProducts = {
 			status: 'success',
 			payload: products.docs,
@@ -32,12 +41,8 @@ class ProductService {
 			page: products.page,
 			hasPrevPage: products.hasPrevPage,
 			hasNextPage: products.hasNextPage,
-			prevLink: !products.hasPrevPage
-				? null
-				: `/api/products/?limit=${limit}&page=${parseInt(page) - 1}&category=${category}&sort=${sort}&availability=${availability}`,
-			nextLink: !products.hasNextPage
-				? null
-				: `/api/products/?limit=${limit}&page=${parseInt(page) + 1}&category=${category}&sort=${sort}&availability=${availability}`,
+			prevLink: !products.hasPrevPage ? null : `?limit=${limit}&page=${products.prevPage}` + link, //
+			nextLink: !products.hasNextPage ? null : `?limit=${limit}&page=${products.nextPage}` + link, //
 		};
 
 		return returnProducts;
