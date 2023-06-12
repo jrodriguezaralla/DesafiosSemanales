@@ -10,6 +10,7 @@ btnAgregarCarrito.forEach((el) => {
 		//traigo todos los botones
 		await fetch(`/api/carts/${cartId}/product/${e.target.id}`, {
 			//agrego endpoint
+			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},

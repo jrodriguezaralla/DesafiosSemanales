@@ -9,29 +9,31 @@ class ProductService {
 	}
 
 	//Método para traer todos los productos de la base de datos
-	async getProducts(limit = LIMITdEFAULT, page = PAGEdEFAULT, category = false, sort = false, availability = false) {
-		let query = {};
+	async getProducts(limit, page, category, sort, status) {
+		let query = {}; //defino query como un objeto vacío
+		if (limit === '' || !limit) limit = LIMITdEFAULT; //Si no recibo limite lo seteo por defecto
+		if (page === '' || !page) page = PAGEdEFAULT; //Si no recibo limite lo seteo por defecto
 		let options = {
-			limit: limit,
-			page: page,
+			limit: parseInt(limit),
+			page: parseInt(page),
 			lean: true,
 		};
-		let link = '';
+		let link = ''; //string para pasar como parametro y realizar una paginación ciclica
 
 		if (category) {
-			query = { ...query, category }; //si me piden filtrar por categoria la agrego
+			query.category = category; //si me piden filtrar por categoria la agrego
 			link += `&category=${category}`; //armo link para pasar en la variable de paginación
 		}
-		if (availability) {
-			query = { ...query, availability }; //si me piden filtrar por disponibilidad la agrego
-			link += `&availability=${availability}`;
+		if (status) {
+			query.status = status; //si me piden filtrar por disponibilidad la agrego
+			link += `&status=${status}`;
 		}
 		if (sort) {
 			options = { ...options, sort: { price: sort } }; //si me piden ordenar los productos por precio, lo agrego.
 			link += `&sort=${sort}`;
 		}
-
 		let products = await this.model.paginate(query, options); // realizo la paginación
+
 		let returnProducts = {
 			status: 'success',
 			payload: products.docs,
