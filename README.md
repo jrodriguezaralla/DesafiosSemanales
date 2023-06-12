@@ -1,4 +1,4 @@
-# Preentrega 15 - Mongo/Mongoose
+# Segunda Preentrega - Clase 17- Mongo Avanzado
 
 Desarrollo de un servidor implementando base de datos MongoDb, modificando el proyecto para que funicione con las mismas y no con FileSystem.
 
