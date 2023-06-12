@@ -15,7 +15,7 @@ class CartService {
 
 	//Método para adquirir un carrito especifico por ID
 	async getCartById(idBuscado) {
-		const result = await this.model.findById(idBuscado).populate('products.product'); // busco el elemento que coincida con el ID indicado
+		const result = await this.model.findById(idBuscado).lean().populate('products.product'); // busco el elemento que coincida con el ID indicado
 		if (result) {
 			// Si tengo un resultado lo retorno, sino devuelvo error
 			return result.products;

@@ -1,0 +1,19 @@
+{{!-- Listado de productos de un carrito --}}
+<h2 class="center">Listado de productos de cart ID: {{cartId}}</h2>
+<div class="row m1">
+    <!-- Por cada producto imprimo una card con los datos-->
+    {{#each products}}
+    <div class="card card_producto h-100 col-4 p-0 m-1">
+        <div class="card-header py-0 h-auto">
+            <h5 class="m-0 fw-semibold fs-5 text-center">{{this.product.code}}</h5>
+        </div>
+        <div class="d-flex flex-column justify-content-between align-items-center p-2 h-auto">
+            <img class="card-img my-0" src="{{this.product.thumbnail}} " alt="{{this.product.thumbnail}}">
+            <p class="fw-bold fst-italic fs-6 text-center my-0">{{this.product.title}}</p>
+            <p class="fw-lighter my-0">{{this.product.description}}</p>
+            <p class="fw-bold fst-italic fs-5 my-0">{{this.product.price}} USD</p>
+            <footer class="blockquote-footer my-0">quantity: {{this.quantity}}</footer>
+        </div>
+    </div>
+    {{/each}}
+</div>
