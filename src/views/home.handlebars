@@ -40,8 +40,24 @@
         <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop"
             aria-labelledby="staticBackdropLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="staticBackdropLabel">Tu carrito de Compras</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                <div class="col">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="offcanvas-title" id="staticBackdropLabel">Tu carrito de Compras</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="row">
+                        <button id="btnVaciarCarrito" type="button" class="btn btn-outline-danger btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3"
+                                viewBox="0 0 16 16">
+                                <path
+                                    d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                            </svg>
+                            Vaciar carrito
+                        </button>
+                    </div>
+                </div>
+
+
             </div>
             <div class="offcanvas-body" id="contenedorCarrito">
                 <div>
@@ -56,18 +72,18 @@
         {{#each products.payload}}
             <div class="card card_producto h-100">
 
-                <div class="card-header py-0">
+                <div class="card-header py-0 h-auto">
                     <h5 class="m-0 fw-semibold fs-5 text-center">{{this.code}}</h5>
                 </div>
-                <div class="d-flex flex-column justify-content-between align-items-center p-2">
-                    <img class="card-img my-0" src="{{this.thumbnail}} " alt="{{this.thumbnail}}" width="50">
+                <div class="d-flex flex-column justify-content-between align-items-center p-2 h-auto">
+                    <img class="card-img my-0" src="{{this.thumbnail}} " alt="{{this.thumbnail}}">
                     <p class="fw-bold fst-italic fs-6 text-center my-0">{{this.title}}</p>
                     <p class="fw-lighter my-0">{{this.description}}</p>
                     <p class="fw-bold fst-italic fs-5 my-0">{{this.price}} USD</p>
                     <footer class="blockquote-footer my-0">Stock: {{this.stock}}</footer>
-                    <div class="d-flex justify-content-center">
-                        <button id="{{this._id}} " class="btnAgregarCarrito btn btn-dark" type="submit">Agregar al carrito</button>
-                    </div>
+                </div>
+                <div class="d-flex justify-content-center ">
+                    <button id="{{this._id}} " class="btnAgregarCarrito btn btn-dark w-100" type="submit">Agregar al carrito</button>
                 </div>
                 {{!-- <h2>Product ID:</h2>
                 <p>Title: </p>

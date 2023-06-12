@@ -2,6 +2,7 @@ let btnAgregarCarrito = document.querySelectorAll('.btnAgregarCarrito'); // Node
 const cartId = '6476a662e14fcee005c06b2c';
 const contenedorCarrito = document.querySelector('#contenedorCarrito'); // contenedor donde se muestran los productos en la venta de carrito
 const btnCarrito = document.querySelector('#btnCarrito'); // al presionar sobre el logo del carrito llamo a la función para mostrar los elementos en el carrito
+const btnVaciarCarrito = document.querySelector('#btnVaciarCarrito'); //boton vaciar carrito
 
 btnAgregarCarrito.forEach((el) => {
 	el.addEventListener('click', async (e) => {
@@ -69,3 +70,26 @@ function agregarElmentoCarrito(dato) {
 		contenedorCarrito.append(div);
 	});
 }
+
+btnVaciarCarrito.addEventListener('click', () => {
+	Swal.fire({
+		title: 'Esta seguro?',
+		text: 'No podra volver atras!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Si, deseo borrar!',
+	}).then(async (result) => {
+		if (result.isConfirmed) {
+			await fetch(`/api/carts/${cartId}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+			Swal.fire('Borrado!', 'Su carrito ha sido vaciado.', 'success');
+			contenedorCarrito.innerHTML = ''; //borro prodcutos de la vista
+		}
+	});
+});
