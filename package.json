@@ -20,6 +20,7 @@
 	},
 	"homepage": "https://github.com/jrodriguezaralla/DesafiosSemanales#readme",
 	"dependencies": {
+		"bootstrap-icons": "^1.10.5",
 		"express": "^4.18.2",
 		"express-handlebars": "^7.0.7",
 		"mongoose": "^7.2.1",
