@@ -4,16 +4,19 @@ const contenedorCarrito = document.querySelector('#contenedorCarrito'); // conte
 const btnCarrito = document.querySelector('#btnCarrito'); // al presionar sobre el logo del carrito llamo a la función para mostrar los elementos en el carrito
 const btnVaciarCarrito = document.querySelector('#btnVaciarCarrito'); //boton vaciar carrito
 
+//Evento de boton agregar producto a carrito
 btnAgregarCarrito.forEach((el) => {
 	el.addEventListener('click', async (e) => {
+		//traigo todos los botones
 		await fetch(`/api/carts/${cartId}/product/${e.target.id}`, {
-			method: 'POST',
+			//agrego endpoint
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		})
 			.then(() => {
 				const Toast = Swal.mixin({
+					//Alert para avisar que el producto fue agregado
 					toast: true,
 					position: 'top-end',
 					showConfirmButton: false,
@@ -36,8 +39,9 @@ btnAgregarCarrito.forEach((el) => {
 	});
 });
 
+//Evento de boton para mostrar carrito
 btnCarrito.addEventListener('click', async () => {
-	await fetch(`/api/carts/${cartId}`)
+	await fetch(`/api/carts/${cartId}`) //traigo el listado de productos de la BD
 		.then((res) => res.json())
 		.then((data) => {
 			agregarElmentoCarrito(data);
@@ -48,6 +52,7 @@ btnCarrito.addEventListener('click', async () => {
 function agregarElmentoCarrito(dato) {
 	contenedorCarrito.innerText = ''; // Borro leyenda "Agregue productos al carrito"
 	dato.forEach((elemento) => {
+		//Por cada elemento genero un contenedor
 		let div = document.createElement('div');
 		div.className = 'card mb-2';
 		div.style = 'height: 150px';
@@ -71,6 +76,7 @@ function agregarElmentoCarrito(dato) {
 	});
 }
 
+//Evento de boton para eliminar todos los productos del carrito
 btnVaciarCarrito.addEventListener('click', () => {
 	Swal.fire({
 		title: 'Esta seguro?',

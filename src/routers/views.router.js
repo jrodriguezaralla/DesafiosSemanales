@@ -50,7 +50,7 @@ viewsRouter.get('/chat', async (req, res) => {
 	}
 });
 
-//Endpoint que muestra los produuctos
+//Endpoint que muestra los produuctos de un carrito
 viewsRouter.get('/carts/:cid', async (req, res) => {
 	try {
 		const cartId = req.params.cid;

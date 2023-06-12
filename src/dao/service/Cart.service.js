@@ -15,7 +15,7 @@ class CartService {
 
 	//Método para adquirir un carrito especifico por ID
 	async getCartById(idBuscado) {
-		const result = await this.model.findById(idBuscado).lean().populate('products.product'); // busco el elemento que coincida con el ID indicado
+		const result = await this.model.findById(idBuscado).lean().populate('products.product'); // busco el elemento que coincida con el ID indicado y populo los datos de los productos.
 		if (result) {
 			// Si tengo un resultado lo retorno, sino devuelvo error
 			return result.products;
@@ -59,10 +59,11 @@ class CartService {
 
 	//Método para actualizar todo el array de productos
 	async updateAllProducts(cartId, newArray) {
-		await this.model.findOneAndUpdate({ _id: cartId }, { products: newArray.products }); //me quedo con el carrito a modificar
+		await this.model.findOneAndUpdate({ _id: cartId }, { products: newArray.products }); //busco el carrito y modifico el campo
 		return { status: 'sucess', message: `prdocuts from cart ID=${cartId} updated` }; // retorno el carrito con el producto agregado
 	}
 
+	//metodo para modificar la cantidad de productos de un elemento del array de productos
 	async updateProductQuantity(cartId, productId, newQuantity) {
 		const cart = await this.model.findById(cartId); //me quedo con el carrito a modificar
 		const prod = cart.products.find((element) => element.product.toString() === productId); // busco el elemento que coincida con el ID indicado
@@ -76,8 +77,9 @@ class CartService {
 		return { status: 'sucess', message: `product ID=${productId} added to cart ID=${cartId}` }; // retorno el carrito con el producto agregado
 	}
 
+	//Metodo para borrar todos los productos de un carrito determinado
 	async deleteAllProducts(cartId) {
-		await this.model.findOneAndUpdate({ _id: cartId }, { products: [] }); //me quedo con el carrito a modificar
+		await this.model.findOneAndUpdate({ _id: cartId }, { products: [] }); //busco el carrito e inserto un array vacio
 		return { status: 'sucess', message: `products deleted from cart ID=${cartId}` }; // retorno el carrito con el producto agregado
 	}
 }

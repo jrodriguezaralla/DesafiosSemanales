@@ -19,19 +19,19 @@ class ProductService {
 		let link = '';
 
 		if (category) {
-			query = { ...query, category };
-			link += `&category=${category}`;
+			query = { ...query, category }; //si me piden filtrar por categoria la agrego
+			link += `&category=${category}`; //armo link para pasar en la variable de paginación
 		}
 		if (availability) {
-			query = { ...query, availability };
+			query = { ...query, availability }; //si me piden filtrar por disponibilidad la agrego
 			link += `&availability=${availability}`;
 		}
 		if (sort) {
-			options = { ...options, sort: { price: sort } };
+			options = { ...options, sort: { price: sort } }; //si me piden ordenar los productos por precio, lo agrego.
 			link += `&sort=${sort}`;
 		}
 
-		let products = await this.model.paginate(query, options);
+		let products = await this.model.paginate(query, options); // realizo la paginación
 		let returnProducts = {
 			status: 'success',
 			payload: products.docs,
@@ -45,7 +45,7 @@ class ProductService {
 			nextLink: !products.hasNextPage ? null : `?limit=${limit}&page=${products.nextPage}` + link, //
 		};
 
-		return returnProducts;
+		return returnProducts; //retorno estructura
 	}
 
 	//Método para agregar productos a la base de datos
@@ -95,7 +95,7 @@ class ProductService {
 		return { status: 'sucess', message: `product ID:${idBuscado} Updated` };
 	}
 
-	//Método para eliminar un producto del archivo
+	//Método para eliminar un producto
 	async deleteProduct(idBuscado) {
 		let result = await this.model.find({ _id: idBuscado });
 
