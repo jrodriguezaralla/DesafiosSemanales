@@ -1,9 +1,9 @@
 /*Estilos de los titulos de pantalla productos y real time products*/
-h1,
+/* h1,
 h2 {
 	color: brown;
 	text-align: center;
-}
+} */
 
 /*h2 {
 	color: black;
@@ -11,8 +11,14 @@ h2 {
 	font-size: 1rem;
 }*/
 
-body {
+/* body {
 	background-color: rgb(206, 206, 206);
+} */
+
+:root {
+	--dark: #16191c;
+	--dark-x: #1e2126;
+	--light: #ffffff;
 }
 
 .grid {
@@ -56,4 +62,33 @@ input {
 	box-sizing: border-box;
 	margin-bottom: 10px;
 	overflow-y: scroll;
+}
+
+/*LOGIN*/
+
+.loginBody {
+	font-family: 'League Spartan', sans-serif;
+	font-weight: 300;
+	color: var(--light);
+}
+
+#InputEmail::placeholder,
+#InputPassword::placeholder {
+	color: grey;
+}
+
+.text-light {
+	color: var(--light) !important;
+}
+
+.bg-dark {
+	background-color: var(--dark) !important;
+}
+.bg-dark-x {
+	background-color: var(--dark-x);
+}
+
+.form-control:focus {
+	background-color: var(--dark-x);
+	outline: none;
 }

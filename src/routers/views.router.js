@@ -65,4 +65,15 @@ viewsRouter.get('/carts/:cid', async (req, res) => {
 	}
 });
 
+//Endpoint que muestra los produuctos de un carrito
+viewsRouter.get('/', async (req, res) => {
+	try {
+		res.render('login', {
+			style: 'index.css', // Envío los estilos css
+		});
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
 export { viewsRouter };

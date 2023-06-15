@@ -14,6 +14,7 @@ import { ProductList } from './routers/products.router.js';
 import ProductListDb from './dao/service/Product.service.js';
 import MessageListDb from './dao/service/Message.service.js';
 import { messagesRouter } from './routers/message.router.js';
+import session from 'express-session';
 
 //Inicializo Express
 const app = express();
@@ -34,6 +35,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Middlewares
 app.use(express.json()); //Middleware que facilita la conversión en formato json de lo que se reciba por body
 app.use(express.urlencoded({ extended: true })); //Middleware para que express pueda reconover los objetos de las request como strings o arrays
+
+//Session
+app.use(
+	session({
+		secret: '43330commerce',
+		resave: true,
+		saveUninitialized: true,
+	})
+);
 
 //Definición de rutas
 app.use('/api/products', productsRouter);
