@@ -45,7 +45,7 @@ app.use(
 		store: MongoStore.create({
 			mongoUrl: 'mongodb+srv://jrodriguezaralla:1234@freecluster.mxzp3zq.mongodb.net/?retryWrites=true&w=majority',
 			mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-			ttl: 600,
+			ttl: 6000,
 		}),
 		secret: '43330commerce',
 		resave: true,

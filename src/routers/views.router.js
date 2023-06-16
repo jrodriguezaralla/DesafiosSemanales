@@ -3,18 +3,22 @@ import { ProductList } from './products.router.js';
 import { io } from '../app.js';
 import ProductListDb from '../dao/service/Product.service.js';
 import CartListDb from '../dao/service/Cart.service.js';
+import { isAuth, isGuest } from '../public/middleware/auth.middleware.js';
 
 //Inicializo Router
 const viewsRouter = Router();
 
 //Endpoint que muestra los produuctos
-viewsRouter.get('/products', async (req, res) => {
+viewsRouter.get('/products', isAuth, async (req, res) => {
+	const { user } = req.session;
+	delete user.password;
 	try {
 		const { limit, page, category, availability, sort } = req.query;
 		let products = await ProductListDb.getProducts(parseInt(limit), parseInt(page), category, sort, availability); //traigo el listado de productos y los renderizo en home
 		//let showProducts = products.payload;
 		res.render('home', {
 			products,
+			user,
 			style: 'index.css', // Envío los estilos css
 		});
 	} catch (error) {
@@ -65,8 +69,8 @@ viewsRouter.get('/carts/:cid', async (req, res) => {
 	}
 });
 
-//Endpoint que muestra los produuctos de un carrito
-viewsRouter.get('/', async (req, res) => {
+//Endpoint que muestra la pantalla de login
+viewsRouter.get('/login', isGuest, async (req, res) => {
 	try {
 		res.render('login', {
 			style: 'index.css', // Envío los estilos css
