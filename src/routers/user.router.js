@@ -5,6 +5,7 @@ const usersRouter = Router();
 
 usersRouter.post('/', async (req, res) => {
 	const userData = req.body;
+	console.log(userData);
 	try {
 		const newUser = await userService.createUser(userData);
 		res.status(201).json(newUser);
@@ -15,6 +16,8 @@ usersRouter.post('/', async (req, res) => {
 
 usersRouter.post('/auth', async (req, res) => {
 	const { email, password } = req.body;
+	console.log(email);
+	console.log(password);
 	try {
 		const user = await userService.getByEmail(email);
 

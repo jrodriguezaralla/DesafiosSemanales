@@ -45,7 +45,7 @@ app.use(
 		store: MongoStore.create({
 			mongoUrl: 'mongodb+srv://jrodriguezaralla:1234@freecluster.mxzp3zq.mongodb.net/?retryWrites=true&w=majority',
 			mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-			ttl: 15,
+			ttl: 600,
 		}),
 		secret: '43330commerce',
 		resave: true,
@@ -56,7 +56,7 @@ app.use(
 //Definición de rutas
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
-app.use('/api/user', usersRouter);
+app.use('/api/users', usersRouter);
 app.use('/', viewsRouter);
 app.use('/messages', messagesRouter);
 
