@@ -15,6 +15,8 @@ import ProductListDb from './dao/service/Product.service.js';
 import MessageListDb from './dao/service/Message.service.js';
 import { messagesRouter } from './routers/message.router.js';
 import session from 'express-session';
+import { sessionRouter } from './routers/session.router.js';
+import MongoStore from 'connect-mongo';
 
 //Inicializo Express
 const app = express();
@@ -39,6 +41,11 @@ app.use(express.urlencoded({ extended: true })); //Middleware para que express p
 //Session
 app.use(
 	session({
+		store: MongoStore.create({
+			mongoUrl: 'mongodb+srv://jrodriguezaralla:1234@freecluster.mxzp3zq.mongodb.net/?retryWrites=true&w=majority',
+			mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+			ttl: 15,
+		}),
 		secret: '43330commerce',
 		resave: true,
 		saveUninitialized: true,
@@ -50,6 +57,7 @@ app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
 app.use('/', viewsRouter);
 app.use('/messages', messagesRouter);
+app.use('/session', sessionRouter);
 const messages = [];
 
 // Inicialización de socket.io
