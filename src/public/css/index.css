@@ -72,8 +72,7 @@ input {
 	color: var(--light);
 }
 
-#InputEmail::placeholder,
-#InputPassword::placeholder {
+.inputPlaceholder::placeholder {
 	color: grey;
 }
 
@@ -84,6 +83,11 @@ input {
 .bg-dark {
 	background-color: var(--dark) !important;
 }
+
+.bg-light {
+	background-color: var(--light) !important;
+}
+
 .bg-dark-x {
 	background-color: var(--dark-x);
 }

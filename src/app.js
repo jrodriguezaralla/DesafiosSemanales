@@ -2,21 +2,22 @@
 
 //Imports
 import express from 'express';
+import MongoStore from 'connect-mongo';
+import path from 'path';
+import { Server } from 'socket.io';
+import mongoose from 'mongoose';
+import session from 'express-session';
+
 import { productsRouter } from './routers/products.router.js';
 import { cartRouter } from './routers/carts.router.js';
 import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
-import path from 'path';
 import { viewsRouter } from './routers/views.router.js';
-import { Server } from 'socket.io';
-import mongoose from 'mongoose';
 import { ProductList } from './routers/products.router.js';
 import ProductListDb from './dao/service/Product.service.js';
 import MessageListDb from './dao/service/Message.service.js';
 import { messagesRouter } from './routers/message.router.js';
-import session from 'express-session';
-import { sessionRouter } from './routers/session.router.js';
-import MongoStore from 'connect-mongo';
+import usersRouter from './routers/user.router.js';
 
 //Inicializo Express
 const app = express();
@@ -55,9 +56,10 @@ app.use(
 //Definición de rutas
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
+app.use('/api/user', usersRouter);
 app.use('/', viewsRouter);
 app.use('/messages', messagesRouter);
-app.use('/session', sessionRouter);
+
 const messages = [];
 
 // Inicialización de socket.io

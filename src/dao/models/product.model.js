@@ -15,6 +15,7 @@ const productSchema = new mongoose.Schema({
 		type: String,
 		require: true,
 		unique: true,
+		index: true,
 	},
 	price: {
 		type: Number,
@@ -31,6 +32,7 @@ const productSchema = new mongoose.Schema({
 	category: {
 		type: String,
 		require: true,
+		index: true,
 	},
 	thumbnail: {
 		type: Array,
