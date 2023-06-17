@@ -96,3 +96,11 @@ input {
 	background-color: var(--dark-x);
 	outline: none;
 }
+
+.card-header {
+	height: 30px;
+}
+
+.text-justify {
+	text-align: justify;
+}
