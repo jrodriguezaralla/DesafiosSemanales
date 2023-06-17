@@ -98,14 +98,27 @@
                         <h5 class="m-0 fw-semibold fs-5 text-center">{{this.code}}</h5>
                     </div>
                     <div class="d-flex flex-column justify-content-between align-items-center p-2">
-                        <img class="card-img my-0 " src="{{this.thumbnail}} " alt="{{this.thumbnail}}" >
-                        <p class="fw-bold fst-italic fs-6 text-justify my-0">{{this.title}}</p>
-                        <p class="fw-lighter text-justify my-0">{{this.description}}</p>
-                        <p class="fw-bold fst-italic fs-5 my-0">{{this.price}} USD</p>
-                        <footer class="blockquote-footer my-0">Stock: {{this.stock}}</footer>
+                        <img class="card-img my-0 cardImgSize" src="{{this.thumbnail}} " alt="{{this.thumbnail}}" >
+                        <p class="fw-bold fst-italic text-justify my-0 tittleFontSize">{{this.title}}</p>
+                        {{!-- <p class="fw-lighter text-justify my-0">{{this.description}}</p> --}}
+                        <!-- Default dropend button -->
+                        <div class="btn-group dropend">
+                            <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Detalles
+                            </button>
+                            <ul class="dropdown-menu text-justify p-2 dropDownFontsize">
+                                <!-- Dropdown menu links -->
+                                {{this.description}}
+                            </ul>
+                        </div>
+                        
                     </div>
+
+
                 </div>
-                <div class="d-flex justify-content-cente">
+                <div class="d-flex flex-column justify-content-center ">
+                    <p class="fw-bold fst-italic fs-5 my-0 text-center">{{this.price}} USD</p>
+                    <footer class="blockquote-footer my-0 text-center">Stock: {{this.stock}}</footer>
                     <button id="{{this._id}} " class="btnAgregarCarrito btn btn-dark w-100" type="submit">Agregar al carrito</button>
                 </div>
             </div>

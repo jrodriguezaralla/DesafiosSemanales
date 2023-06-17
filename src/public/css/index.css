@@ -104,3 +104,16 @@ input {
 .text-justify {
 	text-align: justify;
 }
+
+.dropDownFontsize {
+	font-size: x-small;
+}
+
+.tittleFontSize {
+	font-size: small;
+}
+
+.cardImgSize {
+	max-width: 180px;
+	max-height: 200px;
+}
