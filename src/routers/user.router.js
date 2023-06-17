@@ -6,8 +6,7 @@ const usersRouter = Router();
 usersRouter.post('/', async (req, res) => {
 	const userData = req.body;
 	try {
-		const newUser = await userService.createUser(userData);
-		res.status(201).json(newUser);
+		await userService.createUser(userData);
 		res.redirect('/login');
 	} catch (error) {
 		res.status(400).json({ error: error.message });
@@ -26,7 +25,6 @@ usersRouter.post('/auth', async (req, res) => {
 		// Si todo está bien, guardo el usuario en la sesión
 		req.session.user = user;
 
-		//res.status(201).json(user);
 		res.redirect('/products');
 	} catch (error) {
 		res.status(400).json({ error: error.message });

@@ -10,8 +10,14 @@ const viewsRouter = Router();
 
 //Endpoint que muestra los produuctos
 viewsRouter.get('/products', isAuth, async (req, res) => {
+	let rol = '';
 	const { user } = req.session;
 	delete user.password;
+	if (user.email === 'adminCoder@coder.com') {
+		rol = 'admin';
+	} else {
+		rol = 'usuario';
+	}
 	try {
 		const { limit, page, category, availability, sort } = req.query;
 		let products = await ProductListDb.getProducts(parseInt(limit), parseInt(page), category, sort, availability); //traigo el listado de productos y los renderizo en home
@@ -19,6 +25,7 @@ viewsRouter.get('/products', isAuth, async (req, res) => {
 		res.render('home', {
 			products,
 			user,
+			rol,
 			style: 'index.css', // Envío los estilos css
 		});
 	} catch (error) {
@@ -75,6 +82,15 @@ viewsRouter.get('/login', isGuest, async (req, res) => {
 		res.render('login', {
 			style: 'index.css', // Envío los estilos css
 		});
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
+//Endpoint que muestra la pantalla de login
+viewsRouter.get('/', async (req, res) => {
+	try {
+		res.redirect('/login');
 	} catch (error) {
 		res.status(400).send(error);
 	}

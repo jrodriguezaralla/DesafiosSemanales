@@ -65,7 +65,6 @@ function agregarElmentoCarrito(dato) {
                 <div class="col-md-8">
                     <div class="card-body p-0 px-1 position-relative">
                         <h5 class="card-title m-0 fs-6 pe-4">${elemento.product.title} - ${elemento.product.code}</h5>
-                        <p class="card-text m-0 fs-6 pe-3">Descripción: ${elemento.product.description}</p>
                         <p class="card-text m-0 fs-6 pe-3">Cantidad: ${elemento.quantity}</p>
                         <p class="fw-bold fst-italic fs-5 m-0">Precio: ${elemento.product.price} USD</p>
 
