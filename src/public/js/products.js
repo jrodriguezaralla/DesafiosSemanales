@@ -2,6 +2,7 @@ let btnAgregarCarrito = document.querySelectorAll('.btnAgregarCarrito'); // Node
 const cartId = '6476a662e14fcee005c06b2c';
 const contenedorCarrito = document.querySelector('#contenedorCarrito'); // contenedor donde se muestran los productos en la venta de carrito
 const btnCarrito = document.querySelector('#btnCarrito'); // al presionar sobre el logo del carrito llamo a la función para mostrar los elementos en el carrito
+const btnLogOut = document.querySelector('#btnLogOut'); // al presionar sobre el logo salir cierro sesion
 const btnVaciarCarrito = document.querySelector('#btnVaciarCarrito'); //boton vaciar carrito
 
 //Evento de boton agregar producto a carrito
@@ -98,5 +99,13 @@ btnVaciarCarrito.addEventListener('click', () => {
 			Swal.fire('Borrado!', 'Su carrito ha sido vaciado.', 'success');
 			contenedorCarrito.innerHTML = ''; //borro prodcutos de la vista
 		}
+	});
+});
+
+//Evento de boton para cerrar sesion
+btnLogOut.addEventListener('click', async () => {
+	await fetch(`/api/users/logout`, {
+		//agrego endpoint
+		method: 'POST',
 	});
 });

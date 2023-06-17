@@ -8,6 +8,7 @@ usersRouter.post('/', async (req, res) => {
 	try {
 		const newUser = await userService.createUser(userData);
 		res.status(201).json(newUser);
+		res.redirect('/login');
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
@@ -26,7 +27,7 @@ usersRouter.post('/auth', async (req, res) => {
 		req.session.user = user;
 
 		//res.status(201).json(user);
-		res.redirect('/');
+		res.redirect('/products');
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
