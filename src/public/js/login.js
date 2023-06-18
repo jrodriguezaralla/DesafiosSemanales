@@ -16,5 +16,21 @@ btnLogin.addEventListener('click', async () => {
 		headers: {
 			'Content-Type': 'application/json',
 		},
-	}).then((response) => window.location.replace(response.url));
+	}).then(async (response) => {
+		if (response.status == 200) {
+			window.location.replace(response.url);
+		} else if (response.status == 400) {
+			window.location.replace('/login');
+			await fetch(`/login`, {
+				//agrego endpoint
+				method: 'GET',
+				body: JSON.stringify({
+					user: 'error',
+				}), // data can be `string` or {object}!
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+		}
+	});
 });

@@ -78,8 +78,15 @@ viewsRouter.get('/carts/:cid', async (req, res) => {
 
 //Endpoint que muestra la pantalla de login
 viewsRouter.get('/login', isGuest, async (req, res) => {
+	const { user } = req.body;
+	console.log(req.body);
+	const alert = false;
+	if (user === 'error') {
+		alert = true;
+	}
 	try {
 		res.render('login', {
+			alert,
 			style: 'index.css', // Envío los estilos css
 		});
 	} catch (error) {

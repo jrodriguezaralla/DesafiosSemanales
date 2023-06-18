@@ -6,6 +6,16 @@
         <div class="col-lg-5 bg-dark d-flex flex-column align-items-end vh-100">
             <div class="align-self-center w-100 px-lg-5 py-lg-4 p-4">
                 <h1 class="font-weight-bold mb-4 text-light fs-3">Bienvenido a EncontraDeTodo!</h1>
+                {{#if alert}}
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:">
+                            <use xlink:href="#exclamation-triangle-fill" />
+                        </svg>
+                        <div>
+                            Usuario y/o contraseña inválidos
+                        </div>
+                    </div>
+                {{/if}}
                 <form class="mb-5" >
                     {{!-- action='/api/users/auth' method='post' --}}
                     <div class="mb-4 text-light">
