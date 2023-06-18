@@ -6,7 +6,8 @@
         <div class="col-lg-5 bg-dark d-flex flex-column align-items-end vh-100">
             <div class="align-self-center w-100 px-lg-5 py-lg-4 p-4">
                 <h1 class="font-weight-bold mb-4 text-light fs-3">Bienvenido a EncontraDeTodo!</h1>
-                <form class="mb-5" action='/api/users/auth' method='post'>
+                <form class="mb-5" >
+                    {{!-- action='/api/users/auth' method='post' --}}
                     <div class="mb-4 text-light">
                         <label for="InputEmail" class="form-label font-weight-bold">Email</label>
                         <input type="email" class="text-light form-control bg-dark-x border-0 inputPlaceholder" id="InputEmail"
@@ -19,7 +20,7 @@
                         <a href="" id="emailHelp" class="form-text text-muted text-decoration-none text-light">¿Has olvidado tu
                             contraseña?</a>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 ">Iniciar sesión</button>
+                    <button type="button" class="btn btn-primary w-100" id="btnLogin">Iniciar sesión</button>
                 </form>
 
                 <p class="font-weight-bold text-center text-muted text-light">O inicia sesión con</p>
@@ -82,3 +83,5 @@
         </div>
     </div>
 </section>
+
+<script src="/js/login.js"></script>
