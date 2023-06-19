@@ -60,8 +60,10 @@ Instalar dependencias
   npm install -g nodemon
   npm init -y
   npm install express express-handlebars mongoose socket.io
-  npm i bootstrap-icons
+  npm install  bootstrap-icons
   npm install mongoose-paginate-v2
+  npm install connect-mongo express-session cookie-parser
+
 ```
 
 Inciar servidor
