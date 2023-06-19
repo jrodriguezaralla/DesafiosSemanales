@@ -6,8 +6,10 @@ const usersRouter = Router();
 usersRouter.post('/', async (req, res) => {
 	const userData = req.body;
 	try {
-		await userService.createUser(userData);
-		res.redirect('/login');
+		const respuesta = await userService.createUser(userData);
+		console.log(respuesta);
+		res.json({ status: 'sucess', message: 'user registered' });
+		//res.redirect('/login');
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
