@@ -1,4 +1,6 @@
 import userModel from '../models/user.model.js';
+import bcrypt from 'bcrypt';
+import { hashPassword } from '../../utils/encrypt.util.js';
 
 class UserService {
 	constructor() {
@@ -16,7 +18,8 @@ class UserService {
 
 	//método para registrar un usuario
 	async createUser(userData) {
-		return await this.model.create(userData);
+		const hashUserData = { ...userData, password: hashPassword(userData.password) };
+		return await this.model.create(hashUserData);
 	}
 }
 

@@ -11,7 +11,7 @@ import session from 'express-session';
 import { productsRouter } from './routers/products.router.js';
 import { cartRouter } from './routers/carts.router.js';
 import handlebars from 'express-handlebars';
-import __dirname from './utils.js';
+import __dirname from './dirname.util.js';
 import { viewsRouter } from './routers/views.router.js';
 import { ProductList } from './routers/products.router.js';
 import ProductListDb from './dao/service/Product.service.js';

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import userService from '../dao/service/User.service.js';
+import { comparePassword } from '../utils/encrypt.util.js';
 
 const usersRouter = Router();
 
@@ -26,7 +27,9 @@ usersRouter.post('/auth', async (req, res) => {
 			//Existe el usuario?
 			res.json({ status: 'error', message: 'user doesn´t exist' });
 		}
-		if (user.password !== password) {
+		//console.log(user);
+		//console.log(password);
+		if (!comparePassword(user, password)) {
 			// La contraseña es correcta?
 			res.json({ status: 'error', message: 'incorrect pasword' });
 		}
