@@ -1,6 +1,4 @@
 import userModel from '../models/user.model.js';
-import bcrypt from 'bcrypt';
-import { hashPassword } from '../../utils/encrypt.util.js';
 
 class UserService {
 	constructor() {
@@ -16,10 +14,14 @@ class UserService {
 		return await this.model.findOne({ email: email });
 	}
 
+	//método para encontrar un usuario por id
+	async getById(userId) {
+		return await this.model.findById(userId);
+	}
+
 	//método para registrar un usuario
 	async createUser(userData) {
-		const hashUserData = { ...userData, password: hashPassword(userData.password) };
-		return await this.model.create(hashUserData);
+		return await this.model.create(userData);
 	}
 }
 

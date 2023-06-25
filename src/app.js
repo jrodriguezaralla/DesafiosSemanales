@@ -7,6 +7,7 @@ import path from 'path';
 import { Server } from 'socket.io';
 import mongoose from 'mongoose';
 import session from 'express-session';
+import passport from 'passport';
 
 import { productsRouter } from './routers/products.router.js';
 import { cartRouter } from './routers/carts.router.js';
@@ -18,6 +19,7 @@ import ProductListDb from './dao/service/Product.service.js';
 import MessageListDb from './dao/service/Message.service.js';
 import { messagesRouter } from './routers/message.router.js';
 import usersRouter from './routers/user.router.js';
+import initializePassport from './config/passport.config.js';
 
 //Inicializo Express
 const app = express();
@@ -52,6 +54,9 @@ app.use(
 		saveUninitialized: true,
 	})
 );
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Definición de rutas
 app.use('/api/products', productsRouter);
