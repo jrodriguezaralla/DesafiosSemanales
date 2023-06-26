@@ -26,6 +26,14 @@ usersRouter.get('/failregister', async (req, res) => {
 	res.status(400).send({ error: 'fail register' });
 });
 
+//Endopoint para autenticar con Github
+usersRouter.get('/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => {});
+
+usersRouter.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/auth' }), (req, res) => {
+	req.session.user = req.user;
+	res.redirect('/products');
+});
+
 //Endpoint para autenticar usuario y contraseña
 /*usersRouter.post('/auth', async (req, res) => {
 	const { email, password } = req.body; // recibo usuario y contraseña por body

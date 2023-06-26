@@ -2,9 +2,11 @@ import passport from 'passport';
 import local from 'passport-local';
 import userService from '../dao/service/User.service.js';
 import { hashPassword, comparePassword } from '../utils/encrypt.util.js';
+import GitHubStrategy from 'passport-github2';
 
 const LocalStrategy = local.Strategy;
 const initializePassport = () => {
+	//Estrategia para registrar
 	passport.use(
 		'register',
 		new LocalStrategy({ passReqToCallback: true, usernameField: 'email' }, async (req, username, password, done) => {
@@ -27,6 +29,8 @@ const initializePassport = () => {
 			}
 		})
 	);
+
+	//Estrategia login
 	passport.use(
 		'auth',
 		new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
@@ -44,6 +48,40 @@ const initializePassport = () => {
 			}
 		})
 	);
+
+	//Estrategia login con GitHub
+	passport.use(
+		'github',
+		new GitHubStrategy(
+			{
+				clientID: 'Iv1.c623391f18ee226a',
+				clientSecret: '5519d07036793572abee5b4698dda6b25140edfb',
+				callbackURL: 'http://localhost:8080/api/users/githubcallback',
+			},
+			async (accessToken, refreshToken, profile, done) => {
+				try {
+					console.log(profile);
+					let user = await userService.getByEmail(profile._json.email);
+					if (!user) {
+						let newUser = {
+							first_name: profile._json.name,
+							last_name: '',
+							email: profile._json.email,
+							password: '',
+							img: profile._json.avatar_url,
+						};
+						user = await userService.createUser(newUser);
+						done(null, user);
+					} else {
+						done(null, user);
+					}
+				} catch (error) {
+					done(error, false);
+				}
+			}
+		)
+	);
+
 	passport.serializeUser((user, done) => {
 		done(null, user.id);
 	});
