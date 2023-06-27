@@ -14,7 +14,7 @@ const initializePassport = () => {
 			try {
 				let user = await userService.getByEmail(email);
 				if (user) {
-					return done(null, false);
+					return done(null, false, { status: 'error', message: 'user already exists' });
 				}
 				const newUser = {
 					first_name,
@@ -35,13 +35,14 @@ const initializePassport = () => {
 		'auth',
 		new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
 			try {
-				const user = await userService.getByEmail(username);
+				let user = await userService.getByEmail(username);
 				if (!user) {
-					return done(null, false);
+					return done(null, false, { status: 'error', message: 'user not found' });
 				}
 				if (!comparePassword(user, password)) {
-					return done(null, false);
+					return done(null, false, { status: 'error', message: 'Invalid data' });
 				}
+				console.log(user);
 				return done(null, user);
 			} catch (error) {
 				return done(error);
@@ -60,7 +61,6 @@ const initializePassport = () => {
 			},
 			async (accessToken, refreshToken, profile, done) => {
 				try {
-					console.log(profile);
 					let user = await userService.getByEmail(profile._json.email);
 					if (!user) {
 						let newUser = {

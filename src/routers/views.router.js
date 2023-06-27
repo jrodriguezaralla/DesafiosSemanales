@@ -13,11 +13,6 @@ viewsRouter.get('/products', isAuth, async (req, res) => {
 	let rol = '';
 	const { user } = req.session;
 	delete user.password;
-	if (user.email === 'adminCoder@coder.com') {
-		rol = 'admin';
-	} else {
-		rol = 'usuario';
-	}
 	try {
 		const { limit, page, category, availability, sort } = req.query;
 		let products = await ProductListDb.getProducts(parseInt(limit), parseInt(page), category, sort, availability); //traigo el listado de productos y los renderizo en home
@@ -70,6 +65,16 @@ viewsRouter.get('/carts/:cid', async (req, res) => {
 			products,
 			cartId,
 			style: 'index.css', // Envío los estilos css
+		});
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
+viewsRouter.get('/registerok', async (req, res) => {
+	try {
+		res.render('registerok', {
+			title: 'Registro correcto',
 		});
 	} catch (error) {
 		res.status(400).send(error);
