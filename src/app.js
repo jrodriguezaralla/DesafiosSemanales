@@ -42,7 +42,7 @@ app.use(express.json()); //Middleware que facilita la conversión en formato jso
 app.use(express.urlencoded({ extended: true })); //Middleware para que express pueda reconover los objetos de las request como strings o arrays
 
 //Session
-/*app.use(
+app.use(
 	session({
 		store: MongoStore.create({
 			mongoUrl: 'mongodb+srv://jrodriguezaralla:1234@freecluster.mxzp3zq.mongodb.net/?retryWrites=true&w=majority',
@@ -53,11 +53,11 @@ app.use(express.urlencoded({ extended: true })); //Middleware para que express p
 		resave: true,
 		saveUninitialized: true,
 	})
-);*/
+);
 app.use(cookieParser('B2zdY3B$pHmxW%'));
 initializePassport();
 app.use(passport.initialize());
-//app.use(passport.session());
+app.use(passport.session());
 
 //Definición de rutas
 app.use('/api/products', productsRouter);

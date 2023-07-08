@@ -30,21 +30,31 @@ usersRouter.get('/githubcallback', passport.authenticate('github', { failureRedi
 usersRouter.post('/auth', async (req, res) => {
 	const { username, password } = req.body;
 
-	let user = await userService.getByEmail(username);
+	try {
+		let user = await userService.getByEmail(username);
+		//console.log(user);
+		// Chequeo de datos
+		if (!user) {
+			//Existe el usuario?
+			return res.json({ status: 'error', message: 'user doesn´t exist' });
+		}
+		//console.log('hola');
+		if (!comparePassword(user, password)) {
+			// La contraseña es correcta?
+			return res.json({ status: 'error', message: 'incorrect pasword' });
+		}
 
-	if (!user) {
-		res.status(401).send({ message: 'User not found' });
+		const token = generateToken(user);
+		return res
+			.cookie('token', token, {
+				httpOnly: true,
+				maxAge: 60000,
+			})
+			.json({ status: 'success', message: 'user login authorized' });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ status: 'error', message: 'Internal server error' });
 	}
-
-	if (!comparePassword(user, password)) {
-		res.status(401).send({ message: 'User or Password not valid' });
-	}
-
-	const token = generateToken(user);
-	res.cookie('token', token, {
-		httpOnly: true,
-		maxAge: 60000,
-	}).send();
 	//res.json({ status: 'success', message: 'user login authorized' });
 });
 
@@ -56,8 +66,7 @@ usersRouter.get('/faillogin', async (req, res) => {
 
 //Endpoitn para destruir sesion
 usersRouter.post('/logout', (req, res) => {
-	req.session.destroy();
-	res.redirect('/login');
+	return res.clearCookie('token').redirect('/login');
 });
 
 export default usersRouter;

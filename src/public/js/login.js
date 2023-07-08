@@ -9,10 +9,17 @@ function login() {
 		},
 		body: JSON.stringify(user),
 	})
-		.then((response) => {
-			window.location.replace('/products');
-		})
-		.catch((error) => {
-			//console.error('Error:', error);
+		.then((response) => response.json())
+		.then((data) => {
+			if (data.status === 'success') {
+				window.location.replace('/products');
+			}
+			if (data.status === 'error') {
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: 'usuario y/o contraseña incorrectos',
+				});
+			}
 		});
 }

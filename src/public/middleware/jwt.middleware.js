@@ -13,9 +13,11 @@ const middlewarePassportJWT = async (req, res, next) => {
 		}
 
 		if (!usr) {
-			res.status(401).send({
+			res.status(401).json({ status: 'error', message: 'user/password incorrect' });
+
+			/*send({
 				message: info.messages ? info.messages : info.toString(),
-			});
+			});*/
 		}
 
 		req.user = usr;
