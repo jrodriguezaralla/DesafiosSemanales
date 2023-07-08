@@ -7,19 +7,15 @@ const generateToken = (user) => {
 };
 
 const middlewarePassportJWT = async (req, res, next) => {
-	passport.authenticate('jwt', { session: false }, (err, usr, info) => {
+	passport.authenticate('current', { session: false }, (err, usr, info) => {
 		if (err) {
-			next(err);
+			return next(err);
 		}
 
 		if (!usr) {
-			res.status(401).json({ status: 'error', message: 'user/password incorrect' });
-
-			/*send({
-				message: info.messages ? info.messages : info.toString(),
-			});*/
+			return res.status(401).json({ status: 'error', message: 'user/password incorrect' });
 		}
-
+		delete usr.user.password;
 		req.user = usr;
 		next();
 	})(req, res, next);

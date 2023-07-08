@@ -18,14 +18,6 @@ usersRouter.get('/failregister', async (req, res) => {
 	});
 });
 
-//Endopoint para autenticar con Github
-usersRouter.get('/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => {});
-
-usersRouter.get('/githubcallback', passport.authenticate('github', { failureRedirect: 'faillogin' }), (req, res) => {
-	req.session.user = req.user;
-	res.redirect('/products');
-});
-
 //Endpoint para autenticar usuario y contraseña
 usersRouter.post('/auth', async (req, res) => {
 	const { username, password } = req.body;
@@ -39,7 +31,7 @@ usersRouter.post('/auth', async (req, res) => {
 			return res.json({ status: 'error', message: 'user doesn´t exist' });
 		}
 		//console.log('hola');
-		if (!comparePassword(user, password)) {
+		if (!user.password || !comparePassword(user, password)) {
 			// La contraseña es correcta?
 			return res.json({ status: 'error', message: 'incorrect pasword' });
 		}

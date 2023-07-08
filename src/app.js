@@ -20,6 +20,7 @@ import MessageListDb from './dao/service/Message.service.js';
 import { messagesRouter } from './routers/message.router.js';
 import usersRouter from './routers/user.router.js';
 import initializePassport from './config/passport.config.js';
+import { sessionRouter } from './routers/sessions.router.js';
 
 //Inicializo Express
 const app = express();
@@ -62,6 +63,7 @@ app.use(passport.session());
 //Definición de rutas
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
+app.use('/api/sessions', sessionRouter);
 app.use('/api/users', usersRouter);
 app.use('/', viewsRouter);
 app.use('/messages', messagesRouter);

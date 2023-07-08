@@ -56,7 +56,7 @@ const initializePassport = () => {
 	);
 
 	passport.use(
-		'jwt',
+		'current',
 		new jwtStrategy(
 			{
 				jwtFromRequest: jwtExtract.fromExtractors([cookieExtractor]),
@@ -82,7 +82,7 @@ const initializePassport = () => {
 			{
 				clientID: 'Iv1.c623391f18ee226a',
 				clientSecret: '5519d07036793572abee5b4698dda6b25140edfb',
-				callbackURL: 'http://localhost:8080/api/users/githubcallback',
+				callbackURL: 'http://localhost:8080/api/sessions/githubcallback',
 			},
 			async (accessToken, refreshToken, profile, done) => {
 				try {
