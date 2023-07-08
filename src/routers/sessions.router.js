@@ -9,12 +9,12 @@ sessionRouter.get('/github', passport.authenticate('github', { scope: ['user:ema
 
 sessionRouter.get('/githubcallback', passport.authenticate('github', { failureRedirect: 'faillogin' }), (req, res) => {
 	const token = generateToken(req.user);
-	return res
-		.cookie('token', token, {
-			httpOnly: true,
-			maxAge: 60000,
-		})
-		.redirect('/products');
+	res.cookie('token', token, {
+		httpOnly: true,
+		maxAge: 60000,
+	});
+	// Redireccionar a '/products'
+	return res.redirect('/products');
 });
 
 //Endpoint que muestra todos los productos
