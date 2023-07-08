@@ -1,17 +1,16 @@
 import { Router } from 'express';
-import { ProductList } from './products.router.js';
 import { io } from '../app.js';
 import ProductListDb from '../dao/service/Product.service.js';
 import CartListDb from '../dao/service/Cart.service.js';
 import { isAuth, isGuest } from '../public/middleware/auth.middleware.js';
+import { middlewarePassportJWT } from '../public/middleware/jwt.middleware.js';
 
 //Inicializo Router
 const viewsRouter = Router();
 
 //Endpoint que muestra los produuctos
-viewsRouter.get('/products', isAuth, async (req, res) => {
-	let rol = '';
-	const { user } = req.session;
+viewsRouter.get('/products', middlewarePassportJWT, async (req, res) => {
+	let { user } = req.user;
 	delete user.password;
 	try {
 		const { limit, page, category, availability, sort } = req.query;
@@ -20,7 +19,6 @@ viewsRouter.get('/products', isAuth, async (req, res) => {
 		res.render('home', {
 			products,
 			user,
-			rol,
 			style: 'index.css', // Envío los estilos css
 		});
 	} catch (error) {

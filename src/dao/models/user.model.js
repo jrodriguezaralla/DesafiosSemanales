@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { CartModel } from './cart.model';
+import { CartModel } from './cart.model.js';
 
 const userSchema = new mongoose.Schema({
 	first_name: String,
@@ -12,7 +12,10 @@ const userSchema = new mongoose.Schema({
 	},
 	age: Number,
 	password: String,
-	cartId: [CartModel],
+	cartId: {
+		type: mongoose.ObjectId,
+		ref: 'CartModel',
+	},
 	role: {
 		type: String,
 		default: 'user',

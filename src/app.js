@@ -8,13 +8,13 @@ import { Server } from 'socket.io';
 import mongoose from 'mongoose';
 import session from 'express-session';
 import passport from 'passport';
+import cookieParser from 'cookie-parser';
 
 import { productsRouter } from './routers/products.router.js';
 import { cartRouter } from './routers/carts.router.js';
 import handlebars from 'express-handlebars';
 import __dirname from './dirname.util.js';
 import { viewsRouter } from './routers/views.router.js';
-import { ProductList } from './routers/products.router.js';
 import ProductListDb from './dao/service/Product.service.js';
 import MessageListDb from './dao/service/Message.service.js';
 import { messagesRouter } from './routers/message.router.js';
@@ -42,7 +42,7 @@ app.use(express.json()); //Middleware que facilita la conversión en formato jso
 app.use(express.urlencoded({ extended: true })); //Middleware para que express pueda reconover los objetos de las request como strings o arrays
 
 //Session
-app.use(
+/*app.use(
 	session({
 		store: MongoStore.create({
 			mongoUrl: 'mongodb+srv://jrodriguezaralla:1234@freecluster.mxzp3zq.mongodb.net/?retryWrites=true&w=majority',
@@ -53,10 +53,11 @@ app.use(
 		resave: true,
 		saveUninitialized: true,
 	})
-);
+);*/
+app.use(cookieParser('B2zdY3B$pHmxW%'));
 initializePassport();
 app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.session());
 
 //Definición de rutas
 app.use('/api/products', productsRouter);

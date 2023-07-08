@@ -2,6 +2,7 @@ import { Router } from 'express';
 import userService from '../dao/service/User.service.js';
 import { comparePassword } from '../utils/encrypt.util.js';
 import passport from 'passport';
+import { generateToken } from '../public/middleware/jwt.middleware.js';
 
 const usersRouter = Router();
 
@@ -26,15 +27,24 @@ usersRouter.get('/githubcallback', passport.authenticate('github', { failureRedi
 });
 
 //Endpoint para autenticar usuario y contraseña
-usersRouter.post('/auth', passport.authenticate('auth', { failureRedirect: 'faillogin', failureMessage: true }), async (req, res) => {
-	if (!req.user) {
-		res.status(400).json({ status: 'error', message: 'invalid credentials' });
+usersRouter.post('/auth', async (req, res) => {
+	const { username, password } = req.body;
+
+	let user = await userService.getByEmail(username);
+
+	if (!user) {
+		res.status(401).send({ message: 'User not found' });
 	}
 
-	const user = req.user;
-	delete user.password;
-	req.session.user = user;
-	res.redirect('/products');
+	if (!comparePassword(user, password)) {
+		res.status(401).send({ message: 'User or Password not valid' });
+	}
+
+	const token = generateToken(user);
+	res.cookie('token', token, {
+		httpOnly: true,
+		maxAge: 60000,
+	}).send();
 	//res.json({ status: 'success', message: 'user login authorized' });
 });
 

@@ -1,10 +1,15 @@
 import passport from 'passport';
 import local from 'passport-local';
-import userService from '../dao/service/User.service.js';
-import { hashPassword, comparePassword } from '../utils/encrypt.util.js';
+import { Strategy, ExtractJwt } from 'passport-jwt';
 import GitHubStrategy from 'passport-github2';
 
+import userService from '../dao/service/User.service.js';
+import { hashPassword, comparePassword } from '../utils/encrypt.util.js';
+
+const jwtStrategy = Strategy;
+const jwtExtract = ExtractJwt;
 const LocalStrategy = local.Strategy;
+
 const initializePassport = () => {
 	//Estrategia para registrar
 	passport.use(
@@ -36,18 +41,38 @@ const initializePassport = () => {
 		new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
 			try {
 				let user = await userService.getByEmail(username);
+				console.log(user);
 				if (!user) {
 					return done(null, false, { status: 'error', message: 'user not found' });
 				}
 				if (!comparePassword(user, password)) {
 					return done(null, false, { status: 'error', message: 'Invalid data' });
 				}
-				console.log(user);
 				return done(null, user);
 			} catch (error) {
 				return done(error);
 			}
 		})
+	);
+
+	passport.use(
+		'jwt',
+		new jwtStrategy(
+			{
+				jwtFromRequest: jwtExtract.fromExtractors([cookieExtractor]),
+				secretOrKey: 'privatekey',
+			},
+			(payload, done) => {
+				done(null, payload);
+			}
+		),
+		async (payload, done) => {
+			try {
+				return done(null, payload);
+			} catch (error) {
+				done(error);
+			}
+		}
 	);
 
 	//Estrategia login con GitHub
@@ -89,6 +114,14 @@ const initializePassport = () => {
 		let user = await userService.getById(id);
 		done(null, user);
 	});
+};
+
+const cookieExtractor = (req) => {
+	let token = null;
+	if (req && req.cookies) {
+		token = req.cookies['token'];
+	}
+	return token;
 };
 
 export default initializePassport;
