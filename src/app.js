@@ -21,14 +21,14 @@ import { messagesRouter } from './routers/message.router.js';
 import usersRouter from './routers/user.router.js';
 import initializePassport from './config/passport.config.js';
 import { sessionRouter } from './routers/sessions.router.js';
-import config from './config/config.js';
+import environment from './config/environment.js';
 
 //Inicializo Express
 const app = express();
 
 //Monto el servidor en el puerto 8080
-const webServer = app.listen(config.port, () => {
-	console.log(`Servidor montado en puerto ${config.port}`);
+const webServer = app.listen(environment.port, () => {
+	console.log(`Servidor montado en puerto ${environment.port}`);
 });
 
 //Handlebars
@@ -47,7 +47,7 @@ app.use(express.urlencoded({ extended: true })); //Middleware para que express p
 app.use(
 	session({
 		store: MongoStore.create({
-			mongoUrl: config.mongoUrl,
+			mongoUrl: environment.mongoUrl,
 			mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
 			ttl: 6000,
 		}),
@@ -100,6 +100,6 @@ io.on('connection', async (socket) => {
 });
 
 //Me conecto a la base de datos
-mongoose.connect(config.mongoUrl);
+mongoose.connect(environment.mongoUrl);
 
 export { io };
