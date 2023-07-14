@@ -14,7 +14,7 @@ viewsRouter.get('/products', middlewarePassportJWT, async (req, res) => {
 	delete user.password;
 	try {
 		const { limit, page, category, availability, sort } = req.query;
-		let products = productController.getProducts(parseInt(limit), parseInt(page), category, sort, availability); //traigo el listado de productos y los renderizo en home
+		let products = await productController.getProducts(parseInt(limit), parseInt(page), category, sort, availability); //traigo el listado de productos y los renderizo en home
 		//let showProducts = products.payload;
 		res.render('home', {
 			products,
@@ -28,7 +28,7 @@ viewsRouter.get('/products', middlewarePassportJWT, async (req, res) => {
 
 //Endpoint que muestra los productos en tiempo real
 viewsRouter.get('/realtimeproducts', async (req, res) => {
-	io.emit('real_time_products', productController.getProducts());
+	io.emit('real_time_products', await productController.getProducts());
 	try {
 		res.render('realTimeProducts', {
 			//renderizo los productos en tiempo real
@@ -58,7 +58,7 @@ viewsRouter.get('/chat', async (req, res) => {
 viewsRouter.get('/carts/:cid', async (req, res) => {
 	try {
 		const cartId = req.params.cid;
-		let products = cartController.getCartById(cartId);
+		let products = await cartController.getCartById(cartId);
 		res.render('cart', {
 			products,
 			cartId,
