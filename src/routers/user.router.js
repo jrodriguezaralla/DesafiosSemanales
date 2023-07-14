@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import userService from '../dao/service/User.service.js';
 import { comparePassword } from '../utils/encrypt.util.js';
 import passport from 'passport';
 import { generateToken } from '../public/middleware/jwt.middleware.js';
+import userController from '../controllers/user.controller.js';
 
 const usersRouter = Router();
 
@@ -21,9 +21,8 @@ usersRouter.get('/failregister', async (req, res) => {
 //Endpoint para autenticar usuario y contraseña
 usersRouter.post('/auth', async (req, res) => {
 	const { username, password } = req.body;
-
 	try {
-		let user = await userService.getByEmail(username);
+		let user = await userController.getByEmail(username);
 		//console.log(user);
 		// Chequeo de datos
 		if (!user) {

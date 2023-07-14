@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import ProductManager from '../dao/service/ProductManager.js';
+import ProductManager from '../dao/fileSystem/ProductManager.js';
 import { io } from '../app.js';
-import ProductListDb from '../dao/service/Product.service.js';
+import productController from '../controllers/product.controller.js';
 
 //Inicializo Router
 const productsRouter = Router();
@@ -25,7 +25,7 @@ productsRouter.get('/', async (req, res) => {
 
 	const { limit, page, category, availability, sort } = req.query;
 	try {
-		let showProducts = await ProductListDb.getProducts(limit, page, category, sort, availability); //Traigo el listado de productos
+		let showProducts = productController.getProducts(limit, page, category, sort, availability); //Traigo el listado de productos
 		res.send(showProducts); //envio la respuesta
 	} catch (error) {
 		res.status(400).send(error);
@@ -43,7 +43,7 @@ productsRouter.get('/:pid', async (req, res) => {
 	}*/
 	try {
 		//Recibo un params y muestro el producto con ese ID, como el ID es un string lo paso a entero
-		let product = await ProductListDb.getProductsById(req.params.pid);
+		let product = await productController.getProductsById(req.params.pid);
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);
@@ -60,7 +60,7 @@ productsRouter.post('/', async (req, res) => {
 		res.status(400).send(error);
 	}*/
 	try {
-		let newProduct = await ProductListDb.addProducts(req.body); //recibo por body el producto a agregar
+		let newProduct = await productController.addProducts(req.body); //recibo por body el producto a agregar
 		//io.emit('real_time_products', await ProductListDb.getProducts()); //propago el evento a todos los clientes
 		res.send(newProduct); //respondo con el producto agregado
 	} catch (error) {
@@ -80,8 +80,8 @@ productsRouter.put('/:pid', async (req, res) => {
 	}*/
 
 	try {
-		let product = await ProductListDb.updateProduct(req.params.pid, req.body); //recibo por body los datos modificados
-		io.emit('real_time_products', await ProductListDb.getProducts()); //propago el evento a todos los clientes
+		let product = productController.updateProduct(req.params.pid, req.body); //recibo por body los datos modificados
+		io.emit('real_time_products', productController.getProducts()); //propago el evento a todos los clientes
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);
@@ -98,8 +98,8 @@ productsRouter.delete('/:pid', async (req, res) => {
 		res.status(400).send(error);
 	}*/
 	try {
-		let product = await ProductListDb.deleteProduct(req.params.pid);
-		io.emit('real_time_products', await ProductListDb.getProducts()); //propago el evento a todos los clientes
+		let product = productController.deleteProduct(req.params.pid);
+		io.emit('real_time_products', productController.getProducts()); //propago el evento a todos los clientes
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);

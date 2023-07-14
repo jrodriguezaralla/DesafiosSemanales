@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { io } from '../app.js';
-import ProductListDb from '../dao/service/Product.service.js';
-import CartListDb from '../dao/service/Cart.service.js';
 import { isAuth, isGuest } from '../public/middleware/auth.middleware.js';
 import { middlewarePassportJWT } from '../public/middleware/jwt.middleware.js';
+import productController from '../controllers/product.controller.js';
+import cartController from '../controllers/cart.controller.js';
 
 //Inicializo Router
 const viewsRouter = Router();
@@ -14,7 +14,7 @@ viewsRouter.get('/products', middlewarePassportJWT, async (req, res) => {
 	delete user.password;
 	try {
 		const { limit, page, category, availability, sort } = req.query;
-		let products = await ProductListDb.getProducts(parseInt(limit), parseInt(page), category, sort, availability); //traigo el listado de productos y los renderizo en home
+		let products = productController.getProducts(parseInt(limit), parseInt(page), category, sort, availability); //traigo el listado de productos y los renderizo en home
 		//let showProducts = products.payload;
 		res.render('home', {
 			products,
@@ -28,7 +28,7 @@ viewsRouter.get('/products', middlewarePassportJWT, async (req, res) => {
 
 //Endpoint que muestra los productos en tiempo real
 viewsRouter.get('/realtimeproducts', async (req, res) => {
-	io.emit('real_time_products', await ProductListDb.getProducts());
+	io.emit('real_time_products', productController.getProducts());
 	try {
 		res.render('realTimeProducts', {
 			//renderizo los productos en tiempo real
@@ -58,7 +58,7 @@ viewsRouter.get('/chat', async (req, res) => {
 viewsRouter.get('/carts/:cid', async (req, res) => {
 	try {
 		const cartId = req.params.cid;
-		let products = await CartListDb.getCartById(cartId);
+		let products = cartController.getCartById(cartId);
 		res.render('cart', {
 			products,
 			cartId,

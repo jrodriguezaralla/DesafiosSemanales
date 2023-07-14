@@ -3,8 +3,8 @@ import local from 'passport-local';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import GitHubStrategy from 'passport-github2';
 
-import userService from '../dao/service/User.service.js';
 import { hashPassword, comparePassword } from '../utils/encrypt.util.js';
+import userController from '../controllers/user.controller.js';
 
 const jwtStrategy = Strategy;
 const jwtExtract = ExtractJwt;
@@ -17,7 +17,7 @@ const initializePassport = () => {
 		new LocalStrategy({ passReqToCallback: true, usernameField: 'email' }, async (req, username, password, done) => {
 			const { first_name, last_name, email } = req.body;
 			try {
-				let user = await userService.getByEmail(email);
+				let user = await userController.getByEmail(email);
 				if (user) {
 					return done(null, false, { status: 'error', message: 'user already exists' });
 				}
@@ -27,7 +27,7 @@ const initializePassport = () => {
 					email,
 					password: hashPassword(password),
 				};
-				let result = await userService.createUser(newUser);
+				let result = await userController.createUser(newUser);
 				return done(null, result);
 			} catch (error) {
 				return done('Error al obtener el usuario' + error);
@@ -40,7 +40,7 @@ const initializePassport = () => {
 		'auth',
 		new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
 			try {
-				let user = await userService.getByEmail(username);
+				let user = await userController.getByEmail(username);
 				console.log(user);
 				if (!user) {
 					return done(null, false, { status: 'error', message: 'user not found' });
@@ -86,7 +86,7 @@ const initializePassport = () => {
 			},
 			async (accessToken, refreshToken, profile, done) => {
 				try {
-					let user = await userService.getByEmail(profile._json.email);
+					let user = await userController.getByEmail(profile._json.email);
 					if (!user) {
 						let newUser = {
 							first_name: profile._json.name,
@@ -95,7 +95,7 @@ const initializePassport = () => {
 							password: '',
 							img: profile._json.avatar_url,
 						};
-						user = await userService.createUser(newUser);
+						user = await userController.createUser(newUser);
 						done(null, user);
 					} else {
 						done(null, user);
@@ -111,7 +111,7 @@ const initializePassport = () => {
 		done(null, user.id);
 	});
 	passport.deserializeUser(async (id, done) => {
-		let user = await userService.getById(id);
+		let user = await userController.getById(id);
 		done(null, user);
 	});
 };

@@ -1,14 +1,15 @@
 //Servicio de Mensajes
-import { MessageModel } from '../models/message.model.js';
+import MessageService from '../service/message.service.js';
+import messageDAO from '../dao/mongoDB/message.dao.js';
 
-class MessageService {
+class MessageController {
 	constructor() {
-		this.model = MessageModel;
+		this.service = new MessageService(messageDAO);
 	}
 
 	//Método para traer todos los mensajes de la base de datos
 	async getMessages() {
-		return await this.model.find().lean();
+		return await this.service.getMessages();
 	}
 
 	//Método para agregar mensajes a la base de datos
@@ -17,10 +18,10 @@ class MessageService {
 			return { error: 'Error: fields missing' }; //Si falta algun campo, arrojo error
 		}
 
-		await this.model.create(messageToAdd);
+		await this.service.addMessage(messageToAdd);
 		return { status: 'sucess', message: `message added to DB` };
 	}
 }
 
-const MessageListDb = new MessageService();
-export default MessageListDb;
+const messageController = new MessageController();
+export default messageController;

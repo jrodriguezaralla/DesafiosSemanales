@@ -15,13 +15,14 @@ import { cartRouter } from './routers/carts.router.js';
 import handlebars from 'express-handlebars';
 import __dirname from './dirname.util.js';
 import { viewsRouter } from './routers/views.router.js';
-import ProductListDb from './dao/service/Product.service.js';
-import MessageListDb from './dao/service/Message.service.js';
 import { messagesRouter } from './routers/message.router.js';
 import usersRouter from './routers/user.router.js';
 import initializePassport from './config/passport.config.js';
 import { sessionRouter } from './routers/sessions.router.js';
 import environment from './config/environment.js';
+
+import productController from './controllers/product.controller.js';
+import messageController from './controllers/message.controller.js';
 
 //Inicializo Express
 const app = express();
@@ -83,7 +84,7 @@ const newMessage = {
 // Inicio la conección y envio el listado de productos para rederizarlos en pantalla
 io.on('connection', async (socket) => {
 	//cuando se conecta un cliente le envío el listado de productos
-	socket.emit('real_time_products', await ProductListDb.getProducts());
+	socket.emit('real_time_products', productController.getProducts());
 	// Envio los mensajes al cliente que se conectó
 	socket.emit('messages', messages);
 
@@ -91,7 +92,7 @@ io.on('connection', async (socket) => {
 	socket.on('message', async (message) => {
 		newMessage.user = message.user; //recibo el mensaje enviado por el cliente y su usuario
 		newMessage.message = message.msj;
-		await MessageListDb.addMessage(newMessage); //Lo guardo en la base de datos
+		messageController.addMessage(newMessage); //Lo guardo en la base de datos
 		// Agrego el mensaje al array de mensajes
 		messages.push(message);
 		// Propago el evento a todos los clientes conectados
