@@ -25,7 +25,7 @@ productsRouter.get('/', async (req, res) => {
 
 	const { limit, page, category, availability, sort } = req.query;
 	try {
-		let showProducts = productController.getProducts(limit, page, category, sort, availability); //Traigo el listado de productos
+		let showProducts = await productController.getProducts(limit, page, category, sort, availability); //Traigo el listado de productos
 		res.send(showProducts); //envio la respuesta
 	} catch (error) {
 		res.status(400).send(error);
@@ -80,8 +80,8 @@ productsRouter.put('/:pid', async (req, res) => {
 	}*/
 
 	try {
-		let product = productController.updateProduct(req.params.pid, req.body); //recibo por body los datos modificados
-		io.emit('real_time_products', productController.getProducts()); //propago el evento a todos los clientes
+		let product = await productController.updateProduct(req.params.pid, req.body); //recibo por body los datos modificados
+		io.emit('real_time_products', await productController.getProducts()); //propago el evento a todos los clientes
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);
@@ -98,8 +98,8 @@ productsRouter.delete('/:pid', async (req, res) => {
 		res.status(400).send(error);
 	}*/
 	try {
-		let product = productController.deleteProduct(req.params.pid);
-		io.emit('real_time_products', productController.getProducts()); //propago el evento a todos los clientes
+		let product = await productController.deleteProduct(req.params.pid);
+		io.emit('real_time_products', await productController.getProducts()); //propago el evento a todos los clientes
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);

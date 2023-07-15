@@ -19,9 +19,9 @@ btnAgregarCarrito.forEach((el) => {
 				const Toast = Swal.mixin({
 					//Alert para avisar que el producto fue agregado
 					toast: true,
-					position: 'top-end',
+					position: 'bottom-end',
 					showConfirmButton: false,
-					timer: 3000,
+					timer: 2000,
 					timerProgressBar: true,
 					didOpen: (toast) => {
 						toast.addEventListener('mouseenter', Swal.stopTimer);
@@ -51,11 +51,20 @@ btnCarrito.addEventListener('click', async () => {
 
 //Función para mostrar en pantalla los productos que van siendo agregados al carrito
 function agregarElmentoCarrito(dato) {
-	contenedorCarrito.innerText = ''; // Borro leyenda "Agregue productos al carrito"
+	if (dato.length > 0) {
+		contenedorCarrito.innerText = ''; // Borro leyenda "Agregue productos al carrito"
+	}
+
+	if (!dato.length) {
+		btnVaciarCarrito.disabled = true;
+	} else {
+		btnVaciarCarrito.disabled = false;
+	}
+
 	dato.forEach((elemento) => {
 		//Por cada elemento genero un contenedor
 		let div = document.createElement('div');
-		div.className = 'card mb-2';
+		div.className = 'card mb-2 d-flex align-item-center justify-content-center';
 		div.style = 'height: 150px';
 		div.innerHTML = `
             <div class="row w-100 align-items-center ms-1" >
@@ -96,6 +105,8 @@ btnVaciarCarrito.addEventListener('click', () => {
 			});
 			Swal.fire('Borrado!', 'Su carrito ha sido vaciado.', 'success');
 			contenedorCarrito.innerHTML = ''; //borro prodcutos de la vista
+			contenedorCarrito.innerText = 'Agregue productos al carrito';
+			btnVaciarCarrito.disabled = true;
 		}
 	});
 });

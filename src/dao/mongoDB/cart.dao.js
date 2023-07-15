@@ -19,7 +19,7 @@ class CartDAO {
 	}
 
 	//Método agregar un producto al carrito
-	async addProductToCart(cart) {
+	/*async addProductToCart(cart) {
 		cart.save(); //guardo cambios
 	}
 
@@ -28,7 +28,7 @@ class CartDAO {
 		cart.products.splice(index, 1); //Elimino elemento del array
 
 		await cart.save(); //guardo cambios
-	}
+	}*/
 
 	//Método para actualizar todo el array de productos
 	async updateAllProducts(cartId, newArray) {

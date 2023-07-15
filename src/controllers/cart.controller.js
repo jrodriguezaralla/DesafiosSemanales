@@ -29,15 +29,18 @@ class CartController {
 			quantity: 1,
 		};
 		const cart = await this.service.getCartById(cartId); //me quedo con el carrito a modificar
-		const prod = cart.products.find((element) => element.product.toString() === productId); // busco el elemento que coincida con el ID indicado
-		if (prod) {
+		//const prod = cart.products.find((element) => element.product.toString() === productId); // busco el elemento que coincida con el ID indicado
+		const index = cart.products.indexOf(cart.products.find((element) => element.product._id.toString() === productId));
+
+		if (index >= 0) {
 			//Si existe sumo una unidad
-			prod.quantity += 1;
+			cart.products[index].quantity += 1;
 		} else {
 			//Si no axiste el producto lo agrego
 			cart.products.push(newProduct);
 		}
-		await this.service.addProductToCart(cart);
+		//console.log(cart.products);
+		await this.service.updateAllProducts(cartId, cart);
 		return { status: 'sucess', message: `product ID=${productId} added to cart ID=${cartId}` }; // retorno el carrito con el producto agregado
 	}
 
@@ -48,7 +51,8 @@ class CartController {
 		if (index === -1) {
 			return { error: 'Error: Product not found' }; //si no encuentro producto retorno error
 		}
-		await this.service.deleteProduct(cart, index);
+		cart.products.splice(index, 1); //Elimino elemento del array
+		await this.service.updateAllProducts(cartId, cart);
 		return { status: 'sucess', message: `product ID=${productId} deleted from cart ID=${cartId}` }; // retorno el carrito con el producto agregado
 	}
 
@@ -68,7 +72,7 @@ class CartController {
 		} else {
 			return { status: 'error', message: `product ID=${productId} is not valid in cart ID=${cartId}` };
 		}
-		this.service.updateProductQuantity;
+		await this.service.updateProductQuantity;
 		return { status: 'sucess', message: `product ID=${productId} added to cart ID=${cartId}` }; // retorno el carrito con el producto agregado
 	}
 

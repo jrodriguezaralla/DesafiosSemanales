@@ -17,7 +17,7 @@ cartRouter.post('/', async (req, res) => {
 		res.status(400).send(error);
 	}*/
 	try {
-		cartController.addNewCart();
+		await cartController.addNewCart();
 		res.send({ status: 'sucess', message: 'New cart added' });
 	} catch (error) {
 		res.status(400).send(error);
@@ -35,7 +35,7 @@ cartRouter.get('/:cid', async (req, res) => {
 	}*/
 	try {
 		//Recibo un params y muestro el listado de productos de un carrito determinado
-		let products = cartController.getCartById(req.params.cid);
+		let products = await cartController.getCartById(req.params.cid);
 		res.send(products);
 	} catch (error) {
 		res.status(400).send(error);
@@ -53,7 +53,7 @@ cartRouter.post('/:cid/product/:pid', async (req, res) => {
 	}*/
 	try {
 		//Recibo por params el Id de carrito y el ID del producto y lo agrego al carrito indicado
-		let product = cartController.addProductToCart(req.params.cid, req.params.pid);
+		let product = await cartController.addProductToCart(req.params.cid, req.params.pid);
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);
@@ -64,7 +64,7 @@ cartRouter.post('/:cid/product/:pid', async (req, res) => {
 cartRouter.delete('/:cid/product/:pid', async (req, res) => {
 	try {
 		//Recibo por params el Id de carrito y el ID del producto y lo agrego al carrito indicado
-		let product = cartController.deleteProduct(req.params.cid, req.params.pid);
+		let product = await cartController.deleteProduct(req.params.cid, req.params.pid);
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);
@@ -75,7 +75,7 @@ cartRouter.delete('/:cid/product/:pid', async (req, res) => {
 cartRouter.put('/:cid', async (req, res) => {
 	try {
 		//Recibo por params el Id de carrito y el ID del producto y lo agrego al carrito indicado
-		let result = cartController.updateAllProducts(req.params.cid, req.body);
+		let result = await cartController.updateAllProducts(req.params.cid, req.body);
 		res.send(result);
 	} catch (error) {
 		res.status(400).send(error);
@@ -86,7 +86,7 @@ cartRouter.put('/:cid', async (req, res) => {
 cartRouter.put('/:cid/product/:pid', async (req, res) => {
 	try {
 		//Recibo por params el Id de carrito y el ID del producto y lo agrego al carrito indicado
-		let result = cartController.updateProductQuantity(req.params.cid, req.params.pid, req.body);
+		let result = await cartController.updateProductQuantity(req.params.cid, req.params.pid, req.body);
 		res.send(result);
 	} catch (error) {
 		res.status(400).send(error);
@@ -97,7 +97,7 @@ cartRouter.put('/:cid/product/:pid', async (req, res) => {
 cartRouter.delete('/:cid', async (req, res) => {
 	try {
 		//Recibo por params el Id de carrito
-		let product = cartController.deleteAllProducts(req.params.cid);
+		let product = await cartController.deleteAllProducts(req.params.cid);
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);
