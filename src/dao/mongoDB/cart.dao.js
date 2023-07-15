@@ -19,16 +19,14 @@ class CartDAO {
 	}
 
 	//Método agregar un producto al carrito
-	/*async addProductToCart(cart) {
-		cart.save(); //guardo cambios
+	async addProductToCart(cartId, newArray) {
+		await this.model.findOneAndUpdate({ _id: cartId }, { products: newArray.products }); //busco el carrito y modifico el campo
 	}
 
 	//Método para borrar un producto del carrito
-	async deleteProduct(cart, index) {
-		cart.products.splice(index, 1); //Elimino elemento del array
-
-		await cart.save(); //guardo cambios
-	}*/
+	async deleteProduct(cartId, newArray) {
+		await this.model.findOneAndUpdate({ _id: cartId }, { products: newArray.products }); //busco el carrito y modifico el campo
+	}
 
 	//Método para actualizar todo el array de productos
 	async updateAllProducts(cartId, newArray) {

@@ -37,30 +37,7 @@ export default class ProductManager {
 			ProductManager.id = maxId + 1;
 		}
 
-		let newProduct = {
-			id: ProductManager.id,
-			title: productToAdd.title,
-			description: productToAdd.description,
-			code: productToAdd.code,
-			price: productToAdd.price,
-			status: true,
-			stock: productToAdd.stock,
-			category: productToAdd.category,
-			thumbnail: productToAdd.thumbnail,
-		};
-
-		let codes = this.products.map((cod) => cod.code); // me quedo con todos los códigos del array productos
-		//evaluo si el codigo del nuevo producto no existe
-		if (!codes.includes(productToAdd.code)) {
-			this.products.push(newProduct);
-			ProductManager.id += 1; //incremento contador ID
-
-			//Si no existe, Escribo el file utilizando promesas y esperando a que se cumpla la misma
-			await fs.promises.writeFile(`${this.path}`, JSON.stringify(this.products));
-			return { status: 'sucess', message: `product ${newProduct.code} created` };
-		} else {
-			return { error: 'Error: product already exist' }; //Si el producto ya existe arrojo error
-		}
+		await fs.promises.writeFile(`${this.path}`, JSON.stringify(this.products));
 	}
 
 	//Método para adquirir el listado de productos desde el archivo.
@@ -73,13 +50,7 @@ export default class ProductManager {
 	async getProductsById(idBuscado) {
 		const productList = await this.getProducts();
 		const result = productList.find((element) => element.id === idBuscado); // busco el elemento que coincida con el ID indicado
-
-		if (result) {
-			// Si tengo un resultado lo retorno, sino devuelvo error
-			return result;
-		} else {
-			return { error: 'Error: Product not found' };
-		}
+		return result;
 	}
 
 	//Método para actualizar producto
@@ -108,13 +79,7 @@ export default class ProductManager {
 	async deleteProduct(idBuscado) {
 		const productList = await this.getProducts(); //obtengo lista de productos
 		const index = productList.indexOf(productList.find((elemento) => elemento.id === idBuscado)); //obtengo el índice del elemento a borrar
-		if (index === -1) {
-			return { error: 'Error: Product not found' }; //si no encuentro producto retorno error
-		}
-
-		const code = productList[index].code;
 		productList.splice(index, 1); // elimino el elemento seleccionado
 		await fs.promises.writeFile(`${this.path}`, JSON.stringify(productList)); //reescribo archivo
-		return { status: 'sucess', message: `product ${code} deleted` }; //retorno sucess con el producto eliminado
 	}
 }

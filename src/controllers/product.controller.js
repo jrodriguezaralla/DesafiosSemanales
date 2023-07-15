@@ -70,10 +70,10 @@ class ProductController {
 		}
 		let products = await this.model.find().lean();
 
-		let codes = this.service.getAllProducts(); // me quedo con todos los códigos del array productos
+		let codes = await this.service.getAllProducts(); // me quedo con todos los códigos del array productos
 		//evaluo si el codigo del nuevo producto no existe
 		if (!codes.includes(productToAdd.code)) {
-			this.service.addProducts(productToAdd);
+			await this.service.addProducts(productToAdd);
 			return { status: 'sucess', message: `product ${productToAdd.code} created` };
 		} else {
 			return { error: 'Error: product already exist' }; //Si el producto ya existe arrojo error

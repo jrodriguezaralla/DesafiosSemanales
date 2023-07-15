@@ -40,7 +40,7 @@ class CartController {
 			cart.products.push(newProduct);
 		}
 		//console.log(cart.products);
-		await this.service.updateAllProducts(cartId, cart);
+		await this.service.addProductToCart(cartId, cart);
 		return { status: 'sucess', message: `product ID=${productId} added to cart ID=${cartId}` }; // retorno el carrito con el producto agregado
 	}
 
@@ -52,7 +52,7 @@ class CartController {
 			return { error: 'Error: Product not found' }; //si no encuentro producto retorno error
 		}
 		cart.products.splice(index, 1); //Elimino elemento del array
-		await this.service.updateAllProducts(cartId, cart);
+		await this.service.deleteAllProducts(cartId, cart);
 		return { status: 'sucess', message: `product ID=${productId} deleted from cart ID=${cartId}` }; // retorno el carrito con el producto agregado
 	}
 
