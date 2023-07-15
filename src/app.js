@@ -84,7 +84,7 @@ const newMessage = {
 // Inicio la conección y envio el listado de productos para rederizarlos en pantalla
 io.on('connection', async (socket) => {
 	//cuando se conecta un cliente le envío el listado de productos
-	socket.emit('real_time_products', productController.getProducts());
+	socket.emit('real_time_products', await productController.getProducts());
 	// Envio los mensajes al cliente que se conectó
 	socket.emit('messages', messages);
 
@@ -92,7 +92,7 @@ io.on('connection', async (socket) => {
 	socket.on('message', async (message) => {
 		newMessage.user = message.user; //recibo el mensaje enviado por el cliente y su usuario
 		newMessage.message = message.msj;
-		messageController.addMessage(newMessage); //Lo guardo en la base de datos
+		await messageController.addMessage(newMessage); //Lo guardo en la base de datos
 		// Agrego el mensaje al array de mensajes
 		messages.push(message);
 		// Propago el evento a todos los clientes conectados
