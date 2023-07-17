@@ -3,6 +3,7 @@ import { comparePassword } from '../utils/encrypt.util.js';
 import passport from 'passport';
 import { generateToken } from '../public/middleware/jwt.middleware.js';
 import userController from '../controllers/user.controller.js';
+import environment from '../config/environment.js';
 
 const usersRouter = Router();
 
@@ -25,14 +26,25 @@ usersRouter.post('/auth', async (req, res) => {
 		let user = await userController.getByEmail(username);
 		//console.log(user);
 		// Chequeo de datos
+		if (username === environment.adminName && password === environment.adminPassword) {
+			user = {
+				first_name: 'Coder',
+				last_name: 'House',
+				role: 'admin',
+				email: username,
+			};
+		}
+
 		if (!user) {
 			//Existe el usuario?
 			return res.json({ status: 'error', message: 'user doesn´t exist' });
 		}
-		//console.log('hola');
-		if (!user.password || !comparePassword(user, password)) {
-			// La contraseña es correcta?
-			return res.json({ status: 'error', message: 'incorrect pasword' });
+
+		if (username != environment.adminName) {
+			if (!user.password || !comparePassword(user, password)) {
+				// La contraseña es correcta?
+				return res.json({ status: 'error', message: 'incorrect pasword' });
+			}
 		}
 
 		const token = generateToken(user);
