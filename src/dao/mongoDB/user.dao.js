@@ -1,4 +1,5 @@
 import userModel from '../../models/user.model.js';
+import cartDAO from './cart.dao.js';
 
 class UserDAO {
 	constructor() {
@@ -21,6 +22,8 @@ class UserDAO {
 
 	//método para registrar un usuario
 	async createUser(userData) {
+		let newCartId = await cartDAO.addNewCart();
+		userData.cartId = newCartId;
 		return await this.model.create(userData);
 	}
 }

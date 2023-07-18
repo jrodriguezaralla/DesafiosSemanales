@@ -51,7 +51,7 @@ usersRouter.post('/auth', async (req, res) => {
 		return res
 			.cookie('token', token, {
 				httpOnly: true,
-				maxAge: 60000,
+				maxAge: 6000000,
 			})
 			.json({ status: 'success', message: 'user login authorized' });
 	} catch (error) {

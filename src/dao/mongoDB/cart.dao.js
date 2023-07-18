@@ -10,7 +10,7 @@ class CartDAO {
 		let newCart = {
 			products: [],
 		};
-		this.model.create(newCart); //agrego el nuevo carrito al archivo
+		return (await this.model.create(newCart))._id; //agrego el nuevo carrito al archivo
 	}
 
 	//Método para adquirir un carrito especifico por ID

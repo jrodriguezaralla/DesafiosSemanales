@@ -8,7 +8,7 @@ class CartController {
 
 	//Método para agregar un nuevo carrito
 	async addNewCart() {
-		await this.service.addNewCart(); //agrego el nuevo carrito al archivo
+		await this.service.addNewCart(); //agrego el nuevo carrito
 	}
 
 	//Método para adquirir un carrito especifico por ID

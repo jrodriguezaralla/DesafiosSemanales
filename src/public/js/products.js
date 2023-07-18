@@ -1,5 +1,4 @@
 let btnAgregarCarrito = document.querySelectorAll('.btnAgregarCarrito'); // NodeList = [button#1, button#2 .... , button#n]
-const cartId = '6476a662e14fcee005c06b2c';
 const contenedorCarrito = document.querySelector('#contenedorCarrito'); // contenedor donde se muestran los productos en la venta de carrito
 const btnCarrito = document.querySelector('#btnCarrito'); // al presionar sobre el logo del carrito llamo a la función para mostrar los elementos en el carrito
 const btnVaciarCarrito = document.querySelector('#btnVaciarCarrito'); //boton vaciar carrito
@@ -7,6 +6,13 @@ const btnVaciarCarrito = document.querySelector('#btnVaciarCarrito'); //boton va
 //Evento de boton agregar producto a carrito
 btnAgregarCarrito.forEach((el) => {
 	el.addEventListener('click', async (e) => {
+		let cartId;
+		await fetch('/api/sessions/current')
+			.then((res) => res.json())
+			.then((data) => {
+				cartId = data.user.cartId;
+			});
+
 		//traigo todos los botones
 		await fetch(`/api/carts/${cartId}/product/${e.target.id}`, {
 			//agrego endpoint
@@ -42,6 +48,12 @@ btnAgregarCarrito.forEach((el) => {
 
 //Evento de boton para mostrar carrito
 btnCarrito.addEventListener('click', async () => {
+	let cartId;
+	await fetch('/api/sessions/current')
+		.then((res) => res.json())
+		.then((data) => {
+			cartId = data.user.cartId;
+		});
 	await fetch(`/api/carts/${cartId}`) //traigo el listado de productos de la BD
 		.then((res) => res.json())
 		.then((data) => {
@@ -86,7 +98,13 @@ function agregarElmentoCarrito(dato) {
 }
 
 //Evento de boton para eliminar todos los productos del carrito
-btnVaciarCarrito.addEventListener('click', () => {
+btnVaciarCarrito.addEventListener('click', async () => {
+	let cartId;
+	await fetch('/api/sessions/current')
+		.then((res) => res.json())
+		.then((data) => {
+			cartId = data.user.cartId;
+		});
 	Swal.fire({
 		title: 'Esta seguro?',
 		text: 'No podra volver atras!',
