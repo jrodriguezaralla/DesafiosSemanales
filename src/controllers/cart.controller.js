@@ -1,5 +1,5 @@
 import CartService from '../service/cart.service.js';
-
+import { DateTime } from 'luxon';
 class CartController {
 	constructor() {
 		this.service = new CartService();
@@ -23,6 +23,9 @@ class CartController {
 
 	//Método agregar un producto al carrito
 	async addProductToCart(cartId, productId) {
+		const now = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS);
+
+		console.log(now);
 		const newProduct = {
 			product: productId,
 			quantity: 1,

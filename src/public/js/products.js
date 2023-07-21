@@ -10,7 +10,7 @@ btnAgregarCarrito.forEach((el) => {
 		await fetch('/api/sessions/current')
 			.then((res) => res.json())
 			.then((data) => {
-				cartId = data.user.cartId;
+				cartId = data.cartId;
 			});
 
 		//traigo todos los botones
@@ -52,7 +52,7 @@ btnCarrito.addEventListener('click', async () => {
 	await fetch('/api/sessions/current')
 		.then((res) => res.json())
 		.then((data) => {
-			cartId = data.user.cartId;
+			cartId = data.cartId;
 		});
 	await fetch(`/api/carts/${cartId}`) //traigo el listado de productos de la BD
 		.then((res) => res.json())
@@ -103,7 +103,7 @@ btnVaciarCarrito.addEventListener('click', async () => {
 	await fetch('/api/sessions/current')
 		.then((res) => res.json())
 		.then((data) => {
-			cartId = data.user.cartId;
+			cartId = data.cartId;
 		});
 	Swal.fire({
 		title: 'Esta seguro?',

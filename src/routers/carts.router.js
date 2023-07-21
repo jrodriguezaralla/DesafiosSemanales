@@ -3,6 +3,7 @@ import { Router } from 'express';
 import cartController from '../controllers/cart.controller.js';
 import { middlewarePassportJWT } from '../public/middleware/jwt.middleware.js';
 import { isUser } from '../public/middleware/isUser.middleware.js';
+import ticketController from '../controllers/ticket.controller.js';
 
 const cartRouter = Router();
 
@@ -97,6 +98,16 @@ cartRouter.delete('/:cid', async (req, res) => {
 		//Recibo por params el Id de carrito
 		let product = await cartController.deleteAllProducts(req.params.cid);
 		res.send(product);
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
+//Endpoint para obtener el ticket de compra
+cartRouter.get('/:cid/purchase', async (req, res) => {
+	try {
+		let result = await ticketController.createTicket(req.params.cid);
+		res.send(result);
 	} catch (error) {
 		res.status(400).send(error);
 	}
