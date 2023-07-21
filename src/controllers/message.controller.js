@@ -1,10 +1,9 @@
 //Servicio de Mensajes
 import MessageService from '../service/message.service.js';
-import messageDAO from '../dao/mongoDB/message.dao.js';
 
 class MessageController {
 	constructor() {
-		this.service = new MessageService(messageDAO);
+		this.service = new MessageService();
 	}
 
 	//Método para traer todos los mensajes de la base de datos

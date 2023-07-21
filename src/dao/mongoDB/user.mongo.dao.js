@@ -1,5 +1,5 @@
 import userModel from '../../models/user.model.js';
-import cartDAO from './cart.dao.js';
+import cartDAO from './cart.mongo.dao.js';
 
 class UserDAO {
 	constructor() {

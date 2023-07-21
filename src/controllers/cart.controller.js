@@ -1,9 +1,8 @@
 import CartService from '../service/cart.service.js';
-import cartDAO from '../dao/mongoDB/cart.dao.js';
 
 class CartController {
 	constructor() {
-		this.service = new CartService(cartDAO);
+		this.service = new CartService();
 	}
 
 	//Método para agregar un nuevo carrito
@@ -29,9 +28,8 @@ class CartController {
 			quantity: 1,
 		};
 		const cart = await this.service.getCartById(cartId); //me quedo con el carrito a modificar
-		//const prod = cart.products.find((element) => element.product.toString() === productId); // busco el elemento que coincida con el ID indicado
-		const index = cart.products.indexOf(cart.products.find((element) => element.product._id.toString() === productId));
-
+		// busco el elemento que coincida con el ID indicado
+		const index = this.service.getIndex(cart, productId);
 		if (index >= 0) {
 			//Si existe sumo una unidad
 			cart.products[index].quantity += 1;

@@ -1,12 +1,10 @@
 //Router de carritos
 import { Router } from 'express';
 import cartController from '../controllers/cart.controller.js';
-import CartManager from '../dao/fileSystem/CartManager.js';
+import { middlewarePassportJWT } from '../public/middleware/jwt.middleware.js';
+import { isUser } from '../public/middleware/isUser.middleware.js';
 
 const cartRouter = Router();
-
-//Instancio una nueva clase de Cart Manager con el archivo ya creado
-const CartList = new CartManager('./carrito.json');
 
 //Endpoint que agrega un nuevo carrito
 cartRouter.post('/', async (req, res) => {
@@ -43,7 +41,7 @@ cartRouter.get('/:cid', async (req, res) => {
 });
 
 //Endpoint que agrega el producto a un carrito determinado
-cartRouter.post('/:cid/product/:pid', async (req, res) => {
+cartRouter.post('/:cid/product/:pid', middlewarePassportJWT, isUser, async (req, res) => {
 	/*try {
 		//Recibo un params y muestro el producto con ese ID, como el ID es un string lo paso a entero
 		let product = await CartList.addProductToCart(parseInt(req.params.cid), parseInt(req.params.pid));
@@ -104,4 +102,4 @@ cartRouter.delete('/:cid', async (req, res) => {
 	}
 });
 
-export { cartRouter, CartList };
+export { cartRouter };

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { generateToken, middlewarePassportJWT } from '../public/middleware/jwt.middleware.js';
 import passport from 'passport';
+import UserDTO from '../dto/user.dto.js';
 
 const sessionRouter = Router();
 
@@ -20,7 +21,8 @@ sessionRouter.get('/githubcallback', passport.authenticate('github', { failureRe
 //Endpoint que muestra todos los productos
 sessionRouter.get('/current', middlewarePassportJWT, async (req, res) => {
 	try {
-		return res.send(req.user);
+		let user = new UserDTO(req.user.user);
+		return res.send(user);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });

@@ -6,9 +6,9 @@ import fs from 'fs';
 export default class ProductManager {
 	static id = 0; // ID que será vistos por todas las instancias
 
-	constructor(myPath) {
+	constructor() {
 		this.products = [];
-		this.path = myPath;
+		this.path = './productos.json';
 		//Si no existe el archivo lo creo de forma sincronica con un array vacío
 		if (!fs.existsSync('./productos.json')) {
 			fs.promises.writeFile(`${this.path}`, JSON.stringify(this.products));
@@ -41,7 +41,7 @@ export default class ProductManager {
 	}
 
 	//Método para adquirir el listado de productos desde el archivo.
-	async getProducts() {
+	async getProducts(limit, page, category, sort, status) {
 		const actualProducts = await fs.promises.readFile(`${this.path}`, 'utf-8');
 		return JSON.parse(actualProducts);
 	}
