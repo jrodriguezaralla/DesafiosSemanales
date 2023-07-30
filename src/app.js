@@ -23,6 +23,7 @@ import environment from './config/environment.js';
 
 import productController from './controllers/product.controller.js';
 import messageController from './controllers/message.controller.js';
+import { mailRouter } from './routers/mail.router.js';
 
 //Inicializo Express
 const app = express();
@@ -69,6 +70,7 @@ app.use('/api/sessions', sessionRouter);
 app.use('/api/users', usersRouter);
 app.use('/', viewsRouter);
 app.use('/messages', messagesRouter);
+app.use('/mail', mailRouter);
 
 const messages = [];
 

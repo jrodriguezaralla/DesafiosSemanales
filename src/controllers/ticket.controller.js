@@ -57,4 +57,4 @@ const ticketController = new TicketController();
 
 export default ticketController;
 
-/* zxnr rhxp lxgs fjaq */
+/* */
