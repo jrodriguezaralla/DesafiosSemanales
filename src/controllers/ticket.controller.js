@@ -38,7 +38,7 @@ class TicketController {
 			purchaser: userEmail,
 		};
 
-		await this.service.createTicket(newTicket); //agrego el nuevo carrito al archivo
+		if (totalAmount) await this.service.createTicket(newTicket); // genero un ticket solo si puedo comprar productos
 
 		return { notStock, newTicket };
 	}

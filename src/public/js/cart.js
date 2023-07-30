@@ -120,13 +120,16 @@ btnFinalizarCompra.addEventListener('click', async () => {
 			})
 				.then((res) => res.json())
 				.then(async (response) => {
-					await fetch(`/email`, {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify(response),
-					});
+					//envio email solo si tengo productos que pude comprar
+					if (response.newTicket.amount) {
+						await fetch(`/email`, {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json',
+							},
+							body: JSON.stringify(response),
+						});
+					}
 					Swal.fire('Compra Realizada!', 'Muchas Gracias, vuelva pronto.', 'success');
 				});
 		}
