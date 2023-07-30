@@ -1,4 +1,5 @@
-import cartDAO from '../dao/mongoDB/cart.mongo.dao.js';
+//import cartDAO from '../dao/mongoDB/cart.mongo.dao.js';
+import { cartDAO } from '../dao/factory.js';
 import CartRepository from '../repositories/cart.repository.js';
 
 export default class CartService {

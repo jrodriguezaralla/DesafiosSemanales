@@ -3,7 +3,7 @@ import { ProductModel } from '../../models/product.model.js';
 const LIMITdEFAULT = 10;
 const PAGEdEFAULT = 1;
 
-class ProductDAO {
+class ProductMongo {
 	constructor() {
 		this.model = ProductModel;
 	}
@@ -40,6 +40,6 @@ class ProductDAO {
 	}
 }
 
-const productDAO = new ProductDAO();
+const productMongo = new ProductMongo();
 
-export default productDAO;
+export default productMongo;

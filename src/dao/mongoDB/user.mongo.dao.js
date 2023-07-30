@@ -1,7 +1,7 @@
 import userModel from '../../models/user.model.js';
 import cartDAO from './cart.mongo.dao.js';
 
-class UserDAO {
+class UserMongo {
 	constructor() {
 		this.model = userModel;
 	}
@@ -28,5 +28,5 @@ class UserDAO {
 	}
 }
 
-const userDAO = new UserDAO();
-export default userDAO;
+const userMongo = new UserMongo();
+export default userMongo;

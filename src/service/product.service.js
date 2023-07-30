@@ -1,4 +1,5 @@
-import productDAO from '../dao/mongoDB/product.mongo.dao.js';
+//import productDAO from '../dao/mongoDB/product.mongo.dao.js';
+import { productDAO } from '../dao/factory.js';
 import ProductRepository from '../repositories/product.repository.js';
 
 //Servicio de productos

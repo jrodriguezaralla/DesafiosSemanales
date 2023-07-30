@@ -1,6 +1,6 @@
 import { CartModel } from '../../models/cart.model.js';
 
-class CartDAO {
+class CartMongo {
 	constructor() {
 		this.model = CartModel;
 	}
@@ -49,6 +49,6 @@ class CartDAO {
 }
 
 //Instancio una nueva clase de Cart Manager con el archivo ya creado
-const cartDAO = new CartDAO();
+const cartMongo = new CartMongo();
 
-export default cartDAO;
+export default cartMongo;

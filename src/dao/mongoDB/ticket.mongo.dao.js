@@ -1,6 +1,6 @@
 import { TicketModel } from '../../models/ticket.model.js';
 
-class TicketDAO {
+class TicketMongo {
 	constructor() {
 		this.model = TicketModel;
 	}
@@ -22,6 +22,6 @@ class TicketDAO {
 }
 
 //Instancio una nueva clase de Cart Manager con el archivo ya creado
-const ticketDAO = new TicketDAO();
+const ticketMongo = new TicketMongo();
 
-export default ticketDAO;
+export default ticketMongo;

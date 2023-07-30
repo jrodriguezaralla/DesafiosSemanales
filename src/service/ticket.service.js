@@ -1,4 +1,5 @@
-import ticketDAO from '../dao/mongoDB/ticket.mongo.dao.js';
+//import ticketDAO from '../dao/mongoDB/ticket.mongo.dao.js';
+import { ticketDAO } from '../dao/factory.js';
 import TicketRepository from '../repositories/ticket.repository.js';
 
 //Servicio de productos

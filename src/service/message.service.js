@@ -1,4 +1,5 @@
-import messageDAO from '../dao/mongoDB/message.mongo.dao.js';
+//import messageDAO from '../dao/mongoDB/message.mongo.dao.js';
+import { messageDAO } from '../dao/factory.js';
 import MessageRepository from '../repositories/message.repository.js';
 
 //Servicio de Mensajes

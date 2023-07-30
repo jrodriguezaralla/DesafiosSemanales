@@ -5,7 +5,7 @@ import express from 'express';
 import MongoStore from 'connect-mongo';
 import path from 'path';
 import { Server } from 'socket.io';
-import mongoose from 'mongoose';
+//import mongoose from 'mongoose';
 import session from 'express-session';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
@@ -103,7 +103,7 @@ io.on('connection', async (socket) => {
 });
 
 //Me conecto a la base de datos
-mongoose.connect(environment.mongoUrl);
+//mongoose.connect(environment.mongoUrl);
 
 export { io };
 /*
