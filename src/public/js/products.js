@@ -1,16 +1,18 @@
-let btnAgregarCarrito = document.querySelectorAll('.btnAgregarCarrito'); // NodeList = [button#1, button#2 .... , button#n]
+let btnAgregarCarrito = document.querySelectorAll('.btnAgregarCarrito'); // NodeList = [button#1, button#2 .... , button#n] array con todos los botones
 
 //Evento de boton agregar producto a carrito
 btnAgregarCarrito.forEach((el) => {
+	//por cada boton agrego elevento
 	el.addEventListener('click', async (e) => {
 		let cartId;
+		//fetch para obtener datos de la sesion actual
 		await fetch('/api/sessions/current')
 			.then((res) => res.json())
 			.then((data) => {
 				cartId = data.cartId;
 			});
 
-		//traigo todos los botones
+		//fetch para agregar los productos al carrito
 		await fetch(`/api/carts/${cartId}/product/${e.target.id}`, {
 			//agrego endpoint
 			method: 'POST',

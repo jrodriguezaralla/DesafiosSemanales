@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { io } from '../app.js';
-import productController from '../controllers/product.controller.js';
 import { middlewarePassportJWT } from '../public/middleware/jwt.middleware.js';
 import { isAdmin } from '../public/middleware/isAdmin.middleware.js';
 
+import productController from '../controllers/product.controller.js';
 //Inicializo Router
 const productsRouter = Router();
 
@@ -79,7 +79,7 @@ productsRouter.put('/:pid', middlewarePassportJWT, isAdmin, async (req, res) => 
 
 	try {
 		let product = await productController.updateProduct(req.params.pid, req.body); //recibo por body los datos modificados
-		io.emit('real_time_products', await productController.getProducts()); //propago el evento a todos los clientes
+		io.emit('real_time_products', await productController.getProducts());
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);
@@ -97,7 +97,7 @@ productsRouter.delete('/:pid', middlewarePassportJWT, isAdmin, async (req, res) 
 	}*/
 	try {
 		let product = await productController.deleteProduct(req.params.pid);
-		io.emit('real_time_products', await productController.getProducts()); //propago el evento a todos los clientes
+		io.emit('real_time_products', await productController.getProducts());
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);

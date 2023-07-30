@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
 	age: Number,
 	password: String,
 	cartId: {
-		type: mongoose.Schema.Types.ObjectId,
+		type: mongoose.Schema.Types.ObjectId, //id de carrito asignado
 		ref: 'carts',
 	},
 	role: {

@@ -130,6 +130,33 @@
         {{/each}}
     </div>
 
+    {{!-- Paginación --}}
+    <div class="p-2">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center pagination-sm">
+                {{#if products.hasPrevPage}}
+                <li class="page-item">
+                    {{else}}
+                <li class="page-item disabled">
+                    {{/if}}
+                    <a class="page-link" href="{{products.prevLink}}" aria-label="Previous"><span
+                            aria-hidden="true">&laquo;</span></a>
+                </li>
+    
+                <li class="page-item dark" aria-current="page"><a class="page-link" href="#">{{products.page}}</a></li>
+    
+                {{#if products.hasNextPage}}
+                <li class="page-item">
+                    {{else}}
+                <li class="page-item disabled">
+                    {{/if}}
+                    <a class="page-link" href="{{products.nextLink}}" aria-label="Next"><span
+                            aria-hidden="true">&raquo;</span></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
 </div>
 
 <script src="/js/products.js"></script>

@@ -1,3 +1,4 @@
+//DTO para pasar información de forma segura sin filtrar algo sensible
 export default class UserDTO {
 	constructor(user) {
 		this._id = user._id;

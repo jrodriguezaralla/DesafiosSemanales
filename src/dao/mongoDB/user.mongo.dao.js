@@ -1,4 +1,7 @@
+//importo modelo
 import userModel from '../../models/user.model.js';
+
+//importo el dao para utilizar metodos del carrito
 import cartDAO from './cart.mongo.dao.js';
 
 class UserMongo {
@@ -28,5 +31,6 @@ class UserMongo {
 	}
 }
 
+//instancio nueva clase de User Mongo
 const userMongo = new UserMongo();
 export default userMongo;

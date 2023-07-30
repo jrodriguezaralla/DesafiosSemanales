@@ -12,10 +12,10 @@ const transport = nodemailer.createTransport({
 	},
 });
 
-//Endpoint que muestra los mensajes
+//Endpoint que envia email
 mailRouter.post('/', async (req, res) => {
 	try {
-		let { newTicket } = req.body;
+		let { newTicket } = req.body; //recibo por body los datos
 		let result = await transport.sendMail({
 			from: 'jrodriguez.aralla@gmail.com',
 			to: `${newTicket.purchaser}`,

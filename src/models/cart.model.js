@@ -1,4 +1,3 @@
-//Modelo de carritos para guardar en la base de datos
 import mongoose from 'mongoose';
 
 const cartSchema = new mongoose.Schema({

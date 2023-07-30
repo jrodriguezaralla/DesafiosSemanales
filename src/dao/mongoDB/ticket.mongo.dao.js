@@ -1,3 +1,4 @@
+//Importp modelo
 import { TicketModel } from '../../models/ticket.model.js';
 
 class TicketMongo {
@@ -5,23 +6,23 @@ class TicketMongo {
 		this.model = TicketModel;
 	}
 
-	//Método para agregar un nuevo carrito
+	//Método para crear un n uevo ticket
 	async createTicket(newTicket) {
-		return (await this.model.create(newTicket))._id; //agrego el nuevo carrito al archivo
+		return (await this.model.create(newTicket))._id;
 	}
 
-	//Método para adquirir un carrito especifico por ID
+	//Método para adquirir un ticket especifico por ID
 	async getTicketById(idBuscado) {
 		return await this.model.findById(idBuscado).lean();
 	}
 
-	//Método para eliminar un producto
-	async deleteProduct(idBuscado) {
-		return this.model.deleteOne({ _id: idBuscado }); //elimino producto seleccionado
+	//Método para eliminar un ticket
+	async deleteTicket(idBuscado) {
+		return this.model.deleteOne({ _id: idBuscado });
 	}
 }
 
-//Instancio una nueva clase de Cart Manager con el archivo ya creado
+//Instancio una nueva clase de Ticket Mongo
 const ticketMongo = new TicketMongo();
 
 export default ticketMongo;

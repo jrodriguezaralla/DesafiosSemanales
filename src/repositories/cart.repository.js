@@ -1,11 +1,11 @@
-/****************************** AGREGAR DTOs **************************************************/
-
+//en esta capa se pueden agregar los DTOs
 export default class CartRepository {
 	constructor(dao) {
 		this.dao = dao;
 	}
 
-	addNewCart() {
+	//Metodo para agregar un nuevo carrtio
+	async addNewCart() {
 		this.dao.addNewCart();
 	}
 
@@ -14,6 +14,7 @@ export default class CartRepository {
 		return await this.dao.getCartById(idBuscado);
 	}
 
+	//método para gregar un producto al carrito
 	async addProductToCart(cartId, productId) {
 		await this.dao.addProductToCart(cartId, productId);
 	}
@@ -38,6 +39,7 @@ export default class CartRepository {
 		await this.dao.deleteAllProducts(cartId);
 	}
 
+	//metodo para obtener el index de un producto dentro del carrito
 	getIndex(cart, productId) {
 		return this.dao.getIndex(cart, productId);
 	}

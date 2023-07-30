@@ -1,3 +1,4 @@
+//importación de service.
 import CartService from '../service/cart.service.js';
 
 class CartController {
@@ -76,7 +77,7 @@ class CartController {
 	}
 }
 
-//Instancio una nueva clase de Cart Manager con el archivo ya creado
+//Instancio una nueva clase de Cart Controller
 const cartController = new CartController();
 
 export default cartController;

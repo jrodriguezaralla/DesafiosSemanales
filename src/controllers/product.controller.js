@@ -1,7 +1,7 @@
-//Servicio de productos
-
+//importación de service.
 import ProductService from '../service/product.service.js';
 
+//variables globales para parametros por defecto
 const LIMITdEFAULT = 10;
 const PAGEdEFAULT = 1;
 
@@ -114,6 +114,7 @@ class ProductController {
 	}
 }
 
+//Instancio una nueva clase de Product Controller
 const productController = new ProductController();
 
 export default productController;

@@ -1,4 +1,3 @@
-//import productDAO from '../dao/mongoDB/product.mongo.dao.js';
 import { productDAO } from '../dao/factory.js';
 import ProductRepository from '../repositories/product.repository.js';
 
@@ -8,16 +7,17 @@ export default class ProductService {
 		this.repository = new ProductRepository(productDAO);
 	}
 
-	//Método para traer todos los productos de la base de datos
+	//Método para traer determinados productos
 	async getProducts(limit, page, category, sort, status) {
 		return await this.repository.getProducts(limit, page, category, sort, status);
 	}
 
+	//Método para traer todos los productos
 	async getAllProducts() {
 		return await this.repository.getAllProducts();
 	}
 
-	//Método para agregar productos a la base de datos
+	//Método para agregar productos
 	async addProducts(productToAdd) {
 		await this.repository.addProducts(productToAdd);
 	}

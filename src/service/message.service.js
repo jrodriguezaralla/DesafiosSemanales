@@ -1,4 +1,3 @@
-//import messageDAO from '../dao/mongoDB/message.mongo.dao.js';
 import { messageDAO } from '../dao/factory.js';
 import MessageRepository from '../repositories/message.repository.js';
 
@@ -8,12 +7,12 @@ export default class MessageService {
 		this.repository = new MessageRepository(messageDAO);
 	}
 
-	//Método para traer todos los mensajes de la base de datos
+	//Método para traer todos los mensajes
 	async getMessages() {
 		return await this.repository.getMessages();
 	}
 
-	//Método para agregar mensajes a la base de datos
+	//Método para agregar mensajes
 	async addMessage(messageToAdd) {
 		await this.repository.addMessage(messageToAdd);
 	}

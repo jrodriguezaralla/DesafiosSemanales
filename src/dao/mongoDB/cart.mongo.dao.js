@@ -43,12 +43,13 @@ class CartMongo {
 		await this.model.findOneAndUpdate({ _id: cartId }, { products: [] }); //busco el carrito e inserto un array vacio
 	}
 
+	//Metodo para obtener el index de un producto dentro del carrito
 	getIndex(cart, productId) {
 		return cart.products.indexOf(cart.products.find((element) => element.product._id.toString() === productId));
 	}
 }
 
-//Instancio una nueva clase de Cart Manager con el archivo ya creado
+//Instancio una nueva clase de Cart Mongo
 const cartMongo = new CartMongo();
 
 export default cartMongo;

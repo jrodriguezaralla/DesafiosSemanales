@@ -1,7 +1,4 @@
-/****************************** AGREGAR DTOs **************************************************/
-
-//Servicio de Mensajes
-
+//en esta capa se pueden agregar los DTOs
 export default class MessageRepository {
 	constructor(dao) {
 		this.dao = dao;

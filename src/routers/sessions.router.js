@@ -18,7 +18,7 @@ sessionRouter.get('/githubcallback', passport.authenticate('github', { failureRe
 	return res.redirect('/products');
 });
 
-//Endpoint que muestra todos los productos
+//Endpoint que valida datos de usuario para loguearse
 sessionRouter.get('/current', middlewarePassportJWT, async (req, res) => {
 	try {
 		let user = new UserDTO(req.user.user);

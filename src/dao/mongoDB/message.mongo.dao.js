@@ -1,3 +1,4 @@
+//Importación del modelo
 import { MessageModel } from '../../models/message.model.js';
 
 class MessageMongo {
@@ -16,5 +17,6 @@ class MessageMongo {
 	}
 }
 
+//Instancio una nueva clase Message Mongo
 const messageMongo = new MessageMongo();
 export default messageMongo;

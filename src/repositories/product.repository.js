@@ -1,21 +1,20 @@
-/****************************** AGREGAR DTOs **************************************************/
-
-//Servicio de productos
+//en esta capa se pueden agregar los DTOs
 export default class ProductRepository {
 	constructor(dao) {
 		this.dao = dao;
 	}
 
-	//Método para traer todos los productos de la base de datos
+	//Método para traer determinados productos
 	async getProducts(limit, page, category, sort, status) {
 		return await this.dao.getProducts(limit, page, category, sort, status);
 	}
 
+	//metodos para traer todos los productos
 	async getAllProducts() {
 		return await this.dao.getAllProducts();
 	}
 
-	//Método para agregar productos a la base de datos
+	//Método para agregar productos
 	async addProducts(productToAdd) {
 		await this.dao.addProducts(productToAdd);
 	}

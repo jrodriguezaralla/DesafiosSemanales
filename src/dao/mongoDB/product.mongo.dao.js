@@ -1,7 +1,5 @@
-//Servicio de productos
+//Importp modelo
 import { ProductModel } from '../../models/product.model.js';
-const LIMITdEFAULT = 10;
-const PAGEdEFAULT = 1;
 
 class ProductMongo {
 	constructor() {
@@ -40,6 +38,7 @@ class ProductMongo {
 	}
 }
 
+//Instancio una nueva clase de Prodcut Mongo
 const productMongo = new ProductMongo();
 
 export default productMongo;

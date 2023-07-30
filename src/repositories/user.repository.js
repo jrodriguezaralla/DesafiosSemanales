@@ -1,4 +1,4 @@
-/****************************** AGREGAR DTOs **************************************************/
+//en esta capa se pueden agregar los DTOs
 export default class UserRepository {
 	constructor(dao) {
 		this.dao = dao;

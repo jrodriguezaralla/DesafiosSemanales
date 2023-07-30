@@ -1,4 +1,3 @@
-//Modelo de productos para guardar en la base de datos
 import mongoose from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
 

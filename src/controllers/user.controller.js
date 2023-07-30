@@ -1,3 +1,4 @@
+//importación de service.
 import UserService from '../service/user.service.js';
 
 class UserController {
@@ -25,5 +26,7 @@ class UserController {
 	}
 }
 
+//Instancio una nueva clase de User Controller
 const userController = new UserController();
+
 export default userController;

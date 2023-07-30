@@ -1,20 +1,21 @@
+//en esta capa se pueden agregar los DTOs
 export default class TicketRepository {
 	constructor(dao) {
 		this.dao = dao;
 	}
 
-	//Método para agregar un nuevo carrito
+	//Método para crear ticket
 	async createTicket(newTicket) {
-		return await this.dao.createTicket(newTicket); //agrego el nuevo carrito al archivo
+		return await this.dao.createTicket(newTicket);
 	}
 
-	//Método para adquirir un carrito especifico por ID
+	//Método para adquirir un ticket especifico por ID
 	async getTicketById(idBuscado) {
 		return await this.dao.getTicketById(idBuscado);
 	}
 
-	//Método para eliminar un producto
-	async deleteProduct(idBuscado) {
-		return this.dao.deleteProduct(idBuscado); //elimino producto seleccionado
+	//Método para eliminar un ticket
+	async deleteTicket(idBuscado) {
+		return this.dao.deleteTicket(idBuscado); //elimino producto seleccionado
 	}
 }

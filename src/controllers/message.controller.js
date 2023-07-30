@@ -1,4 +1,4 @@
-//Servicio de Mensajes
+//importación de service.
 import MessageService from '../service/message.service.js';
 
 class MessageController {
@@ -22,5 +22,7 @@ class MessageController {
 	}
 }
 
+//Instancio una nueva clase de Message Controller
 const messageController = new MessageController();
+
 export default messageController;
