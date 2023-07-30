@@ -68,6 +68,8 @@ function agregarElmentoCarrito(dato) {
 	}
 
 	if (!dato.length) {
+		contenedorCarrito.innerHTML = ''; //borro prodcutos de la vista
+		contenedorCarrito.innerText = 'Agregue productos al carrito';
 		btnVaciarCarrito.disabled = true;
 	} else {
 		btnVaciarCarrito.disabled = false;

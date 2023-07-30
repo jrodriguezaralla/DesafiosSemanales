@@ -9,16 +9,16 @@ export default class TicketService {
 
 	//Método para agregar un nuevo carrito
 	async createTicket(newTicket) {
-		return await this.repository.create(newTicket); //agrego el nuevo carrito al archivo
+		return await this.repository.createTicket(newTicket); //agrego el nuevo carrito al archivo
 	}
 
 	//Método para adquirir un carrito especifico por ID
 	async getTicketById(idBuscado) {
-		return await this.repository.findById(idBuscado);
+		return await this.repository.getTicketById(idBuscado);
 	}
 
 	//Método para eliminar un producto
-	async deleteProduct(idBuscado) {
-		return this.repository.deleteOne(idBuscado); //elimino producto seleccionado
+	async deleteTicket(idBuscado) {
+		return this.repository.deleteTicket(idBuscado); //elimino producto seleccionado
 	}
 }

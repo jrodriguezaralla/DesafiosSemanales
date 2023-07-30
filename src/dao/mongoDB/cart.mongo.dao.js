@@ -24,8 +24,8 @@ class CartDAO {
 	}
 
 	//Método para borrar un producto del carrito
-	async deleteProduct(cartId, newArray) {
-		await this.model.findOneAndUpdate({ _id: cartId }, { products: newArray.products }); //busco el carrito y modifico el campo
+	async deleteProduct(cartId, productId) {
+		await this.model.findOneAndUpdate({ _id: cartId }, { $pull: { products: { product: productId } } }); //busco el carrito y modifico el campo
 	}
 
 	//Método para actualizar todo el array de productos

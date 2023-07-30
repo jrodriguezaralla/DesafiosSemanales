@@ -5,16 +5,16 @@ export default class TicketRepository {
 
 	//Método para agregar un nuevo carrito
 	async createTicket(newTicket) {
-		return await this.dao.create(newTicket); //agrego el nuevo carrito al archivo
+		return await this.dao.createTicket(newTicket); //agrego el nuevo carrito al archivo
 	}
 
 	//Método para adquirir un carrito especifico por ID
 	async getTicketById(idBuscado) {
-		return await this.dao.findById(idBuscado);
+		return await this.dao.getTicketById(idBuscado);
 	}
 
 	//Método para eliminar un producto
 	async deleteProduct(idBuscado) {
-		return this.dao.deleteOne(idBuscado); //elimino producto seleccionado
+		return this.dao.deleteProduct(idBuscado); //elimino producto seleccionado
 	}
 }

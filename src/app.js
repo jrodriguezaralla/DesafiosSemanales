@@ -104,3 +104,10 @@ io.on('connection', async (socket) => {
 mongoose.connect(environment.mongoUrl);
 
 export { io };
+/*
+
+generarIdUnico1 = () => { 
+    return Math.random().toString(30).substring(2);           
+} 
+
+*/
