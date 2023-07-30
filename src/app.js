@@ -70,7 +70,7 @@ app.use('/api/sessions', sessionRouter);
 app.use('/api/users', usersRouter);
 app.use('/', viewsRouter);
 app.use('/messages', messagesRouter);
-app.use('/mail', mailRouter);
+app.use('/email', mailRouter);
 
 const messages = [];
 

@@ -13,15 +13,18 @@ const transport = nodemailer.createTransport({
 });
 
 //Endpoint que muestra los mensajes
-mailRouter.get('/', async (req, res) => {
+mailRouter.post('/', async (req, res) => {
 	try {
+		let { newTicket } = req.body;
 		let result = await transport.sendMail({
 			from: 'jrodriguez.aralla@gmail.com',
-			to: 'jrodriguez.aralla@gmail.com',
-			subject: 'correo de prueba',
+			to: `${newTicket.purchaser}`,
+			subject: `Gracias por su compra`,
 			html: `
             <div>
-                <h1>Prueba</h1>
+                <h1>Nueva Compra ${newTicket.code}</h1>
+                <p>compra realizada el ${newTicket.purchase_datetime}</p>
+                <p>Total de la compra: USD ${newTicket.amount}</p>
             </div>
             `,
 			attachments: [],

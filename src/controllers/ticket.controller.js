@@ -16,7 +16,7 @@ class TicketController {
 		let notStock = [];
 		let newTicket = {};
 		let str = 'T';
-		let auxiliar = cart.map(async (el) => {
+		let auxiliar = cart.map((el) => {
 			let resta = el.product.stock - el.quantity;
 			if (resta < 0) {
 				notStock.push(el.product._id);
@@ -24,7 +24,7 @@ class TicketController {
 			} else {
 				el.product.stock -= el.quantity;
 				productController.updateProduct(el.product._id, el.product);
-				await cartController.deleteProduct(cartId, el.product._id);
+				cartController.deleteProduct(cartId, el.product._id);
 				return el.quantity * el.product.price;
 			}
 		});
@@ -37,9 +37,10 @@ class TicketController {
 			amount: totalAmount,
 			purchaser: userEmail,
 		};
-		//await this.service.createTicket(newTicket); //agrego el nuevo carrito al archivo
 
-		return notStock;
+		await this.service.createTicket(newTicket); //agrego el nuevo carrito al archivo
+
+		return { notStock, newTicket };
 	}
 
 	//Método para adquirir un carrito especifico por ID

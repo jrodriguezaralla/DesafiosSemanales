@@ -104,12 +104,11 @@ cartRouter.delete('/:cid', async (req, res) => {
 });
 
 //Endpoint para obtener el ticket de compra
-cartRouter.get('/:cid/purchase', async (req, res) => {
+cartRouter.post('/:cid/purchase', async (req, res) => {
 	try {
 		const cartId = req.params.cid;
-		//const userId = req.body;
-		const userEmail = 'jrodriguez.aralla@gmail.com';
-		let result = await ticketController.createTicket(cartId, userEmail);
+		const { email } = req.body;
+		let result = await ticketController.createTicket(cartId, email);
 		res.send(result);
 	} catch (error) {
 		res.status(400).send(error);
