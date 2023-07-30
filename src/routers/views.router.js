@@ -4,6 +4,7 @@ import { isAuth, isGuest } from '../public/middleware/auth.middleware.js';
 import { middlewarePassportJWT } from '../public/middleware/jwt.middleware.js';
 import productController from '../controllers/product.controller.js';
 import cartController from '../controllers/cart.controller.js';
+import { isUser } from '../public/middleware/isUser.middleware.js';
 
 //Inicializo Router
 const viewsRouter = Router();
@@ -39,7 +40,7 @@ viewsRouter.get('/realtimeproducts', async (req, res) => {
 });
 
 //Endpoint que muestra los mensajes
-viewsRouter.get('/chat', async (req, res) => {
+viewsRouter.get('/chat', middlewarePassportJWT, isUser, async (req, res) => {
 	// Inicio la conección y envio el listado de productos para rederizarlos en pantalla
 	/*io.on('connection', async (socket) => {
 		//cuando se conecta un cliente le envío el listado de productos

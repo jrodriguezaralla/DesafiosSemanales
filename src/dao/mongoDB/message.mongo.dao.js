@@ -1,6 +1,7 @@
+//Importación del modelo
 import { MessageModel } from '../../models/message.model.js';
 
-class MessageDAO {
+class MessageMongo {
 	constructor() {
 		this.model = MessageModel;
 	}
@@ -16,5 +17,6 @@ class MessageDAO {
 	}
 }
 
-const messageDAO = new MessageDAO();
-export default messageDAO;
+//Instancio una nueva clase Message Mongo
+const messageMongo = new MessageMongo();
+export default messageMongo;

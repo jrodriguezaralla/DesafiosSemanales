@@ -1,14 +1,13 @@
-//Servicio de productos
-
+//importación de service.
 import ProductService from '../service/product.service.js';
-import productDAO from '../dao/mongoDB/product.dao.js';
 
+//variables globales para parametros por defecto
 const LIMITdEFAULT = 10;
 const PAGEdEFAULT = 1;
 
 class ProductController {
 	constructor() {
-		this.service = new ProductService(productDAO);
+		this.service = new ProductService();
 	}
 
 	//Método para traer todos los productos de la base de datos
@@ -68,7 +67,6 @@ class ProductController {
 		) {
 			return { error: 'Error: fields missing' }; //Si falta algun campo, arrojo error
 		}
-		let products = await this.model.find().lean();
 
 		let codes = await this.service.getAllProducts(); // me quedo con todos los códigos del array productos
 		//evaluo si el codigo del nuevo producto no existe
@@ -116,6 +114,7 @@ class ProductController {
 	}
 }
 
+//Instancio una nueva clase de Product Controller
 const productController = new ProductController();
 
 export default productController;

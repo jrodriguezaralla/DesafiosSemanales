@@ -1,9 +1,9 @@
+//importación de service.
 import CartService from '../service/cart.service.js';
-import cartDAO from '../dao/mongoDB/cart.dao.js';
 
 class CartController {
 	constructor() {
-		this.service = new CartService(cartDAO);
+		this.service = new CartService();
 	}
 
 	//Método para agregar un nuevo carrito
@@ -29,8 +29,8 @@ class CartController {
 			quantity: 1,
 		};
 		const cart = await this.service.getCartById(cartId); //me quedo con el carrito a modificar
-		//const prod = cart.products.find((element) => element.product.toString() === productId); // busco el elemento que coincida con el ID indicado
-		const index = cart.products.indexOf(cart.products.find((element) => element.product._id.toString() === productId));
+		// busco el elemento que coincida con el ID indicado
+		const index = this.service.getIndex(cart, productId);
 
 		if (index >= 0) {
 			//Si existe sumo una unidad
@@ -46,19 +46,13 @@ class CartController {
 
 	//Método para borrar un producto del carrito
 	async deleteProduct(cartId, productId) {
-		const cart = await this.model.findById(cartId); //me quedo con el carrito a modificar
-		const index = cart.products.indexOf(cart.products.find((element) => element.product.toString() === productId)); // busco el elemento que coincida con el ID indicado y retorno index
-		if (index === -1) {
-			return { error: 'Error: Product not found' }; //si no encuentro producto retorno error
-		}
-		cart.products.splice(index, 1); //Elimino elemento del array
-		await this.service.deleteAllProducts(cartId, cart);
+		await this.service.deleteProduct(cartId, productId);
 		return { status: 'sucess', message: `product ID=${productId} deleted from cart ID=${cartId}` }; // retorno el carrito con el producto agregado
 	}
 
 	//Método para actualizar todo el array de productos
 	async updateAllProducts(cartId, newArray) {
-		await this.model.updateAllProducts(cartId, newArray.products); //busco el carrito y modifico el campo
+		await this.service.updateAllProducts(cartId, newArray.products); //busco el carrito y modifico el campo
 		return { status: 'sucess', message: `prdocuts from cart ID=${cartId} updated` }; // retorno el carrito con el producto agregado
 	}
 
@@ -72,7 +66,7 @@ class CartController {
 		} else {
 			return { status: 'error', message: `product ID=${productId} is not valid in cart ID=${cartId}` };
 		}
-		await this.service.updateProductQuantity;
+		await this.service.updateProductQuantity();
 		return { status: 'sucess', message: `product ID=${productId} added to cart ID=${cartId}` }; // retorno el carrito con el producto agregado
 	}
 
@@ -83,7 +77,7 @@ class CartController {
 	}
 }
 
-//Instancio una nueva clase de Cart Manager con el archivo ya creado
+//Instancio una nueva clase de Cart Controller
 const cartController = new CartController();
 
 export default cartController;

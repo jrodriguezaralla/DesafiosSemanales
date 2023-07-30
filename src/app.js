@@ -1,26 +1,31 @@
-//Primer Practica integradora//
-
-//Imports
+//Imports generales
 import express from 'express';
 import MongoStore from 'connect-mongo';
 import path from 'path';
-import { Server } from 'socket.io';
-import mongoose from 'mongoose';
 import session from 'express-session';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
+import __dirname from './dirname.util.js';
+import handlebars from 'express-handlebars';
 
+import { Server } from 'socket.io';
+
+//import de rutas
 import { productsRouter } from './routers/products.router.js';
 import { cartRouter } from './routers/carts.router.js';
-import handlebars from 'express-handlebars';
-import __dirname from './dirname.util.js';
 import { viewsRouter } from './routers/views.router.js';
 import { messagesRouter } from './routers/message.router.js';
 import usersRouter from './routers/user.router.js';
-import initializePassport from './config/passport.config.js';
 import { sessionRouter } from './routers/sessions.router.js';
+import { mailRouter } from './routers/mail.router.js';
+
+//Import de passport
+import initializePassport from './config/passport.config.js';
+
+//import de environment
 import environment from './config/environment.js';
 
+//import de controllers
 import productController from './controllers/product.controller.js';
 import messageController from './controllers/message.controller.js';
 
@@ -52,12 +57,12 @@ app.use(
 			mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
 			ttl: 6000,
 		}),
-		secret: '43330commerce',
+		secret: environment.mongoSessionSecret,
 		resave: true,
 		saveUninitialized: true,
 	})
 );
-app.use(cookieParser('B2zdY3B$pHmxW%'));
+app.use(cookieParser(environment.cookieHash));
 initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
@@ -69,6 +74,7 @@ app.use('/api/sessions', sessionRouter);
 app.use('/api/users', usersRouter);
 app.use('/', viewsRouter);
 app.use('/messages', messagesRouter);
+app.use('/email', mailRouter);
 
 const messages = [];
 
@@ -101,6 +107,13 @@ io.on('connection', async (socket) => {
 });
 
 //Me conecto a la base de datos
-mongoose.connect(environment.mongoUrl);
+//mongoose.connect(environment.mongoUrl);
 
 export { io };
+/*
+
+generarIdUnico1 = () => { 
+    return Math.random().toString(30).substring(2);           
+} 
+
+*/

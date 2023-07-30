@@ -1,9 +1,9 @@
+//importación de service.
 import UserService from '../service/user.service.js';
-import serviceDAO from '../dao/mongoDB/user.dao.js';
 
 class UserController {
 	constructor() {
-		this.service = new UserService(serviceDAO);
+		this.service = new UserService();
 	}
 	//método para traer todos los usuarios
 	async getAll() {
@@ -26,5 +26,7 @@ class UserController {
 	}
 }
 
+//Instancio una nueva clase de User Controller
 const userController = new UserController();
+
 export default userController;

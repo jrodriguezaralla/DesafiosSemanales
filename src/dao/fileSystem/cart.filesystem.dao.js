@@ -4,9 +4,9 @@ import fs from 'fs';
 export default class CartManager {
 	static id = 0; // ID que será vistos por todas las instancias
 
-	constructor(myPath) {
+	constructor() {
 		this.carts = [];
-		this.path = myPath;
+		this.path = './carrito.json';
 		//Si no existe el archivo lo creo de forma sincronica con un array vacío
 		if (!fs.existsSync('./carrito.json')) {
 			fs.promises.writeFile(`${this.path}`, JSON.stringify(this.carts));
@@ -70,5 +70,9 @@ export default class CartManager {
 			}
 		});
 		await fs.promises.writeFile(`${this.path}`, JSON.stringify(productCarts));
+	}
+
+	getIndex(cart, productId) {
+		return cart.products.indexOf(cart.products.find((element) => element.product.id.toString() === productId));
 	}
 }

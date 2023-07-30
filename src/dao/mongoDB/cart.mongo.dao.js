@@ -1,6 +1,6 @@
 import { CartModel } from '../../models/cart.model.js';
 
-class CartDAO {
+class CartMongo {
 	constructor() {
 		this.model = CartModel;
 	}
@@ -24,8 +24,8 @@ class CartDAO {
 	}
 
 	//Método para borrar un producto del carrito
-	async deleteProduct(cartId, newArray) {
-		await this.model.findOneAndUpdate({ _id: cartId }, { products: newArray.products }); //busco el carrito y modifico el campo
+	async deleteProduct(cartId, productId) {
+		await this.model.findOneAndUpdate({ _id: cartId }, { $pull: { products: { product: productId } } }); //busco el carrito y modifico el campo
 	}
 
 	//Método para actualizar todo el array de productos
@@ -42,9 +42,14 @@ class CartDAO {
 	async deleteAllProducts(cartId) {
 		await this.model.findOneAndUpdate({ _id: cartId }, { products: [] }); //busco el carrito e inserto un array vacio
 	}
+
+	//Metodo para obtener el index de un producto dentro del carrito
+	getIndex(cart, productId) {
+		return cart.products.indexOf(cart.products.find((element) => element.product._id.toString() === productId));
+	}
 }
 
-//Instancio una nueva clase de Cart Manager con el archivo ya creado
-const cartDAO = new CartDAO();
+//Instancio una nueva clase de Cart Mongo
+const cartMongo = new CartMongo();
 
-export default cartDAO;
+export default cartMongo;

@@ -1,9 +1,7 @@
-//Servicio de productos
+//Importp modelo
 import { ProductModel } from '../../models/product.model.js';
-const LIMITdEFAULT = 10;
-const PAGEdEFAULT = 1;
 
-class ProductDAO {
+class ProductMongo {
 	constructor() {
 		this.model = ProductModel;
 	}
@@ -40,6 +38,7 @@ class ProductDAO {
 	}
 }
 
-const productDAO = new ProductDAO();
+//Instancio una nueva clase de Prodcut Mongo
+const productMongo = new ProductMongo();
 
-export default productDAO;
+export default productMongo;

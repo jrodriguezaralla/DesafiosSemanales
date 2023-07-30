@@ -1,13 +1,11 @@
 import { Router } from 'express';
-import ProductManager from '../dao/fileSystem/ProductManager.js';
 import { io } from '../app.js';
-import productController from '../controllers/product.controller.js';
+import { middlewarePassportJWT } from '../public/middleware/jwt.middleware.js';
+import { isAdmin } from '../public/middleware/isAdmin.middleware.js';
 
+import productController from '../controllers/product.controller.js';
 //Inicializo Router
 const productsRouter = Router();
-
-//Instancio una nueva clase de Product Manager con el archivo ya creado
-const ProductList = new ProductManager('./productos.json');
 
 //Endpoint que muestra todos los productos
 productsRouter.get('/', async (req, res) => {
@@ -51,7 +49,7 @@ productsRouter.get('/:pid', async (req, res) => {
 });
 
 //Endpoint que agrega un producto
-productsRouter.post('/', async (req, res) => {
+productsRouter.post('/', middlewarePassportJWT, isAdmin, async (req, res) => {
 	/*try {
 		let newProduct = await ProductList.addProducts(req.body); //recibo por body el producto a agregar
 		io.emit('real_time_products', await ProductList.getProducts()); //propago el evento a todos los clientes
@@ -69,7 +67,7 @@ productsRouter.post('/', async (req, res) => {
 });
 
 //Endpoint que modifica un producto
-productsRouter.put('/:pid', async (req, res) => {
+productsRouter.put('/:pid', middlewarePassportJWT, isAdmin, async (req, res) => {
 	/*try {
 		let productUpdated = req.body; //recibo por body los datos modificados
 		let product = await ProductList.updateProduct(parseInt(req.params.pid), productUpdated);
@@ -81,7 +79,7 @@ productsRouter.put('/:pid', async (req, res) => {
 
 	try {
 		let product = await productController.updateProduct(req.params.pid, req.body); //recibo por body los datos modificados
-		io.emit('real_time_products', await productController.getProducts()); //propago el evento a todos los clientes
+		io.emit('real_time_products', await productController.getProducts());
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);
@@ -89,7 +87,7 @@ productsRouter.put('/:pid', async (req, res) => {
 });
 
 //Endpoint que elimina un producto
-productsRouter.delete('/:pid', async (req, res) => {
+productsRouter.delete('/:pid', middlewarePassportJWT, isAdmin, async (req, res) => {
 	/*try {
 		let product = await ProductList.deleteProduct(parseInt(req.params.pid));
 		io.emit('real_time_products', await ProductList.getProducts()); //propago el evento a todos los clientes
@@ -99,11 +97,11 @@ productsRouter.delete('/:pid', async (req, res) => {
 	}*/
 	try {
 		let product = await productController.deleteProduct(req.params.pid);
-		io.emit('real_time_products', await productController.getProducts()); //propago el evento a todos los clientes
+		io.emit('real_time_products', await productController.getProducts());
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);
 	}
 });
 
-export { productsRouter, ProductList };
+export { productsRouter };
