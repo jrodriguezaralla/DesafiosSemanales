@@ -20,6 +20,7 @@
 	},
 	"homepage": "https://github.com/jrodriguezaralla/DesafiosSemanales#readme",
 	"dependencies": {
+		"@faker-js/faker": "^8.0.2",
 		"bcrypt": "^5.1.0",
 		"bootstrap-icons": "^1.10.5",
 		"commander": "^11.0.0",
