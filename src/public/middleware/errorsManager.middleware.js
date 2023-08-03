@@ -1,13 +1,14 @@
-import EErros from "../tools/EErrors.js";
+import EErrors from '../../tools/EErrors.js';
 
-export default (err, req, res, next) => {
-    console.log(err.cause);
-    switch (err.code) {
-        case EErros.INVALID_TYPE:
-            res.status(400).send({ status: "error", error: err.name });
-            break;
-        default:
-            res.status(500).send({ status: "error", error: "Internal Server Error" });
-            break;
-    }
+export default (error, req, res, next) => {
+	console.log('hola');
+	console.log(error.cause);
+	switch (error.code) {
+		case EErrors.INVALID_TYPES_ERROR:
+			res.status(400).send({ status: 'error', error: error.name });
+			break;
+		default:
+			res.status(500).send({ status: 'error', error: 'Internal Server Error' });
+			break;
+	}
 };
