@@ -29,6 +29,7 @@ import environment from './config/environment.js';
 //import de controllers
 import productController from './controllers/product.controller.js';
 import messageController from './controllers/message.controller.js';
+import errorsManagerMiddleware from './public/middleware/errorsManager.middleware.js';
 
 //Inicializo Express
 const app = express();
@@ -119,3 +120,4 @@ generarIdUnico1 = () => {
 } 
 
 */
+app.use(errorsManagerMiddleware);

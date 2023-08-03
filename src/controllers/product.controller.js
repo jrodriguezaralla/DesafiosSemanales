@@ -55,19 +55,6 @@ class ProductController {
 
 	//Método para agregar productos a la base de datos
 	async addProducts(productToAdd) {
-		if (
-			!productToAdd.title ||
-			!productToAdd.description ||
-			!productToAdd.code ||
-			!productToAdd.price ||
-			!productToAdd.status ||
-			!productToAdd.stock ||
-			!productToAdd.category ||
-			!productToAdd.thumbnail
-		) {
-			return { error: 'Error: fields missing' }; //Si falta algun campo, arrojo error
-		}
-
 		let codes = await this.service.getAllProducts(); // me quedo con todos los códigos del array productos
 		//evaluo si el codigo del nuevo producto no existe
 		if (!codes.includes(productToAdd.code)) {

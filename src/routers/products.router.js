@@ -4,6 +4,9 @@ import { middlewarePassportJWT } from '../public/middleware/jwt.middleware.js';
 import { isAdmin } from '../public/middleware/isAdmin.middleware.js';
 
 import productController from '../controllers/product.controller.js';
+import CustomError from '../tools/CustomErrors.js';
+import { generateProductErrorInfo } from '../tools/info.js';
+import EErrors from '../tools/EErrors.js';
 //Inicializo Router
 const productsRouter = Router();
 
@@ -57,12 +60,54 @@ productsRouter.post('/', middlewarePassportJWT, isAdmin, async (req, res) => {
 	} catch (error) {
 		res.status(400).send(error);
 	}*/
+	/*const productToAdd = req.body;
+	if (
+		!productToAdd.title ||
+		!productToAdd.description ||
+		!productToAdd.code ||
+		!productToAdd.price ||
+		!productToAdd.status ||
+		!productToAdd.stock ||
+		!productToAdd.category ||
+		!productToAdd.thumbnail
+	) {
+		CustomError.createError({
+			name: 'Product creation error',
+			cause: generateProductErrorInfo(productToAdd),
+			message: 'Error trying to create product',
+			code: EErrors.INVALID_TYPES_ERROR,
+		});
+	}
+
+	let newProduct = await productController.addProducts(productToAdd); //recibo por body el producto a agregar
+	//io.emit('real_time_products', await ProductListDb.getProducts()); //propago el evento a todos los clientes
+	res.send(newProduct); //respondo con el producto agregado*/
+	const productToAdd = req.body;
+	const requiredParams = ['title', 'description', 'code', 'price', 'status', 'stock', 'category', 'thumbnail'];
+
+	// Verificar si faltan parámetros requeridos
+	const missingParams = requiredParams.filter((param) => !productToAdd.hasOwnProperty(param));
+	if (missingParams.length > 0) {
+		CustomError.createError({
+			name: 'Product creation error',
+			cause: generateProductErrorInfo(productToAdd),
+			message: `Missing required parameters: ${missingParams.join(', ')}`,
+			code: EErrors.INVALID_TYPES_ERROR,
+		});
+	}
+
+	// Si no faltan parámetros, continuar con la lógica de agregar el producto
 	try {
-		let newProduct = await productController.addProducts(req.body); //recibo por body el producto a agregar
-		//io.emit('real_time_products', await ProductListDb.getProducts()); //propago el evento a todos los clientes
-		res.send(newProduct); //respondo con el producto agregado
+		let newProduct = await productController.addProducts(productToAdd);
+		res.send(newProduct);
 	} catch (error) {
-		res.status(400).send(error);
+		// Manejar otros errores que puedan ocurrir en la lógica de agregar el producto
+		CustomError.createError({
+			name: 'Product creation error',
+			cause: generateProductErrorInfo(productToAdd),
+			message: 'Error trying to create product',
+			code: EErrors.INVALID_TYPES_ERROR,
+		});
 	}
 });
 
