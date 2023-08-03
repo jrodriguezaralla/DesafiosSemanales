@@ -53,13 +53,6 @@ productsRouter.get('/:pid', async (req, res) => {
 
 //Endpoint que agrega un producto
 productsRouter.post('/', middlewarePassportJWT, isAdmin, async (req, res) => {
-	/*try {
-		let newProduct = await ProductList.addProducts(req.body); //recibo por body el producto a agregar
-		io.emit('real_time_products', await ProductList.getProducts()); //propago el evento a todos los clientes
-		res.send(newProduct); //respondo con el producto agregado
-	} catch (error) {
-		res.status(400).send(error);
-	}*/
 	const productToAdd = req.body;
 	if (
 		!productToAdd.title ||
@@ -80,7 +73,6 @@ productsRouter.post('/', middlewarePassportJWT, isAdmin, async (req, res) => {
 	}
 
 	let newProduct = await productController.addProducts(productToAdd); //recibo por body el producto a agregar
-	//io.emit('real_time_products', await ProductListDb.getProducts()); //propago el evento a todos los clientes
 	res.send(newProduct); //respondo con el producto agregado
 });
 
