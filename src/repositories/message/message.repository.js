@@ -1,4 +1,4 @@
-import MessageDTO from '../dto/message.dto';
+import MessageDTO from '../../dto/message.dto.js';
 
 export default class MessageRepository {
 	constructor(dao) {

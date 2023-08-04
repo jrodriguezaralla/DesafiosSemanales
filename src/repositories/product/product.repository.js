@@ -1,4 +1,4 @@
-import ProductDTO from '../dto/product.dto';
+import ProductDTO from '../../dto/product.dto.js';
 
 //en esta capa se pueden agregar los DTOs
 export default class ProductRepository {

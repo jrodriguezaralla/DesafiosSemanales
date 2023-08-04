@@ -1,4 +1,4 @@
-import TicketDTO from '../dto/ticket.dto';
+import TicketDTO from '../../dto/ticket.dto.js';
 
 //en esta capa se pueden agregar los DTOs
 export default class TicketRepository {

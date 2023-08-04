@@ -1,5 +1,5 @@
 //importación de service.
-import ProductService from '../service/product.service.js';
+import { ProductService } from '../repositories/product/index.js';
 
 //variables globales para parametros por defecto
 const LIMITdEFAULT = 10;
@@ -7,7 +7,7 @@ const PAGEdEFAULT = 1;
 
 class ProductController {
 	constructor() {
-		this.service = new ProductService();
+		this.service = ProductService;
 	}
 
 	//Método para traer todos los productos de la base de datos

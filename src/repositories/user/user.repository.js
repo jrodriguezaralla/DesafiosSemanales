@@ -1,4 +1,7 @@
 //en esta capa se pueden agregar los DTOs
+
+import TicketDTO from '../../dto/ticket.dto.js';
+
 export default class UserRepository {
 	constructor(dao) {
 		this.dao = dao;
@@ -20,6 +23,7 @@ export default class UserRepository {
 
 	//método para registrar un usuario
 	async createUser(userData) {
-		return await this.dao.createUser(userData);
+		let userToInsert = new TicketDTO(userData);
+		return await this.dao.createUser(userToInsert);
 	}
 }
