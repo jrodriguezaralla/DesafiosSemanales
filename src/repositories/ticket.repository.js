@@ -1,3 +1,5 @@
+import TicketDTO from '../dto/ticket.dto';
+
 //en esta capa se pueden agregar los DTOs
 export default class TicketRepository {
 	constructor(dao) {
@@ -6,7 +8,8 @@ export default class TicketRepository {
 
 	//Método para crear ticket
 	async createTicket(newTicket) {
-		return await this.dao.createTicket(newTicket);
+		let ticketToInsert = new TicketDTO(newTicket);
+		return await this.dao.createTicket(ticketToInsert);
 	}
 
 	//Método para adquirir un ticket especifico por ID

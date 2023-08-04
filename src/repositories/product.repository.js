@@ -1,3 +1,5 @@
+import ProductDTO from '../dto/product.dto';
+
 //en esta capa se pueden agregar los DTOs
 export default class ProductRepository {
 	constructor(dao) {
@@ -16,7 +18,8 @@ export default class ProductRepository {
 
 	//Método para agregar productos
 	async addProducts(productToAdd) {
-		await this.dao.addProducts(productToAdd);
+		let productToInsert = new ProductDTO(productToAdd);
+		await this.dao.addProducts(productToInsert);
 	}
 
 	//Método para adquirir un producto especifico por ID

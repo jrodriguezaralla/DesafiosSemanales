@@ -1,4 +1,5 @@
-//en esta capa se pueden agregar los DTOs
+import MessageDTO from '../dto/message.dto';
+
 export default class MessageRepository {
 	constructor(dao) {
 		this.dao = dao;
@@ -11,6 +12,7 @@ export default class MessageRepository {
 
 	//Método para agregar mensajes a la base de datos
 	async addMessage(messageToAdd) {
-		await this.dao.addMessage(messageToAdd);
+		let messageToInsert = new MessageDTO(messageToAdd);
+		await this.dao.addMessage(messageToInsert);
 	}
 }
