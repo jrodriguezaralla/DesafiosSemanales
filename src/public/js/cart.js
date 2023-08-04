@@ -140,7 +140,17 @@ btnFinalizarCompra.addEventListener('click', async () => {
 						});
 					}
 					//alert con confirmación de operación
-					Swal.fire('Compra Realizada!', 'Muchas Gracias, vuelva pronto.', 'success');
+					Swal.fire({
+						title: 'Compra Realizada!',
+						text: 'Muchas Gracias, vuelva pronto.',
+						icon: 'success',
+						confirmButtonColor: '#212529',
+					}).then((result) => {
+						/* Read more about isConfirmed, isDenied below */
+						if (result.isConfirmed) {
+							window.location.replace('/products');
+						}
+					});
 				});
 		}
 	});
