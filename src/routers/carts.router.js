@@ -1,8 +1,8 @@
 //Router de carritos
 import { Router } from 'express';
 import cartController from '../controllers/cart.controller.js';
-import { middlewarePassportJWT } from '../public/middleware/jwt.middleware.js';
-import { isUser } from '../public/middleware/isUser.middleware.js';
+import { middlewarePassportJWT } from '../middleware/jwt.middleware.js';
+import { isUser } from '../middleware/isUser.middleware.js';
 import ticketController from '../controllers/ticket.controller.js';
 
 const cartRouter = Router();

@@ -1,4 +1,4 @@
-import EErrors from '../../tools/EErrors.js';
+import EErrors from '../tools/EErrors.js';
 
 export default (error, req, res, next) => {
 	console.log('hola');

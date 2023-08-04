@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { comparePassword } from '../utils/encrypt.util.js';
 import passport from 'passport';
-import { generateToken } from '../public/middleware/jwt.middleware.js';
+import { generateToken } from '../middleware/jwt.middleware.js';
 import userController from '../controllers/user.controller.js';
 import environment from '../config/environment.js';
 

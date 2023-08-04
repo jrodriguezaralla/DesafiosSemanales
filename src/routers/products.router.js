@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { io } from '../app.js';
-import { middlewarePassportJWT } from '../public/middleware/jwt.middleware.js';
-import { isAdmin } from '../public/middleware/isAdmin.middleware.js';
+import { middlewarePassportJWT } from '../middleware/jwt.middleware.js';
+import { isAdmin } from '../middleware/isAdmin.middleware.js';
 
 import productController from '../controllers/product.controller.js';
 import CustomError from '../tools/CustomErrors.js';

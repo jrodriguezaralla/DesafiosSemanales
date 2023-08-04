@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { generateToken, middlewarePassportJWT } from '../public/middleware/jwt.middleware.js';
+import { generateToken, middlewarePassportJWT } from '../middleware/jwt.middleware.js';
 import passport from 'passport';
 import UserDTO from '../dto/user.dto.js';
 
