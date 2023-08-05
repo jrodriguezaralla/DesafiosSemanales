@@ -1,7 +1,6 @@
 import EErrors from '../tools/EErrors.js';
 
 export default (error, req, res, next) => {
-	console.log('hola');
 	console.log(error.cause);
 	switch (error.code) {
 		case EErrors.INVALID_TYPES_ERROR:

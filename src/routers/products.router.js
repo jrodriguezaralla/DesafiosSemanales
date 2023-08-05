@@ -52,28 +52,31 @@ productsRouter.get('/:pid', async (req, res) => {
 });
 
 //Endpoint que agrega un producto
-productsRouter.post('/', middlewarePassportJWT, isAdmin, async (req, res) => {
-	const productToAdd = req.body;
-	if (
-		!productToAdd.title ||
-		!productToAdd.description ||
-		!productToAdd.code ||
-		!productToAdd.price ||
-		!productToAdd.status ||
-		!productToAdd.stock ||
-		!productToAdd.category ||
-		!productToAdd.thumbnail
-	) {
-		CustomError.createError({
-			name: 'Product creation error',
-			cause: generateProductErrorInfo(productToAdd),
-			message: 'Error trying to create product',
-			code: EErrors.INVALID_TYPES_ERROR,
-		});
+productsRouter.post('/', middlewarePassportJWT, isAdmin, async (req, res, next) => {
+	try {
+		const productToAdd = req.body;
+		if (
+			!productToAdd.title ||
+			!productToAdd.description ||
+			!productToAdd.code ||
+			!productToAdd.price ||
+			!productToAdd.status ||
+			!productToAdd.stock ||
+			!productToAdd.category ||
+			!productToAdd.thumbnail
+		) {
+			CustomError.createError({
+				name: 'Product creation error',
+				cause: generateProductErrorInfo(productToAdd),
+				message: 'Error trying to create product',
+				code: EErrors.INVALID_TYPES_ERROR,
+			});
+		}
+		let newProduct = await productController.addProducts(productToAdd); //recibo por body el producto a agregar
+		res.send(newProduct); //respondo con el producto agregado
+	} catch (error) {
+		next(error);
 	}
-
-	let newProduct = await productController.addProducts(productToAdd); //recibo por body el producto a agregar
-	res.send(newProduct); //respondo con el producto agregado
 });
 
 //Endpoint que modifica un producto
