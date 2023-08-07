@@ -1,5 +1,6 @@
 //importación de service.
 import { ProductService } from '../repositories/product/index.js';
+import EErrors from '../tools/EErrors.js';
 
 //variables globales para parametros por defecto
 const LIMITdEFAULT = 10;
@@ -55,13 +56,16 @@ class ProductController {
 
 	//Método para agregar productos a la base de datos
 	async addProducts(productToAdd) {
-		let codes = await this.service.getAllProducts(); // me quedo con todos los códigos del array productos
+		let allProducts = await this.service.getAllProducts(); // me quedo con todos los códigos del array productos
+		let codes = allProducts.map((el) => el.code); // Me quedo con los codigos de productos
 		//evaluo si el codigo del nuevo producto no existe
 		if (!codes.includes(productToAdd.code)) {
+			console.log('agregado');
 			await this.service.addProducts(productToAdd);
 			return { status: 'sucess', message: `product ${productToAdd.code} created` };
 		} else {
-			return { error: 'Error: product already exist' }; //Si el producto ya existe arrojo error
+			return EErrors.DUPLICATED_VALUE_ERROR;
+			//return { error: 'Error: product already exist' }; //Si el producto ya existe arrojo error
 		}
 	}
 
@@ -79,9 +83,6 @@ class ProductController {
 
 	//Método para actualizar producto
 	async updateProduct(idBuscado, productUpdated) {
-		if (!idBuscado) {
-			return { error: 'Error: field ID is missing' };
-		}
 		await this.service.updateProduct(idBuscado, productUpdated);
 		return { status: 'sucess', message: `product ID:${idBuscado} Updated` };
 	}
@@ -91,7 +92,7 @@ class ProductController {
 		let result = await this.service.getProductsById(idBuscado);
 
 		if (result.length == 0) {
-			return { error: 'Error: Product not found' }; //si no encuentro producto retorno error
+			return EErrors.DELETE_ERROR; //si no encuentro producto retorno error
 		}
 
 		let deleted = await this.service.deleteProduct(idBuscado); //elimino producto seleccionado
