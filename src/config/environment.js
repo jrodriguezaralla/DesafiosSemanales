@@ -18,6 +18,7 @@ export default {
 	mongoUrl: process.env.MONGO_URL,
 	mongoSessionSecret: process.env.MONGO_SESSION_SECRET,
 	cookieHash: process.env.COOKIE_HASH,
+	appMode: process.env.APP_MODE,
 
 	//variables de administrador
 	adminName: process.env.ADMIN_EMAIL,
