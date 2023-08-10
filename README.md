@@ -92,4 +92,5 @@ Inciar servidor
 ```
 
 > "mode"= dev -> Entorno desarrollo
+>
 > "mode"= prod -> Entorno produccion
