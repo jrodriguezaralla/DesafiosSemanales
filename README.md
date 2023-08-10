@@ -1,4 +1,4 @@
-# Segunda Preentrega - Clase 17- Mongo Avanzado
+# Desafio - Clase 34- logging
 
 Desarrollo de un servidor implementando base de datos MongoDb, modificando el proyecto para que funicione con las mismas y no con FileSystem.
 
@@ -6,11 +6,15 @@ Desarrollo de un servidor implementando base de datos MongoDb, modificando el pr
 
 ### El router "/" implementa
 
--   GET: _/_ - Renderiza el listado de productos en home
+-   GET: _/_ - Rendirecciona a pantalla de login
+-   GET: _/products_ - Renderiza el listado de productos en home
 -   GET: _/realtimeproducts_ - Renderiza los productos en tiempo real
 -   GET: _/chat_ - chat, guarda mensajes en base de datos
+-   GET: _/carts/:cid_ - Muestra los productos de un carrito determinado
+-   GET: _/registeredok_ - Muestra cartel de Rigistro Aceptado
+-   GET: _/login_ - Renderiza pantalla de login
 
-### El router "/api/productos" implementa
+### El router "/api/products" implementa
 
 -   GET: _/_ - Me permite listar todos los productos
 -   GET: _/:pid_ - Me permite listar un producto por su id
@@ -18,27 +22,46 @@ Desarrollo de un servidor implementando base de datos MongoDb, modificando el pr
 -   PUT: _/:pid_ - Actualiza un producto por su id
 -   DELETE: _/:pid_ - Borra un producto por su id
 
-### El router base "/api/carrito" implementa
+### El router base "/api/carts" implementa
 
 -   POST: _/_ - Crea un carrito y devuelve su id.
 -   GET: _/:cid_ - Me permite listar todos los productos guardados en el carrito llamado por su ID
 -   POST: _/:cid/product/:pid_ - Para incorporar productos al carrito por su id de producto, por el momento se utiliza el ID automático de mongo para asignar los IDs de productos
--   DELETE: _api/carts/:cid/products/:pid_ elimina del carrito el producto seleccionado.
--   PUT: _api/carts/:cid_ actualiza el carrito con un nuevo arreglo de productos.
--   PUT: _api/carts/:cid/products/:pid_ actualiza SÓLO la cantidad de ejemplares del producto por cualquier cantidad pasada desde req.body
--   DELETE: _api/carts/:cid_ elimina todos los productos del carrito
+-   DELETE: _/:cid/products/:pid_ elimina del carrito el producto seleccionado.
+-   PUT: _/:cid_ actualiza el carrito con un nuevo arreglo de productos.
+-   PUT: _/:cid/products/:pid_ actualiza SÓLO la cantidad de ejemplares del producto por cualquier cantidad pasada desde req.body
+-   DELETE: _/:cid_ elimina todos los productos del carrito
+-   DELETE: _/:cid/purchase_ Confirmación de compra
 
 ### El router "/messages" implementa
 
 -   GET: _/_ - Me permite listar todos los mensajes
 
-### El router "/products" implementa
+### El router "/mockingproducts" implementa
 
--   GET: _/_ - Me permite listar todos los productos e interactuar agregando a un carrito.
+-   GET: _/_ - Me genera un mock de productos
 
-### El router "/carts/:cid" implementa
+### El router "/loggerTest" implementa
 
--   GET: _/_ - Me permite listar todos los productos de un determinado carrito.
+-   GET: _/_ - Realiza un Test de logs de Winston
+
+### El router "/api/sessions" implementa
+
+-   GET: _/github_ - inicio de sesion con github
+-   GET: _/githubcallback_ - callback de github
+-   GET: _/current_ - Me permite ver sesion actual
+
+### El router "/api/users" implementa
+
+-   POST: _/_ - registro de usuario
+-   GET: _/failregister_ - vista para renderizar error de registro
+-   POST: _/auth_ - atenticación de usuario y contraseña
+-   GET: _/faillogin_ - vista para renderizar error de login
+-   GET: _/logout_ - elimina token de sesion
+
+### El router "/email" implementa
+
+-   POST: _/_ - envia email de confirmación de compra
 
 ## Correr de forma local
 
@@ -57,17 +80,16 @@ Ir a la carpeta del proyecto
 Instalar dependencias
 
 ```bash
-  npm install -g nodemon
-  npm init -y
-  npm install express express-handlebars mongoose socket.io
-  npm install  bootstrap-icons
-  npm install mongoose-paginate-v2
-  npm install connect-mongo express-session cookie-parser
+  npm install
+
 
 ```
 
 Inciar servidor
 
 ```bash
-  npm run start
+  node src/app.js --mode "mode"
 ```
+
+> "mode"= dev -> Entorno desarrollo
+> "mode"= prod -> Entorno produccion
