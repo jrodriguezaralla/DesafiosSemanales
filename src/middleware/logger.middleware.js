@@ -3,6 +3,9 @@ import environment from '../config/environment.js';
 const MODEdEVELOPMENT = 'development';
 const MODEpRODUCTION = 'production';
 
+//importación de libreria de dating
+import { DateTime } from 'luxon';
+
 let logger;
 const customLevelsOptions = {
 	levels: {
@@ -67,7 +70,8 @@ switch (environment.appMode) {
 }
 
 export const loggerMiddleware = (req, res, next) => {
+	const dateTime = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS);
 	req.logger = logger;
-	logger.http(`${req.method} - ${req.url} - [${req.ip}] - ${req.get('user-agent')} - ${new Date().toISOString()}`);
+	logger.http(`${dateTime} ${req.method} - ${req.url} - [${req.ip}] - ${req.get('user-agent')} - ${new Date().toISOString()}`);
 	next();
 };
