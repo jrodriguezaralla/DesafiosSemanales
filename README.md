@@ -89,8 +89,6 @@ Inciar servidor
 
 ```bash
   node src/app.js --mode "mode"
+  > "mode"= dev -> Entorno desarrollo
+  > "mode"= prod -> Entorno produccion
 ```
-
-> "mode"= dev -> Entorno desarrollo
->
-> "mode"= prod -> Entorno produccion
