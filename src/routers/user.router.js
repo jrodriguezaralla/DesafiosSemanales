@@ -61,6 +61,17 @@ usersRouter.post('/auth', async (req, res) => {
 	//res.json({ status: 'success', message: 'user login authorized' });
 });
 
+//Endpoint para restablecer contraseña
+usersRouter.post('/restorepass', async (req, res) => {
+	const { email, password } = req.body;
+	try {
+		const user = await userController.getByEmail(email);
+
+		console.log(user);
+	} catch (error) {}
+	//res.json({ status: 'success', message: 'user login authorized' });
+});
+
 usersRouter.get('/faillogin', async (req, res) => {
 	res.render('loginerror', {
 		title: 'Error: error al ingresar',
