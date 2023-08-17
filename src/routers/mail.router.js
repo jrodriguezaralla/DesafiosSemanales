@@ -35,4 +35,27 @@ mailRouter.post('/', async (req, res) => {
 	}
 });
 
+//Endpoint que envia email
+mailRouter.post('/restorepassword', async (req, res) => {
+	try {
+		let { email } = req.body; //recibo por body los datos
+		let result = await transport.sendMail({
+			from: 'jrodriguez.aralla@gmail.com',
+			to: `${email}`,
+			subject: `EncontraDeTodo - Restablecer contraseña`,
+			html: `
+            <div>
+                <h3>Para restablecer tu contraseña haz click en el siguiente boton</h3>
+                <button type="button" style="">
+					<a href="wwww.facebook.com" style="text-decoration: none;">Restablecer Contraseña</a>
+				</button>
+            </div>
+            `,
+			attachments: [],
+		});
+		res.redirect('/');
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
 export { mailRouter };
