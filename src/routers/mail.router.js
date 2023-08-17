@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import nodemailer from 'nodemailer';
+import jwt from 'jsonwebtoken';
 
 const mailRouter = Router();
+const RESTORE_PASS_URL = 'http://localhost:8080/restorepassview';
+const retorepasskey = 'ASDf132asdffSDFSDFF8sdfSDF767867DFADFBadfbasfghnry';
 
 const transport = nodemailer.createTransport({
 	service: 'gmail',
@@ -39,6 +42,9 @@ mailRouter.post('/', async (req, res) => {
 mailRouter.post('/restorepassword', async (req, res) => {
 	try {
 		let { email } = req.body; //recibo por body los datos
+		const token = jwt.sign({ email }, retorepasskey, { expiresIn: '1h' });
+		const url = RESTORE_PASS_URL + '?token=' + token;
+
 		let result = await transport.sendMail({
 			from: 'jrodriguez.aralla@gmail.com',
 			to: `${email}`,
@@ -46,8 +52,8 @@ mailRouter.post('/restorepassword', async (req, res) => {
 			html: `
             <div>
                 <h3>Para restablecer tu contraseña haz click en el siguiente boton</h3>
-                <button type="button" style="">
-					<a href="wwww.facebook.com" style="text-decoration: none;">Restablecer Contraseña</a>
+                <button type="button" style="background-color: #0d6efd; border-radius: 0.4rem; border:none; padding: 8px;">
+					<a href=${url} style="text-decoration: none; color: #FFF; ">Restablecer Contraseña</a>
 				</button>
             </div>
             `,

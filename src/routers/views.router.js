@@ -91,6 +91,19 @@ viewsRouter.get('/login', isGuest, async (req, res) => {
 });
 
 //Endpoint que muestra la pantalla de login
+viewsRouter.get('/restorepassview', isGuest, async (req, res) => {
+	try {
+		const { token } = req.query;
+		console.log(token);
+		res.render('restorepass', {
+			style: 'index.css', // Envío los estilos css
+		});
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
+//Endpoint que muestra la pantalla de login
 viewsRouter.get('/', async (req, res) => {
 	try {
 		res.redirect('/login');
