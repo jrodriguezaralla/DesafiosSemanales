@@ -29,7 +29,11 @@ export default {
 
 	//variables passport
 	jwtSecret: process.env.JWT_SECRET,
+	jwtPrivateKey: process.env.JWT_PRIVATE_KEY,
 	gitHubClientId: process.env.GITHUB_CLIENT_ID,
 	gitHubClientSecret: process.env.GITHUB_CLIENT_SECRET,
 	gitHubClientCallback: process.env.GITHUB_CLIENT_CALLBACK,
+
+	//variables jwt restore pass
+	restorepasskey: process.env.RESTORE_PASS_KEY,
 };

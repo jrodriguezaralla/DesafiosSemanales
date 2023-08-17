@@ -5,6 +5,7 @@ import { middlewarePassportJWT } from '../middleware/jwt.middleware.js';
 import productController from '../controllers/product.controller.js';
 import cartController from '../controllers/cart.controller.js';
 import { isUser } from '../middleware/isUser.middleware.js';
+import { validateTokenRestorePass } from '../middleware/jwtrestorepass.middleware.js';
 
 //Inicializo Router
 const viewsRouter = Router();
@@ -91,10 +92,8 @@ viewsRouter.get('/login', isGuest, async (req, res) => {
 });
 
 //Endpoint que muestra la pantalla de login
-viewsRouter.get('/restorepassview', isGuest, async (req, res) => {
+viewsRouter.get('/restorepassview', isGuest, validateTokenRestorePass, async (req, res) => {
 	try {
-		const { token } = req.query;
-		console.log(token);
 		res.render('restorepass', {
 			style: 'index.css', // Envío los estilos css
 		});

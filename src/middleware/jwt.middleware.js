@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
-const privatekey = 'privatekey';
 import passport from 'passport';
-
-const generateToken = (user) => {
-	return jwt.sign({ user }, privatekey, { expiresIn: '1h' });
-};
 
 //importación de libreria de dating
 import { DateTime } from 'luxon';
+import environment from '../config/environment.js';
+
+const generateToken = (user) => {
+	return jwt.sign({ user }, environment.jwtPrivateKey, { expiresIn: '1h' });
+};
 
 const middlewarePassportJWT = async (req, res, next) => {
 	passport.authenticate('current', { session: false }, (err, usr, info) => {

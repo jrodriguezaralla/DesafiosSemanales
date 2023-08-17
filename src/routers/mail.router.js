@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
+import environment from '../config/environment.js';
 
 const mailRouter = Router();
 const RESTORE_PASS_URL = 'http://localhost:8080/restorepassview';
-const retorepasskey = 'ASDf132asdffSDFSDFF8sdfSDF767867DFADFBadfbasfghnry';
 
 const transport = nodemailer.createTransport({
 	service: 'gmail',
@@ -42,7 +42,7 @@ mailRouter.post('/', async (req, res) => {
 mailRouter.post('/restorepassword', async (req, res) => {
 	try {
 		let { email } = req.body; //recibo por body los datos
-		const token = jwt.sign({ email }, retorepasskey, { expiresIn: '1h' });
+		const token = jwt.sign({ email }, environment.restorepasskey, { expiresIn: '1h' });
 		const url = RESTORE_PASS_URL + '?token=' + token;
 
 		let result = await transport.sendMail({
