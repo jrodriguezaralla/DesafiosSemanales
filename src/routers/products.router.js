@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { io } from '../app.js';
 import { middlewarePassportJWT } from '../middleware/jwt.middleware.js';
 import { isAdmin } from '../middleware/isAdmin.middleware.js';
+import { isPremium } from '../middleware/isPremium.middleware.js';
 
 import productController from '../controllers/product.controller.js';
 import CustomError from '../tools/CustomErrors.js';
@@ -57,7 +58,7 @@ productsRouter.get('/:pid', async (req, res, next) => {
 });
 
 //Endpoint que agrega un producto
-productsRouter.post('/', middlewarePassportJWT, isAdmin, async (req, res, next) => {
+productsRouter.post('/', middlewarePassportJWT, isAdmin, isPremium, async (req, res, next) => {
 	try {
 		const productToAdd = req.body;
 		if (
