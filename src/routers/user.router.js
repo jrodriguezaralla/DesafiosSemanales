@@ -64,17 +64,19 @@ usersRouter.post('/auth', async (req, res) => {
 //Endpoint para restablecer contraseña
 usersRouter.post('/restorepass', async (req, res) => {
 	const { email, password } = req.body;
+
 	try {
 		const user = await userController.getByEmail(email);
 
 		if (!user) {
-			return { status: 'error', message: 'user not found' };
+			res.json({ status: 'error', message: 'user not found' });
 		}
 		if (!comparePassword(user, password)) {
 			user.password = hashPassword(password);
 			await userController.updateUser(user);
+			res.json({ status: 'success', message: 'Password update correctly' });
 		} else {
-			return { status: 'error', message: 'Password already use' };
+			res.json({ status: 'error', message: 'Password already use' });
 		}
 	} catch (error) {}
 	//res.json({ status: 'success', message: 'user login authorized' });

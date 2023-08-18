@@ -6,7 +6,7 @@ import { DateTime } from 'luxon';
 import environment from '../config/environment.js';
 
 const generateToken = (user) => {
-	return jwt.sign({ user }, environment.jwtPrivateKey, { expiresIn: '1h' });
+	return jwt.sign({ user }, environment.jwtSecret, { expiresIn: '1h' });
 };
 
 const middlewarePassportJWT = async (req, res, next) => {
