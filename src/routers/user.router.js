@@ -24,7 +24,7 @@ usersRouter.post('/auth', async (req, res) => {
 	const { username, password } = req.body;
 	try {
 		let user = await userController.getByEmail(username);
-		//console.log(user);
+
 		// Chequeo de datos
 		if (username === environment.adminName && password === environment.adminPassword) {
 			user = {
@@ -53,7 +53,7 @@ usersRouter.post('/auth', async (req, res) => {
 				httpOnly: true,
 				maxAge: 6000000,
 			})
-			.json({ status: 'success', message: 'user login authorized' });
+			.send({ status: 'success', message: 'user login authorized' });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });
