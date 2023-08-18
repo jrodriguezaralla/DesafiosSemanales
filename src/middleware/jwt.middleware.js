@@ -11,11 +11,11 @@ const generateToken = (user) => {
 
 const middlewarePassportJWT = async (req, res, next) => {
 	passport.authenticate('current', { session: false }, (err, usr, info) => {
+		console.log(usr);
 		const dateTime = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS);
 		if (err) {
 			return next(err);
 		}
-
 		if (!usr) {
 			return res.status(401).json({ status: 'error', message: 'user/password incorrect' });
 		}

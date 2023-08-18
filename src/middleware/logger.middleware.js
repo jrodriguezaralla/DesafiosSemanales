@@ -72,6 +72,6 @@ switch (environment.appMode) {
 export const loggerMiddleware = (req, res, next) => {
 	const dateTime = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS);
 	req.logger = logger;
-	logger.http(`${dateTime} ${req.method} - ${req.url} - [${req.ip}] - ${req.get('user-agent')} - ${new Date().toISOString()}`);
+	//logger.http(`${dateTime} ${req.method} - ${req.url} - [${req.ip}] - ${req.get('user-agent')} - ${new Date().toISOString()}`);
 	next();
 };
