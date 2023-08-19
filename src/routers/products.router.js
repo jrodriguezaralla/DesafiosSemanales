@@ -99,7 +99,7 @@ productsRouter.post('/', middlewarePassportJWT, isAdminOrPremium, async (req, re
 });
 
 //Endpoint que modifica un producto
-productsRouter.put('/:pid', middlewarePassportJWT, isAdmin, async (req, res, next) => {
+productsRouter.put('/:pid', middlewarePassportJWT, isAdminOrPremium, async (req, res, next) => {
 	/*try {
 		let productUpdated = req.body; //recibo por body los datos modificados
 		let product = await ProductList.updateProduct(parseInt(req.params.pid), productUpdated);
@@ -128,7 +128,7 @@ productsRouter.put('/:pid', middlewarePassportJWT, isAdmin, async (req, res, nex
 });
 
 //Endpoint que elimina un producto
-productsRouter.delete('/:pid', middlewarePassportJWT, isAdmin, async (req, res, next) => {
+productsRouter.delete('/:pid', middlewarePassportJWT, isAdminOrPremium, async (req, res, next) => {
 	/*try {
 		let product = await ProductList.deleteProduct(parseInt(req.params.pid));
 		io.emit('real_time_products', await ProductList.getProducts()); //propago el evento a todos los clientes
