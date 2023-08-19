@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { io } from '../app.js';
 import { middlewarePassportJWT } from '../middleware/jwt.middleware.js';
 import { isAdmin } from '../middleware/isAdmin.middleware.js';
-import { isPremium } from '../middleware/isPremium.middleware.js';
+import { isAdminOrPremium } from '../middleware/isAdminOrPremium.middleware.js';
 
 import productController from '../controllers/product.controller.js';
 import CustomError from '../tools/CustomErrors.js';
@@ -13,6 +13,7 @@ import {
 	generateUpdateErrorInfo,
 } from '../tools/info.js';
 import EErrors from '../tools/EErrors.js';
+
 //Inicializo Router
 const productsRouter = Router();
 
@@ -58,7 +59,7 @@ productsRouter.get('/:pid', async (req, res, next) => {
 });
 
 //Endpoint que agrega un producto
-productsRouter.post('/', middlewarePassportJWT, isAdmin, isPremium, async (req, res, next) => {
+productsRouter.post('/', middlewarePassportJWT, isAdminOrPremium, async (req, res, next) => {
 	try {
 		const productToAdd = req.body;
 		if (
@@ -78,6 +79,8 @@ productsRouter.post('/', middlewarePassportJWT, isAdmin, isPremium, async (req, 
 				code: EErrors.INVALID_TYPES_ERROR,
 			});
 		}
+
+		productToAdd.owner = req.user.user.email;
 
 		let newProduct = await productController.addProducts(productToAdd); //recibo por body el producto a agregar
 		if (newProduct === EErrors.DUPLICATED_VALUE_ERROR) {
