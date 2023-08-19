@@ -138,12 +138,25 @@ productsRouter.delete('/:pid', middlewarePassportJWT, isAdminOrPremium, async (r
 	}*/
 	try {
 		let idBuscado = req.params.pid;
-		let product = await productController.deleteProduct(idBuscado);
+		let prodToDel = await productController.getProductsById(idBuscado);
+		let product;
+
+		if ((req.user.user.role === 'premium' && prodToDel[0].owner === req.user.user.email) || req.user.user.role === 'admin') {
+			product = await productController.deleteProduct(idBuscado);
+		} else {
+			CustomError.createError({
+				name: 'Product Delete error',
+				cause: `User Premium try to delete product with another owner`,
+				message: 'Error trying to delete product',
+				code: EErrors.DELETE_ERROR,
+			});
+		}
+
 		if (!product === EErrors.DELETE_ERROR) {
 			CustomError.createError({
 				name: 'Product Delete error',
 				cause: generateDeleteProductErrorInfo(idBuscado),
-				message: 'Error trying to update product',
+				message: 'Error trying to delete product',
 				code: EErrors.DELETE_ERROR,
 			});
 		}
