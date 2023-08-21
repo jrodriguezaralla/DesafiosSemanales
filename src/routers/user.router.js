@@ -93,4 +93,19 @@ usersRouter.post('/logout', (req, res) => {
 	return res.clearCookie('token').redirect('/login');
 });
 
+//Endpoint para cambiar el rol de un usuario
+usersRouter.get('/premium/:uid', async (req, res) => {
+	try {
+		const user = await userController.getById(req.params.uid); //obtengo usuario
+		user.role === 'premium' ? (user.role = 'user') : (user.role = 'premium'); //Si el role es premium lo modifico a user y viceversa
+
+		userController.updateUser(user); // actualizo usuario
+		res.json({ status: 'success', message: `user ${user.email} has change his role to ${user.role}` });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ status: 'error', message: 'Internal server error' });
+	}
+	//res.json({ status: 'success', message: 'user login authorized' });
+});
+
 export { usersRouter };
