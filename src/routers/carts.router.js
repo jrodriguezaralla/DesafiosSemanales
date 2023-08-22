@@ -2,11 +2,13 @@
 import { Router } from 'express';
 import cartController from '../controllers/cart.controller.js';
 import { middlewarePassportJWT } from '../middleware/jwt.middleware.js';
-import { isUser } from '../middleware/isUser.middleware.js';
+import { isUserOrPremium } from '../middleware/isUserOrPremium.middleware.js';
+
 import ticketController from '../controllers/ticket.controller.js';
 
 import { generateAddProductToCartErrorInfo } from '../tools/info.js';
 import EErrors from '../tools/EErrors.js';
+import { createLogger } from 'winston';
 
 const cartRouter = Router();
 
@@ -45,36 +47,32 @@ cartRouter.get('/:cid', async (req, res, next) => {
 });
 
 //Endpoint que agrega el producto a un carrito determinado
-cartRouter.post(
-	'/:cid/product/:pid',
-	middlewarePassportJWT,
-	/*isUser,*/ async (req, res, next) => {
-		/*try {
+cartRouter.post('/:cid/product/:pid', middlewarePassportJWT, isUserOrPremium, async (req, res, next) => {
+	/*try {
 		//Recibo un params y muestro el producto con ese ID, como el ID es un string lo paso a entero
 		let product = await CartList.addProductToCart(parseInt(req.params.cid), parseInt(req.params.pid));
 		res.send(product);
 	} catch (error) {
 		res.status(400).send(error);
 	}*/
-		try {
-			let cartId = req.params.cid;
-			let productId = req.params.pid;
-			if (!cartId || !productId) {
-				CustomError.createError({
-					name: 'Adding product to cart error',
-					cause: generateAddProductToCartErrorInfo({ cartId, productId }),
-					message: 'Error trying to add product to cart',
-					code: EErrors.INVALID_TYPES_ERROR,
-				});
-			}
-			//Recibo por params el Id de carrito y el ID del producto y lo agrego al carrito indicado
-			let product = await cartController.addProductToCart(cartId, productId);
-			res.send(product);
-		} catch (error) {
-			next(error);
+	try {
+		let cartId = req.params.cid;
+		let productId = req.params.pid;
+		if (!cartId || !productId) {
+			CustomError.createError({
+				name: 'Adding product to cart error',
+				cause: generateAddProductToCartErrorInfo({ cartId, productId }),
+				message: 'Error trying to add product to cart',
+				code: EErrors.INVALID_TYPES_ERROR,
+			});
 		}
+		//Recibo por params el Id de carrito y el ID del producto y lo agrego al carrito indicado
+		let product = await cartController.addProductToCart(cartId, productId);
+		res.send(product);
+	} catch (error) {
+		next(error);
 	}
-);
+});
 
 //Endpoint para borrar un producto del carrito
 cartRouter.delete('/:cid/product/:pid', async (req, res, next) => {
