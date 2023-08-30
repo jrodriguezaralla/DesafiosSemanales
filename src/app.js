@@ -36,6 +36,9 @@ import messageController from './controllers/message.controller.js';
 import errorsManagerMiddleware from './middleware/errorsManager.middleware.js';
 import { loggerMiddleware } from './middleware/logger.middleware.js';
 
+import swaggerJsDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
+
 //Inicializo Express
 const app = express();
 
@@ -44,6 +47,21 @@ const webServer = app.listen(environment.port, () => {
 	console.log(`Servidor montado en puerto ${environment.port}`);
 });
 
+//configuración de SWAGGER
+const swaggerOptions = {
+	definition: {
+		openapi: '3.0.1',
+		info: {
+			title: 'Documentación EncontraDeTodo-ecommerce',
+			description: 'en la presente documentación se desarrollará todo lo necesario para dar a conocer lógica y demás aspectos de la API',
+		},
+	},
+	apis: [`${__dirname}/docs/**/*.yaml`],
+};
+
+const specs = swaggerJsDoc(swaggerOptions);
+
+//CORS
 app.use(
 	cors({
 		origin: 'http://127.0.0.1:5173', //`http://localhost:${environment.port}`, // Origen permitido
@@ -92,6 +110,7 @@ app.use('/messages', messagesRouter);
 app.use('/email', mailRouter);
 app.use('/mockingproducts', mockingRouter);
 app.use('/loggerTest', loggerRouter);
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 const messages = [];
 
