@@ -7,6 +7,7 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import __dirname from './dirname.util.js';
 import handlebars from 'express-handlebars';
+import cors from 'cors'; // Importa el paquete cors
 
 import { Server } from 'socket.io';
 
@@ -42,6 +43,13 @@ const app = express();
 const webServer = app.listen(environment.port, () => {
 	console.log(`Servidor montado en puerto ${environment.port}`);
 });
+
+app.use(
+	cors({
+		origin: 'http://127.0.0.1:5173', //`http://localhost:${environment.port}`, // Origen permitido
+		methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+	})
+);
 
 //Handlebars
 app.engine('handlebars', handlebars.engine()); // Inicializamos el motor de plantillas de Handlebars

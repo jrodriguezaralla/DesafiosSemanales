@@ -34,7 +34,7 @@ productsRouter.get('/', async (req, res, next) => {
 	const { limit, page, category, availability, sort } = req.query;
 	try {
 		let showProducts = await productController.getProducts(limit, page, category, sort, availability); //Traigo el listado de productos
-		res.send(showProducts); //envio la respuesta
+		res.json(showProducts); //envio la respuesta
 	} catch (error) {
 		next(error);
 	}
