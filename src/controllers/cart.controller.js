@@ -70,7 +70,7 @@ class CartController {
 	//Método para actualizar todo el array de productos
 	async updateAllProducts(cartId, newArray) {
 		await this.service.updateAllProducts(cartId, newArray.products); //busco el carrito y modifico el campo
-		return { status: 'sucess', message: `prdocuts from cart ID=${cartId} updated` }; // retorno el carrito con el producto agregado
+		return { status: 'sucess', message: `products from cart ID=${cartId} updated` }; // retorno el carrito con el producto agregado
 	}
 
 	//metodo para modificar la cantidad de productos de un elemento del array de productos

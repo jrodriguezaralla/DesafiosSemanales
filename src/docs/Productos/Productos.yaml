@@ -1,117 +1,243 @@
 paths:
-    /api/products/:
-        get:
-            summary: Listar todos los productos
-            # security:
-            #   - bearerAuth: []
-            #     roles:
-            #       - admin
-            tags:
-                - Products
-            responses:
-                200:
-                    description: Lista de productos
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: '#/components/schemas/Product'
-                400:
-                    description: Error de campo invalido o faltante.
-                500:
-                    description: Error del servidor
-            post:
-                summary: Agregar un producto
-                tags:
-                    - Add Products
-    /api/products/{pid}:
-        get:
-            summary: Obtener un producto por su ID
-            tags:
-                - Product by ID
-            parameters:
-                - in: path
-                    name: pid
-                    required: true
-                    description: ID del producto a buscar
-                    schema:
-                        type: string
-            responses:
-                200:
-                    description: Producto encontrado
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Product'
-                404:
-                    description: Producto no encontrado
-                500:
-                    description: Error del servidor
-            put:
-                summary: Actualizar un usuario por su ID
-                tags:
-                    - Users
-                parameters:
-                    - in: path
-                        name: uid
-                        required: true
-                        description: ID del usuario
-                        schema:
-                            type: string
-components:
-    schemas:
-        Product:
-            type: object
-            properties:
-                _id:
-                    type: ObjectId
-                    description: ID del producto (autogenerado por MongoDB)
-                title:
+  /api/products/:
+    get:
+      summary: Endpoint para listar todos los productos
+      # security:
+      #   - bearerAuth: []
+      #     roles:
+      #       - admin
+      tags:
+        - Products
+      responses:
+        200:
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        400:
+          description: Error de campo invalido o faltante.
+        500:
+          description: Error del servidor
+    post:
+      summary: Endpoint que agrega un producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/createProduct'
+      responses:
+        200:
+          description: Producto agregado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
                     type: string
-                    description: Nombre del poducto
-                    require: true
-                description:
+                    description: Estado sucess o error.
+                  message:
                     type: string
-                    description: Descripción del producto
-                    require: true
-                code:
-                    type: string
-                    description: Código de producto, definido por el owner
-                    require: true
-                    unique: true
-                price:
-                    type: number
-                    description: precio de producto en USD
-                    require: true
-                status:
-                    type: boolean
-                    description: se indica si el producto esta disponible o no
-                    require: true
-                stock:
-                    type: number
-                    description: stock actual de producto
-                    require: true
-                category:
-                    type: string
-                    description: categoría de producto para realizar un filtrado por tipo
-                    require: true
-                thumbnail:
-                    type: array
-                    descripction: array de imagenes
-                    require: true
-                owner:
-                    type: string
-                    description: mail de usuario que crea el producto
-                    default: admin
+                    description: se indica el codigo del producto agregado.
                 example:
-                    _id: ObjectId("5f9b2b3b9c4c9b1b2c9b1b2c")
-                    title: 'REMERA OVERSIZE'
-                    description: 'remera oversize talle único colo negra'
-                    code: 'R003'
-                    price: 43
-                    status: true
-                    stock": 100
-                    category: 'Remeras'
-                    thumbnail: ['https://acdn.mitiendanube.com/stores/001/966/536/products/1024x1024-21-b321421924a8680bc316440191914454-640-0.webp']
-                    owner: 'juanperez@gmail.com'
+                  status: sucess
+                  message: product M001 created
+        400:
+          description: Error de campo invalido o faltante.
+        401:
+          description: Debe autenticarse primero
+        500:
+          description: Error del servidor
+  /api/products/{pid}:
+    get:
+      summary: Obtener un producto por su ID
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: ID del producto a buscar
+          schema:
+            type: string
+      responses:
+        200:
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        404:
+          description: Producto no encontrado
+        500:
+          description: Error del servidor
+    put:
+      summary: Actualizar un producto por su ID
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: ID del producto a modificar
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/createProduct'
+      responses:
+        200:
+          description: Producto modificado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        400:
+          description: Error de campo invalido o faltante.
+        401:
+          description: Debe autenticarse primero
+        500:
+          description: Error del servidor
+    delete:
+      summary: Eliminar un producto por su ID
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: ID del producto a eliminar
+          schema:
+            type: string
+      responses:
+        200:
+          description: Producto eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Estado sucess o error.
+                  message:
+                    type: string
+                    description: se indica el ID del producto eliminado.
+                example:
+                  status: sucess
+                  message: product ID:64e5749286aba34b2cb1d376 deleted
+        404:
+          description: Producto no encontrado
+        500:
+          description: Error del servidor
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID del producto (autogenerado por MongoDB)
+        title:
+          type: string
+          description: Nombre del poducto
+          require: true
+        description:
+          type: string
+          description: Descripción del producto
+          require: true
+        code:
+          type: string
+          description: Código de producto, definido por el owner
+          require: true
+          unique: true
+        price:
+          type: number
+          description: precio de producto en USD
+          require: true
+        status:
+          type: boolean
+          description: se indica si el producto esta disponible o no
+          require: true
+        stock:
+          type: number
+          description: stock actual de producto
+          require: true
+        category:
+          type: string
+          description: categoría de producto para realizar un filtrado por tipo
+          require: true
+        thumbnail:
+          type: array
+          description: array de imagenes
+          require: true
+        owner:
+          type: string
+          description: mail de usuario que crea el producto
+          default: admin
+      example:
+        _id: ObjectId("5f9b2b3b9c4c9b1b2c9b1b2c")
+        title: 'REMERA OVERSIZE'
+        description: 'remera oversize talle único colo negra'
+        code: 'R003'
+        price: 43
+        status: true
+        stock: 100
+        category: 'Remeras'
+        thumbnail: ['https://acdn.mitiendanube.com/stores/001/966/536/products/1024x1024-21-b321421924a8680bc316440191914454-640-0.webp']
+        owner: 'juanperez@gmail.com'
+  requestBodies:
+    createProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Nombre del poducto
+          require: true
+        description:
+          type: string
+          description: Descripción del producto
+          require: true
+        code:
+          type: string
+          description: Código de producto, definido por el owner
+          require: true
+          unique: true
+        price:
+          type: number
+          description: precio de producto en USD
+          require: true
+        status:
+          type: boolean
+          description: se indica si el producto esta disponible o no
+          require: true
+        stock:
+          type: number
+          description: stock actual de producto
+          require: true
+        category:
+          type: string
+          description: categoría de producto para realizar un filtrado por tipo
+          require: true
+        thumbnail:
+          type: array
+          description: array de imagenes
+          require: true
+      example:
+        title: 'REMERA OVERSIZE'
+        description: 'remera oversize talle único colo negra'
+        code: 'R003'
+        price: 43
+        status: true
+        stock: 100
+        category: 'Remeras'
+        thumbnail: ['https://acdn.mitiendanube.com/stores/001/966/536/products/1024x1024-21-b321421924a8680bc316440191914454-640-0.webp']

@@ -96,7 +96,7 @@ cartRouter.put('/:cid', async (req, res, next) => {
 	}
 });
 
-//Endpoint para actualizar as cantidades de un producto dentro de un determinado carrito
+//Endpoint para actualizar las cantidades de un producto dentro de un determinado carrito
 cartRouter.put('/:cid/product/:pid', async (req, res, next) => {
 	try {
 		//Recibo por params el Id de carrito y el ID del producto y lo agrego al carrito indicado
