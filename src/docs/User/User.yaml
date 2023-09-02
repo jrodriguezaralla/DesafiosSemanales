@@ -32,39 +32,7 @@ paths:
                 }
       responses:
         200:
-          description: Usuario Registrado
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  _id:
-                    type: ObjectId
-                    description: ID del usuario (autogenerado por MongoDB)
-                  first_name:
-                    type: string
-                    description: nombre de usuario creado.
-                  last_name:
-                    type: string
-                    description: apellido de usuario creado.
-                  email:
-                    type: string
-                    description: email de usuario creado
-                  cartId:
-                    type: ObjectId
-                    description: ID del carrito asignado (autogenerado por MongoDB)
-                  role:
-                    type: string
-                    description: role asignado, por defecto se asigna user
-                example:
-                  {
-                    _id: ObjectId("64f34707aa14d7dd66232348"),
-                    first_name: 'cosme',
-                    last_name: 'fulanito',
-                    email: 'cosme_fulanito@gmail.com',
-                    cartId: ObjectId("64f34707aa14d7dd66232346"),
-                    role: 'user',
-                  }
+          description: Usuario Registrado, se redirije a login
         500:
           description: Error del servidor
   /api/users/failregister:

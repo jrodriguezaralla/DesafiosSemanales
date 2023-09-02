@@ -48,8 +48,6 @@ paths:
                 example:
                   status: sucess
                   message: product M001 created
-        400:
-          description: Error de campo invalido o faltante.
         401:
           description: Debe autenticarse primero
         500:
