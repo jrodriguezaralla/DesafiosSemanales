@@ -21,8 +21,8 @@ class UserController {
 	}
 
 	//método para registrar un usuario
-	async createUser(userData) {
-		return await this.service.createUser(userData);
+	async createUser(newUser) {
+		return await this.service.createUser(newUser);
 	}
 
 	//método para actualizar un usuario

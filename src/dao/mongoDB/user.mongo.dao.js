@@ -24,10 +24,10 @@ class UserMongo {
 	}
 
 	//método para registrar un usuario
-	async createUser(userData) {
+	async createUser(newUser) {
 		let newCartId = await cartDAO.addNewCart();
-		userData.cartId = newCartId;
-		return await this.model.create(userData);
+		newUser.cartId = newCartId;
+		return await this.model.create(newUser);
 	}
 
 	//Método para actualizar producto

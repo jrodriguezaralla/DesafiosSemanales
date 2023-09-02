@@ -228,18 +228,18 @@ paths:
           description: ID del producto a buscar
           schema:
             type: string
-        requestBody:
-          required: true
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  quantity:
-                    type: number
-                    description: cantidad a modificar
-                example:
-                  quantity: 50
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: number
+                  description: cantidad a modificar
+              example:
+                quantity: 50
       responses:
         200:
           description: Cantidad actualizada
