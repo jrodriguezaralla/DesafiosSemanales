@@ -4,6 +4,32 @@ paths:
       summary: Endpoint para registrar usuario
       tags:
         - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: nombre de usuario.
+                last_name:
+                  type: string
+                  description: apellido de usuario.
+                email:
+                  type: string
+                  description: email de usuario
+                password:
+                  type: string
+                  description: contraseña de usuario
+              example:
+                {
+                  first_name: 'cosme',
+                  last_name: 'fulanito',
+                  email: 'cosme_fulanito@gmail.com',
+                  password: "123"
+                }
       responses:
         200:
           description: Usuario Registrado
@@ -39,6 +65,151 @@ paths:
                     cartId: ObjectId("64f34707aa14d7dd66232346"),
                     role: 'user',
                   }
+        500:
+          description: Error del servidor
+  /api/users/failregister:
+    get:
+      summary: Endpoint para indicar error de registro en passport
+      tags:
+        - Users
+      responses:
+        200:
+          description: Redirije a una pagina indicativa
+        500:
+          description: Error del servidor
+  /api/users/auth:
+    post:
+      summary: Endpoint para autenticar usuario y contraseña
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: email de usuario
+                password:
+                  type: string
+                  description: contraseña de usuario
+              example:
+                {
+                  username: 'cosme_fulanito@gmail.com',
+                  password: "123"
+                }
+      responses:
+        200:
+          description: Usuario autorizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Estado sucess o error.
+                  message:
+                    type: string
+                    description: se indica que el login ha sido autorizado
+                example:
+                  status: sucess
+                  message: user login authorized
+        500:
+          description: Error del servidor
+  /api/users/restorepass:
+    post:
+      summary: Endpoint para restablecer contraseña
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: email de usuario
+                password:
+                  type: string
+                  description: contraseña de usuario
+              example:
+                {
+                  email: 'cosme_fulanito@gmail.com',
+                  password: "123"
+                }
+      responses:
+        200:
+          description: Password actualizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Estado sucess o error.
+                  message:
+                    type: string
+                    description: se indica que el password ha sido actualizado
+                example:
+                  status: sucess
+                  message: Password update correctly
+        500:
+          description: Error del servidor
+  /api/users/faillogin:
+    get:
+      summary: Endpoint para indicar error de login
+      tags:
+        - Users
+      responses:
+        200:
+          description: Redirije a una pagina indicativa
+        500:
+          description: Error del servidor
+  /api/users/logout:
+    post:
+      summary: Endpoint para destruir sesion
+      tags:
+        - Users
+      responses:
+        200:
+          description: Redirije a pagina de login, elimina token de autenticación.
+        500:
+          description: Error del servidor
+  /api/users/premium/{uid}:
+    get:
+      summary: Endpoint para cambiar el rol de un usuario
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          description: ID del usuario a cambiar rol
+          schema:
+            type: string
+      responses:
+        200:
+          description: rol modificado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Estado sucess o error.
+                  message:
+                    type: string
+                    description: se indica que el rol ha sido modificado
+                example:
+                  status: sucess
+                  message: user cosme_fulanito@gmail has change his role to premium
         500:
           description: Error del servidor
 components:
