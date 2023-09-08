@@ -9,8 +9,10 @@ const usersRouter = Router();
 
 //Endpoint para registrar usuario
 usersRouter.post('/', passport.authenticate('register', { failureRedirect: 'failregister' }), async (req, res) => {
-	//res.send({ status: 'success', message: 'user registered' });
-	res.redirect('/registerok');
+	//console.log("req.user")
+	//console.log(req.user)
+	res.send({ status: 'success', payload: req.user });
+	//res.redirect('/registerok');
 });
 
 usersRouter.get('/failregister', async (req, res) => {
@@ -34,7 +36,6 @@ usersRouter.post('/auth', async (req, res) => {
 				email: username,
 			};
 		}
-
 		if (!user) {
 			//Existe el usuario?
 			return res.json({ status: 'error', message: 'user doesn´t exist' });
@@ -48,8 +49,7 @@ usersRouter.post('/auth', async (req, res) => {
 		}
 
 		const token = generateToken(user);
-		return res
-			.cookie('token', token, {
+		res.cookie('token', token, {
 				httpOnly: true,
 				maxAge: 6000000,
 			})
@@ -101,6 +101,18 @@ usersRouter.get('/premium/:uid', async (req, res) => {
 
 		userController.updateUser(user); // actualizo usuario
 		res.json({ status: 'success', message: `user ${user.email} has change his role to ${user.role}` });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ status: 'error', message: 'Internal server error' });
+	}
+	//res.json({ status: 'success', message: 'user login authorized' });
+});
+
+usersRouter.delete('/:uid', async (req, res) => {
+	try {
+		const userId = req.params.uid;
+		await userController.deleteUser(userId);
+		res.json({ status: 'success', message: `user ID${userId} deleted` });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });

@@ -34,6 +34,11 @@ class UserMongo {
 	async updateUser(newUser) {
 		await this.model.updateOne({ email: newUser.email }, newUser);
 	}
+
+	//Método para eliminar un usuario
+	async deleteUser(userId) {
+		return this.model.deleteOne({ _id: userId }); //elimino producto seleccionado
+	}
 }
 
 //instancio nueva clase de User Mongo

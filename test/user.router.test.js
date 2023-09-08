@@ -4,69 +4,71 @@ import supertest from 'supertest';
 const expect = chai.expect;
 const request = supertest('http://localhost:8080');
 
+
+
 describe('Test de integracion - Sesiones', () => {
-	let cookie = {};
-	let userId;
+	let userId = "";
 
-	after(() => {
-		request.delete(`/api/users/${userId}`).then((result) => {
-			const { _body } = result;
-			expect(_body).to.be.ok;
-			expect(_body.payload).to.be.ok;
-			expect(_body.payload.deletedCount).to.be.ok.and.equal(1);
-		});
-	});
-
-	it('Se debe poder registrar un usuario correctamente', () => {
+	it('Se debe poder registrar un usuario correctamente', async () => {
 		const user = {
-			first_name: 'Juawn2',
-			last_name: 'Perewz2',
-			email: 'jwuan@perez2.com',
+			first_name: 'Cosme',
+			last_name: 'Fulanito',
+			email: 'cosme_fulanito@gmail.com',
 			password: '123',
 		};
 
-		request
-			.post('/api/sessions/register')
-			.send(user)
-			.then((result) => {
+		const {_body} =  await request.post('/api/users').send(user)
+		userId = _body.payload._id;
+		
+		expect(_body.payload).to.have.property('_id');
+		/*.then((result) => {
 				const { _body } = result;
 				userId = _body.payload._id;
-				expect(_body).to.be.ok;
-			});
+				expect(_body.payload).to.have.property('_id');
+			});*/
+						
 	});
 
-	it('Se debe poder iniciar sesion correctamente (USO DE COOKIE)', () => {
+	it('Se debe poder iniciar sesion correctamente (USO DE COOKIE)',async() => {
 		const user = {
-			email: 'jwuan@perez2.com',
+			username: 'cosme_fulanito@gmail.com',
 			password: '123',
 		};
+		const response = await request.post('/api/users/auth').send(user)
+			// Verifica el estado de la respuesta
+			expect(response.status).to.equal(200);
 
-		request
-			.post('/api/sessions/login')
-			.send(user)
-			.then((result) => {
-				const cookieResult = result.headers['set-cookie'][0];
+			// Obtiene las cookies de la respuesta
+			const cookies = response.headers['set-cookie'];
 
-				expect(cookieResult).to.be.ok;
+			// Encuentra la cookie 'token' en las cookies
+			let tokenCookie;
+			if (cookies) {
+				for (const cookie of cookies) {
+					if (cookie.startsWith('token=')) {
+						tokenCookie = cookie;
+						break;
+					}
+				}
+			}
 
-				cookie = {
-					name: cookieResult.split('=')[0],
-					value: cookieResult.split('=')[1],
-				};
+			// Verifica que la cookie 'token' se haya establecido correctamente
+			expect(tokenCookie).to.exist;
+			// Parseo la cookie para obtener el valor del token
+			const tokenValue = tokenCookie.split('=')[1].split(';')[0];
 
-				expect(cookie.name).to.be.ok.and.equal('coderCookie');
-				expect(cookie.value).to.be.ok;
-			});
+			// Verifico
+			expect(tokenValue).to.be.ok;
 	});
 
-	it('La coockie del usuario debe ser enviada y desecturada correctamente', () => {
-		request
-			.get('/api/sessions/current')
-			.set('Cookie', [`${cookie?.name}=${cookie?.value}`])
-			.then((result) => {
-				const { _body } = result;
-				expect(_body.payload).to.be.ok;
-				expect(_body.payload.email).to.be.ok.and.equal('jwuan@perez2.com');
-			});
+	it('Se debe poder actualizar el rol de un usuario de user a premium y viceversa', async () => {
+		const { _body } = await request.get(`/api/users/premium/${userId}`)
+		expect(_body.status).to.be.ok.and.equal('success');
 	});
+
+	after(async () => {
+		const { _body } = await request.delete(`/api/users/${userId}`);
+		expect(_body.status).to.be.ok.and.equal('success');
+	});
+
 });

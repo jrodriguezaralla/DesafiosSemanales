@@ -29,6 +29,11 @@ class UserController {
 	async updateUser(newUser) {
 		return await this.service.updateUser(newUser);
 	}
+
+	//Método para eliminar un usuario
+	async deleteUser(userId) {
+		return this.service.deleteUser(userId); //elimino producto seleccionado
+	}
 }
 
 //Instancio una nueva clase de User Controller

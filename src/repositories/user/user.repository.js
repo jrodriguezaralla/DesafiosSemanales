@@ -22,12 +22,17 @@ export default class UserRepository {
 
 	//método para registrar un usuario
 	async createUser(newUser) {
-		let userToInsert = new UserDTO (newUser);
+		let userToInsert = new UserDTO(newUser);
 		return await this.dao.createUser(userToInsert);
 	}
 
 	//método para actualizar un usuario
 	async updateUser(newUser) {
 		return await this.dao.updateUser(newUser);
+	}
+
+	//Método para eliminar un usuario
+	async deleteUser(userId) {
+		return this.dao.deleteUser(userId); //elimino producto seleccionado
 	}
 }

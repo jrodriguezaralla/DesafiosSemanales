@@ -38,6 +38,7 @@ import { loggerMiddleware } from './middleware/logger.middleware.js';
 
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
+import mongoose from 'mongoose';
 
 //Inicializo Express
 const app = express();
@@ -143,7 +144,7 @@ io.on('connection', async (socket) => {
 });
 
 //Me conecto a la base de datos
-//mongoose.connect(environment.mongoUrl);
+mongoose.connect(environment.mongoUrl);
 
 export { io };
 /*
