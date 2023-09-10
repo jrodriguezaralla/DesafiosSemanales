@@ -47,6 +47,11 @@ class CartMongo {
 	getIndex(cart, productId) {
 		return cart.products.indexOf(cart.products.find((element) => element.product._id.toString() === productId));
 	}
+
+	//Método para eliminar un carrito
+	async deleteCart(idBuscado) {
+		return this.model.deleteOne({ _id: idBuscado });
+	}
 }
 
 //Instancio una nueva clase de Cart Mongo

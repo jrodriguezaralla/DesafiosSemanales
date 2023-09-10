@@ -92,6 +92,11 @@ class CartController {
 		await this.service.deleteAllProducts(cartId);
 		return { status: 'sucess', message: `products deleted from cart ID=${cartId}` }; // retorno el carrito con el producto agregado
 	}
+
+	//Método para eliminar un carrito
+	async deleteCart(idBuscado) {
+		return await this.service.deleteCart(idBuscado);
+	}
 }
 
 //Instancio una nueva clase de Cart Controller

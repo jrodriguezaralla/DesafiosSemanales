@@ -43,4 +43,9 @@ export default class CartRepository {
 	getIndex(cart, productId) {
 		return this.dao.getIndex(cart, productId);
 	}
+
+	//Método para eliminar un carrito
+	async deleteCart(idBuscado) {
+		return this.dao.deleteCart(idBuscado); 
+	}
 }

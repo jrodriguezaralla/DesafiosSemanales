@@ -28,8 +28,8 @@ describe('Test de integracion - Productos', () => {
 		};
 
 		const user = {
-			username: 'adminCoder@coder.com',
-			password: 'adminCod3r123',
+			username: environment.adminName,
+			password: environment.adminPassword
 		};
 		const response = await request.post('/api/users/auth').send(user);
 		authTokenCookie = response.headers['set-cookie'];

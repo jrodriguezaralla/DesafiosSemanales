@@ -130,4 +130,17 @@ cartRouter.post('/:cid/purchase', async (req, res, next) => {
 	}
 });
 
+cartRouter.delete('/:cid', async (req, res) => {
+	try {
+		const cartId = req.params.uid;
+		await cartController.deleteCart(cartId);
+		res.json({ status: 'success', message: `cart ID${cartId} deleted` });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ status: 'error', message: 'Internal server error' });
+	}
+	//res.json({ status: 'success', message: 'user login authorized' });
+});
+
+
 export { cartRouter };
