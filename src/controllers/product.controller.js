@@ -60,8 +60,8 @@ class ProductController {
 		let codes = allProducts.map((el) => el.code); // Me quedo con los codigos de productos
 		//evaluo si el codigo del nuevo producto no existe
 		if (!codes.includes(productToAdd.code)) {
-			await this.service.addProducts(productToAdd);
-			return { status: 'sucess', message: `product ${productToAdd.code} created` };
+			let result = await this.service.addProducts(productToAdd);
+			return { status: 'success', payload: result };
 		} else {
 			return EErrors.DUPLICATED_VALUE_ERROR;
 			//return { error: 'Error: product already exist' }; //Si el producto ya existe arrojo error
@@ -83,7 +83,7 @@ class ProductController {
 	//Método para actualizar producto
 	async updateProduct(idBuscado, productUpdated) {
 		await this.service.updateProduct(idBuscado, productUpdated);
-		return { status: 'sucess', message: `product ID:${idBuscado} Updated` };
+		return { status: 'success', message: `product ID:${idBuscado} Updated` };
 	}
 
 	//Método para eliminar un producto
@@ -95,7 +95,7 @@ class ProductController {
 		}
 
 		let deleted = await this.service.deleteProduct(idBuscado); //elimino producto seleccionado
-		return { status: 'sucess', message: `product ID:${idBuscado} deleted` }; //retorno sucess con el producto eliminado
+		return { status: 'success', message: `product ID:${idBuscado} deleted` }; //retorno sucess con el producto eliminado
 	}
 }
 

@@ -9,7 +9,7 @@ const request = supertest('http://localhost:8080');
 describe('Test de integracion - Sesiones', () => {
 	let userId = "";
 
-	it('Se debe poder registrar un usuario correctamente', async () => {
+	it('Verificación de crer Usuario', async () => {
 		const user = {
 			first_name: 'Cosme',
 			last_name: 'Fulanito',
@@ -20,16 +20,10 @@ describe('Test de integracion - Sesiones', () => {
 		const {_body} =  await request.post('/api/users').send(user)
 		userId = _body.payload._id;
 		
-		expect(_body.payload).to.have.property('_id');
-		/*.then((result) => {
-				const { _body } = result;
-				userId = _body.payload._id;
-				expect(_body.payload).to.have.property('_id');
-			});*/
-						
+		expect(_body.payload).to.have.property('_id');		
 	});
 
-	it('Se debe poder iniciar sesion correctamente (USO DE COOKIE)',async() => {
+	it('Verificando inicio de sesion (USO DE COOKIE)',async() => {
 		const user = {
 			username: 'cosme_fulanito@gmail.com',
 			password: '123',
@@ -61,7 +55,7 @@ describe('Test de integracion - Sesiones', () => {
 			expect(tokenValue).to.be.ok;
 	});
 
-	it('Se debe poder actualizar el rol de un usuario de user a premium y viceversa', async () => {
+	it('Verificando actualizar el rol de un usuario de user a premium y viceversa', async () => {
 		const { _body } = await request.get(`/api/users/premium/${userId}`)
 		expect(_body.status).to.be.ok.and.equal('success');
 	});
@@ -69,6 +63,24 @@ describe('Test de integracion - Sesiones', () => {
 	after(async () => {
 		const { _body } = await request.delete(`/api/users/${userId}`);
 		expect(_body.status).to.be.ok.and.equal('success');
+		
+		const response = await request.post(`/api/users/logout`);
+		// Obtiene las cookies de la respuesta
+		const cookies = response.headers['set-cookie'];
+		// Encuentra la cookie 'token' en las cookies
+		let tokenCookie;
+		if (cookies) {
+			for (const cookie of cookies) {
+				if (cookie.startsWith('token=')) {
+					tokenCookie = cookie;
+					break;
+				}
+			}
+		}
+		// Parseo la cookie para obtener el valor del token
+		const tokenValue = tokenCookie.split('=')[1].split(';')[0];
+		// Verifica que la cookie 'token' se haya borrado
+		expect(tokenValue).to.be.equal("");
 	});
 
 });

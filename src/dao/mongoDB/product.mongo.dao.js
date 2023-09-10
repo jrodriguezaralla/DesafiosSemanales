@@ -19,7 +19,7 @@ class ProductMongo {
 
 	//Método para agregar productos a la base de datos
 	async addProducts(productToAdd) {
-		await this.model.create(productToAdd);
+		return await this.model.create(productToAdd);
 	}
 
 	//Método para adquirir un producto especifico por ID
