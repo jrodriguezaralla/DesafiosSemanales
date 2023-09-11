@@ -5,81 +5,50 @@ import environment from '../src/config/environment.js';
 const expect = chai.expect;
 const request = supertest('http://localhost:8080');
 
-describe('Test de integracion - Productos', () => {
+describe('Test de integracion - Carrito', () => {
+	let productId = '648d03e20a7231cb7170ea26';
+	let cartId;
 	let authTokenCookie;
-	let productId;
+	const user = {
+		username: 'q@q',
+		password: '1',
+	};
 
-	it('Verificando listado de productos', async () => {
-		const response = await request.get('/api/products');
+	it('Verificando creación de nuevo carrito', async () => {
+		const response = await request.post('/api/carts');
 		expect(response.status).to.equal(200);
 		expect(response._body.status).to.be.ok.and.equal('success');
+		expect(response._body.cartId).to.not.equal('');	
+		cartId = response._body.cartId; // guardo elcarti id para usarlo despues
 	});
 
-	it('Verificando creación de producto', async () => {
-		const product = {
-			title: 'REMERA OVERSIZE',
-			description: 'remera oversize talle único colo negra',
-			code: 'R003',
-			price: 43,
-			status: true,
-			stock: 100,
-			category: 'Remeras',
-			thumbnail: ['https://acdn.mitiendanube.com/stores/001/966/536/products/1024x1024-21-b321421924a8680bc316440191914454-640-0.webp'],
-		};
+	it('Verificando agregar un producto al carrito creado', async () => {
+		//logueo con usuario de prueba para probar agregar un producto
+		const authResponse = await request.post('/api/users/auth').send(user);
+		authTokenCookie = authResponse.headers['set-cookie']; //guardo el token para usarlo despues
 
-		const user = {
-			username: environment.adminName,
-			password: environment.adminPassword
-		};
-		const response = await request.post('/api/users/auth').send(user);
-		authTokenCookie = response.headers['set-cookie'];
-		const { _body } = await request.post('/api/products').set('Cookie', authTokenCookie).send(product);
-		productId = _body.payload._id;
-		expect(_body.status).to.be.ok.and.equal('success');
-		expect(_body.payload).to.have.property('_id');
+		const cartResponse = await request.post(`/api/carts/${cartId}/product/${productId}`).set('Cookie', authTokenCookie);
+		expect(cartResponse.status).to.equal(200);
+		expect(cartResponse._body.status).to.be.ok.and.equal('success');
 	});
 
-	it('Verificando buscar producto por su ID', async () => {
-		const response = await request.get(`/api/products/${productId}`);
-		expect(response._body[0]).to.have.property('_id');
+	it('Verificando actualizar cantidades de producto en el carrito', async () => {
+		const cartResponse = await request.put(`/api/carts/${cartId}/product/${productId}`).set('Cookie', authTokenCookie).send({"quantity" : 10});
+		expect(cartResponse.status).to.equal(200);
+		expect(cartResponse._body).to.have.property('_id');
 	});
 
-	it('Verificando modificar producto', async () => {
-		const product = {
-			title: 'REMERA OVERSIZE',
-			description: 'remera oversize talle único colo negra',
-			code: 'R035',
-			price: 60,
-			status: true,
-			stock: 150,
-			category: 'Remeras',
-			thumbnail: ['https://acdn.mitiendanube.com/stores/001/966/536/products/1024x1024-21-b321421924a8680bc316440191914454-640-0.webp'],
-		};
-
-		const response = await request.put(`/api/products/${productId}`).set('Cookie', authTokenCookie).send(product);
-		expect(response._body.status).to.be.ok.and.equal('success');
+	it('Verificando borrar un producto del carrito', async () => {
+		const cartResponse = await request.delete(`/api/carts/${cartId}/product/${productId}`).set('Cookie', authTokenCookie);
+		expect(cartResponse.status).to.equal(200);
+		expect(cartResponse._body.status).to.be.ok.and.equal('success');
 	});
 
 	after(async () => {
-		const { _body } = await request.delete(`/api/products/${productId}`).set('Cookie', authTokenCookie);
-		expect(_body.status).to.be.ok.and.equal('success');
-
-		const response = await request.post(`/api/users/logout`);
-		// Obtiene las cookies de la respuesta
-		const cookies = response.headers['set-cookie'];
-		// Encuentra la cookie 'token' en las cookies
-		let tokenCookie;
-		if (cookies) {
-			for (const cookie of cookies) {
-				if (cookie.startsWith('token=')) {
-					tokenCookie = cookie;
-					break;
-				}
-			}
-		}
-		// Parseo la cookie para obtener el valor del token
-		const tokenValue = tokenCookie.split('=')[1].split(';')[0];
-		// Verifica que la cookie 'token' se haya borrado
-		expect(tokenValue).to.be.equal('');
+		//elimino carrito creado para el test
+		const cartResponse = await request.delete(`/api/carts/delete/${cartId}`);
+		expect(cartResponse._body.status).to.be.ok.and.equal('success');
+		//cierro sesion de usuario
+		const userResponse = await request.post(`/api/users/logout`);
 	});
 });

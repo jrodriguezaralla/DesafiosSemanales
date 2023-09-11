@@ -95,7 +95,7 @@ class ProductController {
 		}
 
 		let deleted = await this.service.deleteProduct(idBuscado); //elimino producto seleccionado
-		return { status: 'success', message: `product ID:${idBuscado} deleted` }; //retorno sucess con el producto eliminado
+		return { status: 'success', message: `product ID:${idBuscado} deleted` }; //retorno success con el producto eliminado
 	}
 }
 

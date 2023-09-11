@@ -78,12 +78,12 @@ paths:
                 properties:
                   status:
                     type: string
-                    description: Estado sucess o error.
+                    description: Estado success o error.
                   message:
                     type: string
                     description: se indica que el login ha sido autorizado
                 example:
-                  status: sucess
+                  status: success
                   message: user login authorized
         500:
           description: Error del servidor
@@ -120,12 +120,12 @@ paths:
                 properties:
                   status:
                     type: string
-                    description: Estado sucess o error.
+                    description: Estado success o error.
                   message:
                     type: string
                     description: se indica que el password ha sido actualizado
                 example:
-                  status: sucess
+                  status: success
                   message: Password update correctly
         500:
           description: Error del servidor
@@ -171,12 +171,12 @@ paths:
                 properties:
                   status:
                     type: string
-                    description: Estado sucess o error.
+                    description: Estado success o error.
                   message:
                     type: string
                     description: se indica que el rol ha sido modificado
                 example:
-                  status: sucess
+                  status: success
                   message: user cosme_fulanito@gmail has change his role to premium
         500:
           description: Error del servidor

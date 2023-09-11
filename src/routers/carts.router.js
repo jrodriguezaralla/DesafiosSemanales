@@ -16,13 +16,13 @@ const cartRouter = Router();
 cartRouter.post('/', async (req, res, next) => {
 	/*try {
 		CartList.addNewCart();
-		res.send({ status: 'sucess', message: 'New cart added' });
+		res.send({ status: 'success', message: 'New cart added' });
 	} catch (error) {
 		res.status(400).send(error);
 	}*/
 	try {
-		await cartController.addNewCart();
-		res.send({ status: 'sucess', message: 'New cart added' });
+		let payload = await cartController.addNewCart();
+		res.json({ status: 'success', message: 'New cart added', cartId: payload.toString()});
 	} catch (error) {
 		next(error);
 	}
@@ -100,7 +100,7 @@ cartRouter.put('/:cid', async (req, res, next) => {
 cartRouter.put('/:cid/product/:pid', async (req, res, next) => {
 	try {
 		//Recibo por params el Id de carrito y el ID del producto y lo agrego al carrito indicado
-		let result = await cartController.updateProductQuantity(req.params.cid, req.params.pid, req.body);
+		let result = await cartController.updateProductQuantity(req.params.cid, req.params.pid, req.body.quantity);
 		res.send(result);
 	} catch (error) {
 		next(error);
@@ -130,9 +130,9 @@ cartRouter.post('/:cid/purchase', async (req, res, next) => {
 	}
 });
 
-cartRouter.delete('/:cid', async (req, res) => {
+cartRouter.delete('/delete/:cid', async (req, res) => {
 	try {
-		const cartId = req.params.uid;
+		const cartId = req.params.cid;
 		await cartController.deleteCart(cartId);
 		res.json({ status: 'success', message: `cart ID${cartId} deleted` });
 	} catch (error) {

@@ -18,7 +18,7 @@ class MessageController {
 		}
 
 		await this.service.addMessage(messageToAdd);
-		return { status: 'sucess', message: `message added to DB` };
+		return { status: 'success', message: `message added to DB` };
 	}
 }
 

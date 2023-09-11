@@ -34,8 +34,8 @@ class CartMongo {
 	}
 
 	//metodo para modificar la cantidad de productos de un elemento del array de productos
-	async updateProductQuantity(cart) {
-		await cart.save(); //guardo cambios
+	async updateProductQuantity(cartId, productId, newQuantity) {
+		return await this.model.findOneAndUpdate({ _id: cartId, 'products.product': productId }, { $set: { 'products.$.quantity': newQuantity } }, { new: true });
 	}
 
 	//Metodo para borrar todos los productos de un carrito determinado

@@ -41,12 +41,12 @@ paths:
                 properties:
                   status:
                     type: string
-                    description: Estado sucess o error.
+                    description: Estado success o error.
                   message:
                     type: string
                     description: se indica el codigo del producto agregado.
                 example:
-                  status: sucess
+                  status: success
                   message: product M001 created
         401:
           description: Debe autenticarse primero
@@ -126,12 +126,12 @@ paths:
                 properties:
                   status:
                     type: string
-                    description: Estado sucess o error.
+                    description: Estado success o error.
                   message:
                     type: string
                     description: se indica el ID del producto eliminado.
                 example:
-                  status: sucess
+                  status: success
                   message: product ID:64e5749286aba34b2cb1d376 deleted
         404:
           description: Producto no encontrado

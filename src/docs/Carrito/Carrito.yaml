@@ -14,12 +14,12 @@ paths:
                 properties:
                   status:
                     type: string
-                    description: Estado sucess o error.
+                    description: Estado success o error.
                   message:
                     type: string
                     description: se indica ok de operación.
                 example:
-                  status: sucess
+                  status: success
                   message: New cart added
         500:
           description: Error del servidor
@@ -99,12 +99,12 @@ paths:
                 properties:
                   status:
                     type: string
-                    description: Estado sucess o error.
+                    description: Estado success o error.
                   message:
                     type: string
                     description: se indica ok de operación.
                 example:
-                  status: sucess
+                  status: success
                   message: products from cart ID=64b68bafc6575fad1946999b updated
         500:
           description: Error del servidor
@@ -129,12 +129,12 @@ paths:
                 properties:
                   status:
                     type: string
-                    description: Estado sucess o error.
+                    description: Estado success o error.
                   message:
                     type: string
                     description: se indica el ID del carrito borrado.
                 example:
-                  status: sucess
+                  status: success
                   message: products deleted from cart ID=64b69c20f1e9b8983e155a8a 
         400:
           description: Error de campo invalido o faltante.
@@ -198,12 +198,12 @@ paths:
                 properties:
                   status:
                     type: string
-                    description: Estado sucess o error.
+                    description: Estado success o error.
                   message:
                     type: string
                     description: se indica el codigo del producto agregado.
                 example:
-                  status: sucess
+                  status: success
                   message: product ID=648d03e20a7231cb7170ea13 deleted from cart ID=64b69c20f1e9b8983e155a8a 
         400:
           description: Error de campo invalido o faltante.
@@ -250,12 +250,12 @@ paths:
                 properties:
                   status:
                     type: string
-                    description: Estado sucess o error.
+                    description: Estado success o error.
                   message:
                     type: string
                     description: se indica el codigo del producto agregado en el carrito indicado
                 example:
-                  status: sucess
+                  status: success
                   message: product ID=648d03e20a7231cb7170ea13 added to cart ID=64b69c20f1e9b8983e155a8a 
         500:
           description: Error del servidor
