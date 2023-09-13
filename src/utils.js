@@ -1,5 +1,5 @@
 import multer from "multer"
-import __dirname from "./dirname.util"
+import __dirname from "./dirname.util.js"
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
