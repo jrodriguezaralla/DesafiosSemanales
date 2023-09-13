@@ -7,6 +7,7 @@ import environment from '../config/environment.js';
 
 //importación de libreria de dating
 import { DateTime } from 'luxon';
+import { uploader } from '../utils.js';
 
 const usersRouter = Router();
 
@@ -129,6 +130,15 @@ usersRouter.delete('/:uid', async (req, res) => {
 		res.status(500).json({ status: 'error', message: 'Internal server error' });
 	}
 	//res.json({ status: 'success', message: 'user login authorized' });
+});
+
+//Endpoitn para destruir sesion
+usersRouter.post('/:uid/documents', uploader.single("file"), async (req, res) => {
+	const user = await userController.getById(req.params.uid); //obtengo usuario
+	user.last_connection = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS);
+	await userController.updateUser(user);
+
+	return res.clearCookie('token').redirect('/login');
 });
 
 export { usersRouter };
