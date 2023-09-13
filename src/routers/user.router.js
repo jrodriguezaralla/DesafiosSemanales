@@ -5,6 +5,9 @@ import { generateToken } from '../middleware/jwt.middleware.js';
 import userController from '../controllers/user.controller.js';
 import environment from '../config/environment.js';
 
+//importación de libreria de dating
+import { DateTime } from 'luxon';
+
 const usersRouter = Router();
 
 //Endpoint para registrar usuario
@@ -24,6 +27,7 @@ usersRouter.get('/failregister', async (req, res) => {
 //Endpoint para autenticar usuario y contraseña
 usersRouter.post('/auth', async (req, res) => {
 	const { username, password } = req.body;
+
 	try {
 		let user = await userController.getByEmail(username);
 
@@ -47,6 +51,9 @@ usersRouter.post('/auth', async (req, res) => {
 				return res.json({ status: 'error', message: 'incorrect pasword' });
 			}
 		}
+
+		user.last_connection = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS);
+		await userController.updateUser(user);
 
 		const token = generateToken(user);
 		res.cookie('token', token, {
@@ -89,7 +96,11 @@ usersRouter.get('/faillogin', async (req, res) => {
 });
 
 //Endpoitn para destruir sesion
-usersRouter.post('/logout', (req, res) => {
+usersRouter.post('/logout/:uid', async (req, res) => {
+	const user = await userController.getById(req.params.uid); //obtengo usuario
+	user.last_connection = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS);
+	await userController.updateUser(user);
+
 	return res.clearCookie('token').redirect('/login');
 });
 
