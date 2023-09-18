@@ -26,6 +26,13 @@
                             logout
                         </button>
                     </form>
+
+                    <form action='/api/users/{{user._id}}/documents' method='post' enctype="multipart/form-data">
+                        <input type="file" name="archivos" id="archivos" multiple>
+                        <button type="submit" class="btn btn-danger mx-2 " id="btnLogOut">
+                            file
+                        </button>
+                    </form>
                 </div>
         </div>
     </nav>
@@ -147,7 +154,7 @@
                             aria-hidden="true">&laquo;</span></a>
                 </li>
     
-                <li class="page-item dark" aria-current="page"><a class="page-link" href="#">{{products.page}}</a></li>
+                <li class="page-item dark" aria-current="page"><a class="page-link" href="#">{{products.page}} de {{products.totalPages}}</a></li>
     
                 {{#if products.hasNextPage}}
                 <li class="page-item">

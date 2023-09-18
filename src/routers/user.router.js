@@ -7,7 +7,9 @@ import environment from '../config/environment.js';
 
 //importación de libreria de dating
 import { DateTime } from 'luxon';
-import { uploader } from '../utils.js';
+import { uploadGeneric } from '../middleware/uploadgeneric.middleware.js';
+
+import multer from 'multer';
 
 const usersRouter = Router();
 
@@ -120,6 +122,7 @@ usersRouter.get('/premium/:uid', async (req, res) => {
 	//res.json({ status: 'success', message: 'user login authorized' });
 });
 
+//Endpoint para destruir sesion
 usersRouter.delete('/:uid', async (req, res) => {
 	try {
 		const userId = req.params.uid;
@@ -132,13 +135,18 @@ usersRouter.delete('/:uid', async (req, res) => {
 	//res.json({ status: 'success', message: 'user login authorized' });
 });
 
-//Endpoitn para destruir sesion
-usersRouter.post('/:uid/documents', uploader.single("file"), async (req, res) => {
-	const user = await userController.getById(req.params.uid); //obtengo usuario
-	user.last_connection = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS);
-	await userController.updateUser(user);
+//Endpoitn para guardar documentación
+usersRouter.post('/:uid/documents', uploadGeneric('src/public/img').array('archivos'), async (req, res) => {
+	try {
+		if (!req.files) {
+			return res.status(400).send({ status: 'error', message: 'No se pudo guardar la imagen' });
+		}
 
-	return res.clearCookie('token').redirect('/login');
+		console.log(req.files)
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ status: 'error', message: 'Internal server error' });
+	}
 });
 
 export { usersRouter };
