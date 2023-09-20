@@ -136,17 +136,26 @@ usersRouter.delete('/:uid', async (req, res) => {
 });
 
 //Endpoitn para guardar documentación
-usersRouter.post('/:uid/documents', uploadGeneric('src/public/img').array('archivos'), async (req, res) => {
-	try {
-		if (!req.files) {
-			return res.status(400).send({ status: 'error', message: 'No se pudo guardar la imagen' });
-		}
+usersRouter.post(
+	'/:uid/documents',
+	uploadGeneric('src/public/documents').fields([
+			{ name: 'identificacion'},
+			{ name: 'domicilio' },
+			{ name: 'cuenta' },
+		]),
+	async (req, res) => {
+		try {
+			if (!req.files) {
+				return res.status(400).send({ status: 'error', message: 'No se pudo guardar la imagen' });
+			}
 
-		console.log(req.files)
-	} catch (error) {
-		console.error(error);
-		res.status(500).json({ status: 'error', message: 'Internal server error' });
+			console.log(req.files);
+		} catch (error) {
+			console.error(error);
+			res.status(500).json({ status: 'error', message: 'Internal server error' });
+		}
 	}
-});
+);
+
 
 export { usersRouter };

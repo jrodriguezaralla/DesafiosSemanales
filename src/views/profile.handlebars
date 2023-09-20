@@ -1,0 +1,29 @@
+<div class="w-100 h-100 d-flex  justify-content-center align-items-center productsBody flex-column">
+	<div class="card w-50">
+		<div class="row g-0 h-100">
+			<div class="col-md-4">
+				<img src="src/public/profile/default.jpg" class="img-fluid rounded-start" alt="...">
+			</div>
+			<div class="col-md-8">
+				<div class="card-body">
+					<h5 class="card-title">My profile</h5>
+					<p class="card-text">First Name: {{user.first_name}} </p>
+					<p class="card-text">Last Name: {{user.last_name}} </p>
+					<p class="card-text">Email: {{user.email}}</p>
+					<p class="card-text">Age: {{user.age}}</p>
+					<p class="card-text">Role: {{user.role}}</p>
+					<form action='/api/users/{{user._id}}/documents' method='post' enctype="multipart/form-data">
+						<input type="file" class="form-control" name="identificacion" multiple>
+						<input type="file" class="form-control" name="domicilio" multiple>
+						<input type="file" class="form-control" name="cuenta" multiple>
+						<button type="submit" class="btn btn-danger mx-2 " id="btnLogOut">
+							upload
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button onclick="backToProducts()" type="button" class="btn btn-dark mt-3">Back to Products</button>
+</div>
+<script src="/js/profile.js"></script>

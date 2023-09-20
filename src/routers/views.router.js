@@ -111,4 +111,17 @@ viewsRouter.get('/', async (req, res) => {
 	}
 });
 
+viewsRouter.get('/profile', middlewarePassportJWT, async (req, res) => {
+	let { user } = req.user;
+	try {
+
+		res.render('profile', {
+			user,
+			style: 'index.css', // Envío los estilos css
+		});
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
 export { viewsRouter };
