@@ -80,7 +80,7 @@ productsRouter.post('/', middlewarePassportJWT, isAdminOrPremium, async (req, re
 			});
 		}
 
-		productToAdd.owner = req.user.user.email;
+		productToAdd.owner = req.user.email;
 
 		let newProduct = await productController.addProducts(productToAdd); //recibo por body el producto a agregar
 		if (newProduct === EErrors.DUPLICATED_VALUE_ERROR) {
@@ -141,7 +141,7 @@ productsRouter.delete('/:pid', middlewarePassportJWT, isAdminOrPremium, async (r
 		let prodToDel = await productController.getProductsById(idBuscado);
 		let product;
 
-		if ((req.user.user.role === 'premium' && prodToDel[0].owner === req.user.user.email) || req.user.user.role === 'admin') {
+		if ((req.user.role === 'premium' && prodToDel[0].owner === req.user.email) || req.user.role === 'admin') {
 			product = await productController.deleteProduct(idBuscado);
 		} else {
 			CustomError.createError({

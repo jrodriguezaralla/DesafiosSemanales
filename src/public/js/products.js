@@ -43,3 +43,4 @@ btnAgregarCarrito.forEach((el) => {
 			});
 	});
 });
+

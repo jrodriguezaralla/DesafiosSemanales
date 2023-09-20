@@ -9,8 +9,6 @@ import environment from '../config/environment.js';
 import { DateTime } from 'luxon';
 import { uploadGeneric } from '../middleware/uploadgeneric.middleware.js';
 
-import multer from 'multer';
-
 const usersRouter = Router();
 
 //Endpoint para registrar usuario
@@ -138,11 +136,26 @@ usersRouter.delete('/:uid', async (req, res) => {
 //Endpoitn para guardar documentación
 usersRouter.post('/:uid/documents', uploadGeneric('src/public/documents').array('archivo'), async (req, res) => {
 	try {
+		const tipo = req.body.tipo; // Obtén el tipo de formulario
+		const archivo = req.files; // Obtén el archivo cargado
+		const user = await userController.getById(req.params.uid);
+		archivo.forEach((file) => {
+			const document = {
+				name: file.originalname, //(Nombre del documento).
+				reference: file.path, //(link al documento).
+				type: tipo,
+			};
+
+			user.documents.push(document)
+
+		})
+		await userController.updateUser(user)
+		//console.log(user)
+
 		if (!req.files) {
 			return res.status(400).send({ status: 'error', message: 'No se pudo guardar la imagen' });
 		}
-
-		console.log(req.files);
+		res.redirect('/profile');
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });

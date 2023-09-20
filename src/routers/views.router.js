@@ -12,8 +12,8 @@ const viewsRouter = Router();
 
 //Endpoint que muestra los produuctos
 viewsRouter.get('/products', middlewarePassportJWT, async (req, res) => {
-	let { user } = req.user;
-	delete user.password;
+	let user = req.user;
+	console.log(user._id)
 	try {
 		const { limit, page, category, availability, sort } = req.query;
 		let products = await productController.getProducts(parseInt(limit), parseInt(page), category, sort, availability); //traigo el listado de productos y los renderizo en home
@@ -112,9 +112,8 @@ viewsRouter.get('/', async (req, res) => {
 });
 
 viewsRouter.get('/profile', middlewarePassportJWT, async (req, res) => {
-	let { user } = req.user;
+	let user = req.user;
 	try {
-
 		res.render('profile', {
 			user,
 			style: 'index.css', // Envío los estilos css

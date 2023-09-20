@@ -19,13 +19,8 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		default: 'user',
 	},
-	documents: [
-		{
-			name: String, //(Nombre del documento).
-			reference: String //(link al documento).
-		}
-	],
-	last_connection: String
+	documents: Array ,
+	last_connection: String,
 });
 
 const userModel = mongoose.model('users', userSchema);

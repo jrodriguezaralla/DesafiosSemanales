@@ -20,7 +20,7 @@ class UserMongo {
 
 	//método para encontrar un usuario por id
 	async getById(userId) {
-		return await this.model.findById(userId);
+		return await this.model.findById(userId).lean();
 	}
 
 	//método para registrar un usuario
