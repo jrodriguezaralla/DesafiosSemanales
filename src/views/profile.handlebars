@@ -17,7 +17,6 @@
 						</div>
 						<div class="col-md-8">
 							<p>Update to premium user? please upload de next files:</p>
-							
 							<!-- Formulario para identificación -->
 							{{#if user.documents.[0].type}}
 							<p>Identification Doc &#x2705;</p>
@@ -55,7 +54,7 @@
 						{{#if user.documents.[0].type}}
 							{{#if user.documents.[1].type}}
 								{{#if user.documents.[2].type}}
-									<button onclick="BePremium()" type="button" class="btn btn-dark mt-3">Be a Premuim User</button>
+									<button onclick="BePremium()" type="button" class="btn btn-dark mt-3" id="btnBePremium">Update User</button>
 								{{/if}}
 							{{/if}}
 						{{/if}}

@@ -150,7 +150,6 @@ usersRouter.post('/:uid/documents', uploadGeneric('src/public/documents').array(
 
 		})
 		await userController.updateUser(user)
-		//console.log(user)
 
 		if (!req.files) {
 			return res.status(400).send({ status: 'error', message: 'No se pudo guardar la imagen' });

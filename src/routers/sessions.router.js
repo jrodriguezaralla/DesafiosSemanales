@@ -21,8 +21,8 @@ sessionRouter.get('/githubcallback', passport.authenticate('github', { failureRe
 //Endpoint que valida datos de usuario para loguearse
 sessionRouter.get('/current', middlewarePassportJWT, async (req, res) => {
 	try {
-		let user = new UserDTO(req.user);
-		return res.send(user);
+		//let user = new UserDTO(req.user);
+		return res.send(req.user);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });

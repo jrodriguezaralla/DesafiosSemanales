@@ -13,7 +13,6 @@ const viewsRouter = Router();
 //Endpoint que muestra los produuctos
 viewsRouter.get('/products', middlewarePassportJWT, async (req, res) => {
 	let user = req.user;
-	console.log(user._id)
 	try {
 		const { limit, page, category, availability, sort } = req.query;
 		let products = await productController.getProducts(parseInt(limit), parseInt(page), category, sort, availability); //traigo el listado de productos y los renderizo en home
