@@ -1,5 +1,5 @@
 <div class="w-100 h-100 d-flex  justify-content-center align-items-center productsBody flex-column">
-	<div class="card w-50">
+	<div class="card w-75 h-50">
 		<div class="row g-0 h-100">
 			<div class="col-md-4">
 				<img src="src/public/profile/default.jpg" class="img-fluid rounded-start" alt="...">
@@ -11,15 +11,37 @@
 					<p class="card-text">Last Name: {{user.last_name}} </p>
 					<p class="card-text">Email: {{user.email}}</p>
 					<p class="card-text">Age: {{user.age}}</p>
-					<p class="card-text">Role: {{user.role}}</p>
-					<form action='/api/users/{{user._id}}/documents' method='post' enctype="multipart/form-data">
-						<input type="file" class="form-control" name="identificacion" multiple>
-						<input type="file" class="form-control" name="domicilio" multiple>
-						<input type="file" class="form-control" name="cuenta" multiple>
-						<button type="submit" class="btn btn-danger mx-2 " id="btnLogOut">
-							upload
-						</button>
-					</form>
+					<div class="row g-0 h-100">
+						<div class="col-md-3">
+							<p class="card-text">Role: {{user.role}}</p>
+						</div>
+						<div class="col-md-8">
+							<p>Update to premium user? please upload de next files:</p>
+							<!-- Formulario para identificación -->
+							<form action="/api/users/{{user._id}}/documents" method="post" enctype="multipart/form-data" class="d-flex ">
+								<input type="file" class="form-control" name="archivo">
+								<input type="hidden" name="tipo" value="identificacion">
+								<button type="submit" class="btn btn-outline-secondary btn-sm mb-2">Upload Identificación</button>
+							</form>
+							
+							<!-- Formulario para domicilio -->
+							<form action="/api/users/{{user._id}}/documents" method="post" enctype="multipart/form-data" class="input-group">
+								<input type="file" class="form-control" name="archivo">
+								<input type="hidden" name="tipo" value="domicilio">
+								<button type="submit" class="btn btn-outline-secondary btn-sm mb-2">Upload Domicilio</button>
+							</form>
+							
+							<!-- Formulario para cuenta -->
+							<form action="/api/users/{{user._id}}/documents" method="post" enctype="multipart/form-data" class="input-group">
+								<input type="file" class="form-control" name="archivo">
+								<input type="hidden" name="tipo" value="cuenta">
+								<button type="submit" class="btn btn-outline-secondary btn-sm mb-2">Upload Cuenta</button>
+							</form>
+						</div>
+						
+
+					</div>
+
 				</div>
 			</div>
 		</div>
