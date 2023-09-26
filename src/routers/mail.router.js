@@ -10,7 +10,7 @@ const transport = nodemailer.createTransport({
 	service: 'gmail',
 	port: 587,
 	auth: {
-		user: 'jrodriguez.aralla@gmail.com',
+		user: environment.hostMail,
 		pass: 'zxnr rhxp lxgs fjaq',
 	},
 });
@@ -20,7 +20,7 @@ mailRouter.post('/', async (req, res) => {
 	try {
 		let { newTicket } = req.body; //recibo por body los datos
 		let result = await transport.sendMail({
-			from: 'jrodriguez.aralla@gmail.com',
+			from: environment.hostMail,
 			to: `${newTicket.purchaser}`,
 			subject: `Gracias por su compra`,
 			html: `
@@ -38,7 +38,7 @@ mailRouter.post('/', async (req, res) => {
 	}
 });
 
-//Endpoint que envia email
+//Endpoint que envia email para restablecer contraseña
 mailRouter.post('/restorepassword', async (req, res) => {
 	try {
 		let { email } = req.body; //recibo por body los datos
@@ -46,7 +46,7 @@ mailRouter.post('/restorepassword', async (req, res) => {
 		const url = RESTORE_PASS_URL + '?token=' + token;
 
 		let result = await transport.sendMail({
-			from: 'jrodriguez.aralla@gmail.com',
+			from: environment.hostMail,
 			to: `${email}`,
 			subject: `EncontraDeTodo - Restablecer contraseña`,
 			html: `
@@ -60,6 +60,27 @@ mailRouter.post('/restorepassword', async (req, res) => {
 			attachments: [],
 		});
 		res.redirect('/');
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
+//Endpoint que envia email para dar aviso de que un prodcuto fue eliminado
+mailRouter.post('/deleteproduct', async (req, res) => {
+	try {
+		let { email, product } = req.body; //recibo por body los datos
+		let result = await transport.sendMail({
+			from: environment.hostMail,
+			to: `${email}`,
+			subject: `Eliminación de prodcuto`,
+			html: `
+            <div>
+                <p>Informamos que el producto codigo: ${product.code} y ID:${product._id} fue eliminado</p>
+            </div>
+            `,
+			attachments: [],
+		});
+		res.send(result);
 	} catch (error) {
 		res.status(400).send(error);
 	}

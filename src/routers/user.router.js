@@ -197,13 +197,6 @@ usersRouter.delete('/', async (req, res) => {
 		const unit = 'days'; // Puedes cambiar esto a 'hours', 'minutes', 'months', 'years', etc.
 		const usersNotConnectedInPeriod = users.filter((user) => hasNotConnectedInPeriod(user, period, unit)).map((user) => user._id);
 
-		
-
-		//console.log(`IDs de usuarios que no se han conectado en los últimos ${period} ${unit}:`, usersNotConnectedInPeriod);
-
-
-		console.log(usersNotConnectedInPeriod)
-
 		const usersDeleted= await userController.deleteManyUser(usersNotConnectedInPeriod)
 		res.json({ status: 'success', payload: usersDeleted });
 	} catch (error) {
