@@ -124,7 +124,7 @@ viewsRouter.get('/masterproducts', async (req, res) => {
 		res.render('masterproducts', {
 			products,
 			user,
-			style: 'index.css', // Envío los estilos css
+			style: 'masterproducts.css', // Envío los estilos css
 		});
 	} catch (error) {
 		res.status(400).send(error);

@@ -1,10 +1,10 @@
-<body class="products_body--font_family">
+<body class="products_body--font_family productsBody">
 	<div class="d-flex flex-column align-items-center">
 		<h1 class="products_tittle--font_family">Welcome to EncontraDeTodo.com!</h1>
 		<h4>Master list of products</h4>
 	</div>
 	<div class="d-flex justify-content-center align-item-center mt-5">
-		<button type="button" class="btn btn-dark">
+		<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
 		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-plus-circle"
 			viewBox="0 0 16 16">
 			<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
@@ -100,50 +100,73 @@
 				{{/each}}
 			</tbody>
 		</table>
-		{{!-- <Table striped bordered hover>
-			<thead>
-				<tr>
+	</div>
 
-				</tr>
-			</thead>
-			<tbody>
-				{
-				products.map((prod) => (
-				<tr key={prod._id}>
-					<td>{prod.id} </td>
-					<td>{prod.title} </td>
-					<td>{prod.description} </td>
-					<td>{prod.code} </td>
-					<td>{prod.price} </td>
-					<td>{prod.status} </td>
-					<td>{prod.stock} </td>
-					<td>{prod.category} </td>
-					<td>
-						<Image src={prod.thumbnail} fluid />
-					</td>
-					<td>{prod.owner} </td>
-					<td>
-						<div className="d-flex justify-content-center align-items-center">
-							<span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
-								data-bs-content="Disabled popover">
-								<Button variant="warning" className="mx-2">
-									<img src={pencil} className="pencil fs-3" alt="Edit logo" />
-								</Button>
-							</span>
-	
-							<span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
-								data-bs-content="Disabled popover">
-								<Button variant="danger" className="mx-2">
-									<img src={trash} className="trash fs-3" alt="Trash logo" />
-								</Button>
-							</span>
+<!-- Modal para modificar y agregar productos -->
+	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="inputTittle">Tittle</span>
+							<input type="text" class="form-control" placeholder="Tittle" aria-label="Tittle"
+								aria-describedby="Tittle">
 						</div>
-					</td>
-				</tr>
-				))
-				}
-			</tbody>
-		</Table> --}}
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="inputDescription">Description</span>
+							<input type="text" class="form-control" placeholder="Description" aria-label="Description"
+								aria-describedby="Description">
+						</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="inputCode">Code</span>
+							<input type="text" class="form-control" placeholder="Code" aria-label="Code"
+								aria-describedby="Code">
+						</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="inputPrice">Price</span>
+							<input type="text" class="form-control" placeholder="Price" aria-label="Price"
+								aria-describedby="Price">
+						</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="inputStatus">Status</span>
+							<input type="text" class="form-control" placeholder="Status" aria-label="Status"
+								aria-describedby="Status">
+						</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="inputStock">Stock</span>
+							<input type="text" class="form-control" placeholder="Stock" aria-label="Stock"
+								aria-describedby="Stock">
+						</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="inputCategory">Category</span>
+							<input type="text" class="form-control" placeholder="Category" aria-label="Category"
+								aria-describedby="Category">
+						</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="inputThumbnail">Thumbnail</span>
+							<input type="text" class="form-control" placeholder="Thumbnail" aria-label="Thumbnail"
+								aria-describedby="Thumbnail">
+						</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="inputOwner">Owner</span>
+							<input type="text" class="form-control" placeholder="Owner" aria-label="Owner"
+								aria-describedby="Owner">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary">Save changes</button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
 	</div>
 	
 	<div class="d-flex justify-content-center">
