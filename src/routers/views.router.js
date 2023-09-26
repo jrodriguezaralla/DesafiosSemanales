@@ -41,12 +41,6 @@ viewsRouter.get('/realtimeproducts', async (req, res) => {
 
 //Endpoint que muestra los mensajes
 viewsRouter.get('/chat', middlewarePassportJWT, isUser, async (req, res) => {
-	// Inicio la conección y envio el listado de productos para rederizarlos en pantalla
-	/*io.on('connection', async (socket) => {
-		//cuando se conecta un cliente le envío el listado de productos
-		socket.emit('real_time_products', await ProductList.getProducts());
-	});*/
-
 	try {
 		res.render('chat'); // Renderizo los mensajes en pantalla
 	} catch (error) {
@@ -124,8 +118,11 @@ viewsRouter.get('/profile', middlewarePassportJWT, async (req, res) => {
 
 viewsRouter.get('/masterproducts', async (req, res) => {
 	let user = req.user;
+	const { limit, page, category, availability, sort } = req.query;
+	let products = await productController.getProducts(parseInt(limit), parseInt(page), category, sort, availability); //traigo el listado de productos y los renderizo en home
 	try {
 		res.render('masterproducts', {
+			products,
 			user,
 			style: 'index.css', // Envío los estilos css
 		});
