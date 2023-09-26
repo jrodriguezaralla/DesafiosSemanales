@@ -19,18 +19,6 @@ const productsRouter = Router();
 
 //Endpoint que muestra todos los productos
 productsRouter.get('/', async (req, res, next) => {
-	/*try {
-		let allProducts = await ProductList.getProducts();
-		let limit = req.query.limit;
-		if (limit) {
-			// Si recibo el limite de productos a mostrar
-			let productLimit = allProducts.slice(0, limit); //Solo muestro desde el primer elemento al limite indicado por query
-			res.send(productLimit); //envio la respuesta
-		} else res.send(allProducts); // Si no tengo query envio el listado completo
-	} catch (error) {
-		res.status(400).send(error);
-	}*/
-
 	const { limit, page, category, availability, sort } = req.query;
 	try {
 		let showProducts = await productController.getProducts(limit, page, category, sort, availability); //Traigo el listado de productos
@@ -42,13 +30,6 @@ productsRouter.get('/', async (req, res, next) => {
 
 //Endpoint que muestra un producto en particular
 productsRouter.get('/:pid', async (req, res, next) => {
-	/*try {
-		//Recibo un params y muestro el producto con ese ID, como el ID es un string lo paso a entero
-		let product = await ProductList.getProductsById(parseInt(req.params.pid));
-		res.send(product);
-	} catch (error) {
-		res.status(400).send(error);
-	}*/
 	try {
 		//Recibo un params y muestro el producto con ese ID, como el ID es un string lo paso a entero
 		let product = await productController.getProductsById(req.params.pid);
@@ -100,15 +81,6 @@ productsRouter.post('/', middlewarePassportJWT, isAdminOrPremium, async (req, re
 
 //Endpoint que modifica un producto
 productsRouter.put('/:pid', middlewarePassportJWT, isAdminOrPremium, async (req, res, next) => {
-	/*try {
-		let productUpdated = req.body; //recibo por body los datos modificados
-		let product = await ProductList.updateProduct(parseInt(req.params.pid), productUpdated);
-		io.emit('real_time_products', await ProductList.getProducts()); //propago el evento a todos los clientes
-		res.send(product);
-	} catch (error) {
-		res.status(400).send(error);
-	}*/
-
 	try {
 		let idBuscado = req.params.pid;
 		if (!idBuscado) {
@@ -129,13 +101,6 @@ productsRouter.put('/:pid', middlewarePassportJWT, isAdminOrPremium, async (req,
 
 //Endpoint que elimina un producto
 productsRouter.delete('/:pid', middlewarePassportJWT, isAdminOrPremium, async (req, res, next) => {
-	/*try {
-		let product = await ProductList.deleteProduct(parseInt(req.params.pid));
-		io.emit('real_time_products', await ProductList.getProducts()); //propago el evento a todos los clientes
-		res.send(product);
-	} catch (error) {
-		res.status(400).send(error);
-	}*/
 	try {
 		let idBuscado = req.params.pid;
 		let prodToDel = await productController.getProductsById(idBuscado);
