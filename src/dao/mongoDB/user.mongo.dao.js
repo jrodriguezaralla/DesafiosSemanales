@@ -39,6 +39,11 @@ class UserMongo {
 	async deleteUser(userId) {
 		return this.model.deleteOne({ _id: userId }); //elimino producto seleccionado
 	}
+
+	//Método para eliminar varios usuario
+	async deleteManyUser(idsToDelete) {
+		return this.model.deleteMany({ _id: { $in: idsToDelete } }); //elimino producto seleccionado
+	}
 }
 
 //instancio nueva clase de User Mongo

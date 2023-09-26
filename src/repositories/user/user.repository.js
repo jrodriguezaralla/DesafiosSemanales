@@ -35,4 +35,9 @@ export default class UserRepository {
 	async deleteUser(userId) {
 		return this.dao.deleteUser(userId); //elimino producto seleccionado
 	}
+
+	//Método para eliminar varios usuario
+	async deleteManyUser(idsToDelete) {
+		return this.dao.deleteManyUser(idsToDelete); //elimino producto seleccionado
+	}
 }

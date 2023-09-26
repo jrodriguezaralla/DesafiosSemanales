@@ -34,6 +34,11 @@ class UserController {
 	async deleteUser(userId) {
 		return this.service.deleteUser(userId); //elimino producto seleccionado
 	}
+
+	//Método para eliminar varios usuario
+	async deleteManyUser(idsToDelete) {
+		return this.service.deleteManyUser(idsToDelete); //elimino producto seleccionado
+	}
 }
 
 //Instancio una nueva clase de User Controller

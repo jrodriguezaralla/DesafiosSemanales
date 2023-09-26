@@ -4,10 +4,12 @@ import passport from 'passport';
 import { generateToken } from '../middleware/jwt.middleware.js';
 import userController from '../controllers/user.controller.js';
 import environment from '../config/environment.js';
+import ViewUserDTO from '../dto/viewuser.dto.js';
 
 //importación de libreria de dating
 import { DateTime } from 'luxon';
 import { uploadGeneric } from '../middleware/uploadgeneric.middleware.js';
+
 
 const usersRouter = Router();
 
@@ -161,5 +163,54 @@ usersRouter.post('/:uid/documents', uploadGeneric('src/public/documents').array(
 	}
 });
 
+//Endpoint para mostrar todos los usuarios
+usersRouter.get('/', async (req, res) => {
+	try {
+		const allUsers = await userController.getAll()
+		const users = allUsers.map((usr) => {
+			return new ViewUserDTO(usr);
+		})		
+		res.json({ status: 'success', payload: users });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ status: 'error', message: 'Internal server error' });
+	}
+	//res.json({ status: 'success', message: 'user login authorized' });
+});
+
+//Endpoint para borrar todos los usuarios
+usersRouter.delete('/', async (req, res) => {
+	try {
+		// Supongamos que tienes un array de usuarios llamado 'users'
+		const users = await userController.getAll()
+		
+		// Función para verificar si no se ha conectado en el período especificado
+		function hasNotConnectedInPeriod(user, period, unit) {
+			const currentDateTime = DateTime.now();
+			const lastConnectionDateTime = DateTime.fromFormat(user.last_connection, 'd/M/yyyy, HH:mm:ss');	
+			const difference = currentDateTime.diff(lastConnectionDateTime, unit).toObject();
+			return difference[unit] > period;
+		}
+
+		// Filtra los usuarios que no se han conectado en el período especificado y obtiene sus IDs
+		const period = 2; // Por ejemplo, verifica si han pasado 2
+		const unit = 'days'; // Puedes cambiar esto a 'hours', 'minutes', 'months', 'years', etc.
+		const usersNotConnectedInPeriod = users.filter((user) => hasNotConnectedInPeriod(user, period, unit)).map((user) => user._id);
+
+		
+
+		//console.log(`IDs de usuarios que no se han conectado en los últimos ${period} ${unit}:`, usersNotConnectedInPeriod);
+
+
+		console.log(usersNotConnectedInPeriod)
+
+		const usersDeleted= await userController.deleteManyUser(usersNotConnectedInPeriod)
+		res.json({ status: 'success', payload: usersDeleted });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ status: 'error', message: 'Internal server error' });
+	}
+	//res.json({ status: 'success', message: 'user login authorized' });
+});
 
 export { usersRouter };
