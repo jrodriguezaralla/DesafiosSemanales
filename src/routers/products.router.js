@@ -40,7 +40,7 @@ productsRouter.get('/:pid', async (req, res, next) => {
 });
 
 //Endpoint que agrega un producto
-productsRouter.post('/', middlewarePassportJWT, isAdminOrPremium, async (req, res, next) => {
+productsRouter.post('/', /*middlewarePassportJWT, isAdminOrPremium,*/ async (req, res, next) => {
 	try {
 		const productToAdd = req.body;
 		if (
@@ -100,7 +100,7 @@ productsRouter.put('/:pid', /*middlewarePassportJWT, isAdminOrPremium,*/ async (
 });
 
 //Endpoint que elimina un producto
-productsRouter.delete('/:pid', middlewarePassportJWT, isAdminOrPremium, async (req, res, next) => {
+productsRouter.delete('/:pid', /*middlewarePassportJWT, isAdminOrPremium,*/ async (req, res, next) => {
 	try {
 		let idBuscado = req.params.pid;
 		let prodToDel = await productController.getProductsById(idBuscado);

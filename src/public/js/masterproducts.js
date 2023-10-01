@@ -1,8 +1,6 @@
 let btnEditProduct = document.querySelectorAll('.btnEditProduct'); // NodeList = [button#1, button#2 .... , button#n] array con todos los botones
 let btnDeleteProduct = document.querySelectorAll('.btnDeleteProduct'); // NodeList = [button#1, button#2 .... , button#n] array con todos los botones
 
-
-
 let inputTitle = document.getElementById('inputTitle');
 let inputDescription = document.getElementById('inputDescription');
 let inputCode = document.getElementById('inputCode');
@@ -13,7 +11,21 @@ let inputCategory = document.getElementById('inputCategory');
 let inputThumbnail = document.getElementById('inputThumbnail');
 let inputOwner = document.getElementById('inputOwner');
 
+
+let inputTitleAdd = document.getElementById('inputTitleAdd');
+let inputDescriptionAdd = document.getElementById('inputDescriptionAdd');
+let inputCodeAdd = document.getElementById('inputCodeAdd');
+let inputPriceAdd = document.getElementById('inputPriceAdd');
+let inputStatusAdd = document.getElementById('inputStatusAdd');
+let inputStockAdd = document.getElementById('inputStockAdd');
+let inputCategoryAdd = document.getElementById('inputCategoryAdd');
+let inputThumbnailAdd = document.getElementById('inputThumbnailAdd');
+let inputOwnerAdd = document.getElementById('inputOwnerAdd');
+
+
+
 let btnSaveUpdatedProduct = document.getElementById('btnSaveUpdatedProduct');
+let btnConfirmAddProduct = document.getElementById('btnConfirmAddProduct');
 let productId;
 
 //Evento de boton agregar producto a carrito
@@ -46,8 +58,6 @@ btnEditProduct.forEach((el) => {
 });
 
 btnSaveUpdatedProduct.addEventListener('click', async (e) => {
-	console.log(productId);
-
 	let newProduct = {
 		title: inputTitle.value,
 		description: inputDescription.value,
@@ -80,4 +90,41 @@ btnSaveUpdatedProduct.addEventListener('click', async (e) => {
 			window.location.replace('/masterproducts');
 		}
 	});
+});
+
+
+btnConfirmAddProduct.addEventListener('click', async (e) => {
+	let newProduct = {
+		title: inputTitleAdd.value,
+		description: inputDescriptionAdd.value,
+		code: inputCodeAdd.value,
+		price: parseInt(inputPriceAdd.value),
+		status: inputStatusAdd.value,
+		stock: parseInt(inputStockAdd.value),
+		category: inputCategoryAdd.value,
+		thumbnail: inputThumbnailAdd.value,
+		owner: inputOwnerAdd.value,
+	};
+
+	console.log(newProduct)
+	//fetch para agregar los productos al carrito
+	await fetch(`/api/products/`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(newProduct),
+	});
+	//alert con confirmación de operación
+	/*Swal.fire({
+		title: 'Producto Agregado!',
+		//text: 'Muchas Gracias, vuelva pronto.',
+		icon: 'success',
+		confirmButtonColor: '#212529',
+	}).then((result) => {
+		/* Read more about isConfirmed, isDenied below */
+		/*if (result.isConfirmed) {
+			window.location.replace('/masterproducts');
+		}
+	});*/
 });
