@@ -80,7 +80,7 @@ productsRouter.post('/', middlewarePassportJWT, isAdminOrPremium, async (req, re
 });
 
 //Endpoint que modifica un producto
-productsRouter.put('/:pid', middlewarePassportJWT, isAdminOrPremium, async (req, res, next) => {
+productsRouter.put('/:pid', /*middlewarePassportJWT, isAdminOrPremium,*/ async (req, res, next) => {
 	try {
 		let idBuscado = req.params.pid;
 		if (!idBuscado) {

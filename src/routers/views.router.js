@@ -131,4 +131,26 @@ viewsRouter.get('/masterproducts', async (req, res) => {
 	}
 });
 
+viewsRouter.get('/loginmasterproducts', async (req, res) => {
+	try {
+		res.render('loginmasterproduct', {
+			style: 'index.css', // Envío los estilos css
+		});
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
+viewsRouter.get('/loginmasterusers', async (req, res) => {
+	try {
+		res.render('loginmasteruser', {
+			style: 'index.css', // Envío los estilos css
+		});
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
+
+
 export { viewsRouter };
