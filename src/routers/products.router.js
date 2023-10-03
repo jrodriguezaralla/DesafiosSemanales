@@ -1,8 +1,7 @@
 import { Router } from 'express';
 import { io } from '../app.js';
 import { middlewarePassportJWT } from '../middleware/jwt.middleware.js';
-import { isAdmin } from '../middleware/isAdmin.middleware.js';
-import { isAdminOrPremium } from '../middleware/isAdminOrPremium.middleware.js';
+import { isAdminOrPremium } from '../middleware/auth.middleware.js';
 
 import productController from '../controllers/product.controller.js';
 import CustomError from '../tools/CustomErrors.js';
@@ -81,7 +80,7 @@ productsRouter.post('/', middlewarePassportJWT, isAdminOrPremium, async (req, re
 });
 
 //Endpoint que modifica un producto
-productsRouter.put('/:pid', /*middlewarePassportJWT, isAdminOrPremium,*/ async (req, res, next) => {
+productsRouter.put('/:pid', middlewarePassportJWT, isAdminOrPremium, async (req, res, next) => {
 	try {
 		let idBuscado = req.params.pid;
 		if (!idBuscado) {

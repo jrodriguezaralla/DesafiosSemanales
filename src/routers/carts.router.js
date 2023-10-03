@@ -2,7 +2,7 @@
 import { Router } from 'express';
 import cartController from '../controllers/cart.controller.js';
 import { middlewarePassportJWT } from '../middleware/jwt.middleware.js';
-import { isUserOrPremium } from '../middleware/isUserOrPremium.middleware.js';
+import { isUserOrPremium } from '../middleware/auth.middleware.js';
 
 import ticketController from '../controllers/ticket.controller.js';
 
@@ -14,12 +14,6 @@ const cartRouter = Router();
 
 //Endpoint que agrega un nuevo carrito
 cartRouter.post('/', async (req, res, next) => {
-	/*try {
-		CartList.addNewCart();
-		res.send({ status: 'success', message: 'New cart added' });
-	} catch (error) {
-		res.status(400).send(error);
-	}*/
 	try {
 		let payload = await cartController.addNewCart();
 		res.json({ status: 'success', message: 'New cart added', cartId: payload.toString()});
@@ -30,13 +24,6 @@ cartRouter.post('/', async (req, res, next) => {
 
 //Endpoint que muestra los productos de un carrito en particular
 cartRouter.get('/:cid', async (req, res, next) => {
-	/*try {
-		//Recibo un params y muestro el producto con ese ID, como el ID es un string lo paso a entero
-		let products = await CartList.getCartById(parseInt(req.params.cid));
-		res.send(products);
-	} catch (error) {
-		res.status(400).send(error);
-	}*/
 	try {
 		//Recibo un params y muestro el listado de productos de un carrito determinado
 		let products = await cartController.getCartById(req.params.cid);
@@ -48,13 +35,6 @@ cartRouter.get('/:cid', async (req, res, next) => {
 
 //Endpoint que agrega el producto a un carrito determinado
 cartRouter.post('/:cid/product/:pid', middlewarePassportJWT, isUserOrPremium, async (req, res, next) => {
-	/*try {
-		//Recibo un params y muestro el producto con ese ID, como el ID es un string lo paso a entero
-		let product = await CartList.addProductToCart(parseInt(req.params.cid), parseInt(req.params.pid));
-		res.send(product);
-	} catch (error) {
-		res.status(400).send(error);
-	}*/
 	try {
 		let cartId = req.params.cid;
 		let productId = req.params.pid;

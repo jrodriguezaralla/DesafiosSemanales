@@ -1,12 +1,10 @@
 import { Router } from 'express';
 import { io } from '../app.js';
-import { isAuth, isGuest } from '../middleware/auth.middleware.js';
+import { isAuth, isGuest, isUser, isAdminOrPremium } from '../middleware/auth.middleware.js';
 import { middlewarePassportJWT } from '../middleware/jwt.middleware.js';
 import productController from '../controllers/product.controller.js';
 import cartController from '../controllers/cart.controller.js';
-import { isUser } from '../middleware/isUser.middleware.js';
 import { validateTokenRestorePass } from '../middleware/jwtrestorepass.middleware.js';
-import { isAdminOrPremium } from '../middleware/isAdminOrPremium.middleware.js';
 
 //Inicializo Router
 const viewsRouter = Router();
