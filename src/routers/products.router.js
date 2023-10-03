@@ -44,7 +44,7 @@ productsRouter.post('/', middlewarePassportJWT, isAdminOrPremium, async (req, re
 	try {
 		const productToAdd = req.body;
 
-		/*if (
+		if (
 			!productToAdd.title ||
 			!productToAdd.description ||
 			!productToAdd.code ||
@@ -60,11 +60,10 @@ productsRouter.post('/', middlewarePassportJWT, isAdminOrPremium, async (req, re
 				message: 'Error trying to create product',
 				code: EErrors.INVALID_TYPES_ERROR,
 			});
-		}*/
+		}
 		
 		productToAdd.owner = req.user.email;
-		console.log(productToAdd);
-		
+
 		let newProduct = await productController.addProducts(productToAdd); //recibo por body el producto a agregar
 		if (newProduct === EErrors.DUPLICATED_VALUE_ERROR) {
 			CustomError.createError({
@@ -102,7 +101,7 @@ productsRouter.put('/:pid', /*middlewarePassportJWT, isAdminOrPremium,*/ async (
 });
 
 //Endpoint que elimina un producto
-productsRouter.delete('/:pid', /*middlewarePassportJWT, isAdminOrPremium,*/ async (req, res, next) => {
+productsRouter.delete('/:pid', middlewarePassportJWT, isAdminOrPremium, async (req, res, next) => {
 	try {
 		let idBuscado = req.params.pid;
 		let prodToDel = await productController.getProductsById(idBuscado);

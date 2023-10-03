@@ -6,7 +6,7 @@ import productController from '../controllers/product.controller.js';
 import cartController from '../controllers/cart.controller.js';
 import { isUser } from '../middleware/isUser.middleware.js';
 import { validateTokenRestorePass } from '../middleware/jwtrestorepass.middleware.js';
-import { isAdmin } from '../middleware/isAdmin.middleware.js';
+import { isAdminOrPremium } from '../middleware/isAdminOrPremium.middleware.js';
 
 //Inicializo Router
 const viewsRouter = Router();
@@ -117,7 +117,7 @@ viewsRouter.get('/profile', middlewarePassportJWT, async (req, res) => {
 	}
 });
 
-viewsRouter.get('/masterproducts', middlewarePassportJWT, isAdmin, async (req, res) => {
+viewsRouter.get('/masterproducts', middlewarePassportJWT, isAdminOrPremium, async (req, res) => {
 	let user = req.user;
 	const { limit, page, category, availability, sort } = req.query;
 	let products = await productController.getProducts(parseInt(limit), parseInt(page), category, sort, availability); //traigo el listado de productos y los renderizo en home

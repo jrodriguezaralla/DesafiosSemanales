@@ -3,6 +3,7 @@
 		<h1 class="products_tittle--font_family">Welcome to EncontraDeTodo.com!</h1>
 		<h4>Master list of products</h4>
 	</div>
+
 	<div class="d-flex justify-content-center align-item-center mt-5">
 		<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#staticBackdropAddProduct">
 		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-plus-circle"
@@ -12,6 +13,18 @@
 		</svg>
 			Add Product
 		</button>
+					<form action='/api/users/logout/{{user._id}}' method='post'>
+						<button type="submit" class="btn btn-danger mx-2 " id="btnLogOut">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-box-arrow-right icon_size py-0" viewBox="0 0 16 16">
+								<path fill-rule="evenodd"
+									d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+								<path fill-rule="evenodd"
+									d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+							</svg>
+							logout
+						</button>
+					</form>
 	</div>
 
 	{{!-- Paginación --}}
@@ -153,11 +166,6 @@
 							<input type="text" class="form-control" placeholder="Thumbnail" aria-label="Thumbnail"
 								aria-describedby="Thumbnail" id="inputThumbnail">
 						</div>
-						<div class="input-group mb-3">
-							<span class="input-group-text" >Owner</span>
-							<input type="text" class="form-control" placeholder="Owner" aria-label="Owner"
-								aria-describedby="Owner" id="inputOwner">
-						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
 							<button type="button" class="btn btn-dark" id="btnSaveUpdatedProduct">Save changes</button>
@@ -220,11 +228,6 @@
 						<span class="input-group-text">Thumbnail</span>
 						<input type="text" class="form-control" placeholder="Thumbnail" aria-label="Thumbnail"
 							aria-describedby="Thumbnail" id="inputThumbnailAdd" required/>
-					</div>
-					<div class="input-group mb-3">
-						<span class="input-group-text">Owner</span>
-						<input type="text" class="form-control" placeholder="Owner" aria-label="Owner"
-							aria-describedby="Owner" id="inputOwnerAdd" required />
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>

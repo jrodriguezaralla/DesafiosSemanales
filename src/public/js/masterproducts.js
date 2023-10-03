@@ -9,8 +9,6 @@ let inputStatus = document.getElementById('inputStatus');
 let inputStock = document.getElementById('inputStock');
 let inputCategory = document.getElementById('inputCategory');
 let inputThumbnail = document.getElementById('inputThumbnail');
-let inputOwner = document.getElementById('inputOwner');
-
 
 let inputTitleAdd = document.getElementById('inputTitleAdd');
 let inputDescriptionAdd = document.getElementById('inputDescriptionAdd');
@@ -20,13 +18,11 @@ let inputStatusAdd = document.getElementById('inputStatusAdd');
 let inputStockAdd = document.getElementById('inputStockAdd');
 let inputCategoryAdd = document.getElementById('inputCategoryAdd');
 let inputThumbnailAdd = document.getElementById('inputThumbnailAdd');
-let inputOwnerAdd = document.getElementById('inputOwnerAdd');
-
-
 
 let btnSaveUpdatedProduct = document.getElementById('btnSaveUpdatedProduct');
 let btnConfirmAddProduct = document.getElementById('btnConfirmAddProduct');
 let productId;
+let productDeleteId;
 
 //Evento de boton agregar producto a carrito
 btnEditProduct.forEach((el) => {
@@ -53,9 +49,53 @@ btnEditProduct.forEach((el) => {
 		inputStock.value = product.stock;
 		inputCategory.value = product.category;
 		inputThumbnail.value = product.thumbnail;
-		inputOwner.value = product.owner;
 	});
 });
+
+//Evento de boton agregar producto a carrito
+btnDeleteProduct.forEach((el) => {
+	//por cada boton agrego elevento
+	el.addEventListener('click', async (e) => {
+		
+		let str = e.target.id;
+		let parts = str.split('btnDelete');
+		productDeleteId = parts[1];
+		console.log(productDeleteId);
+
+		//alert para confirmar el borrado
+		Swal.fire({
+			title: 'Esta seguro que desea eliminar producto?',
+			text: 'No podra volver atras!',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#212529',
+			cancelButtonColor: '#dc3545',
+			confirmButtonText: 'Si, deseo borrar!',
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				//fetch a ruta para eliminar productos
+				await fetch(`/api/products/${productDeleteId}`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				});
+				//Alert con la confirmación del borrado
+				Swal.fire({
+					title: 'Producto borrado!',
+					icon: 'success',
+					confirmButtonColor: '#212529',
+				}).then((result) => {
+					/* Read more about isConfirmed, isDenied below */
+					if (result.isConfirmed) {
+						window.location.replace('/masterproducts');
+					}
+				});
+			}
+		});
+	});
+});
+
 
 btnSaveUpdatedProduct.addEventListener('click', async (e) => {
 	let newProduct = {
@@ -67,7 +107,6 @@ btnSaveUpdatedProduct.addEventListener('click', async (e) => {
 		stock: inputStock.value,
 		category: inputCategory.value,
 		thumbnail: inputThumbnail.value,
-		owner: inputOwner.value,
 	};
 
 	//fetch para agregar los productos al carrito
@@ -103,7 +142,6 @@ btnConfirmAddProduct.addEventListener('click', async (e) => {
 		stock: parseInt(inputStockAdd.value),
 		category: inputCategoryAdd.value,
 		thumbnail: inputThumbnailAdd.value,
-		owner: inputOwnerAdd.value,
 	};
 
 	console.log(newProduct)
@@ -114,17 +152,30 @@ btnConfirmAddProduct.addEventListener('click', async (e) => {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify(newProduct),
-	});
-	//alert con confirmación de operación
-	/*Swal.fire({
-		title: 'Producto Agregado!',
-		//text: 'Muchas Gracias, vuelva pronto.',
-		icon: 'success',
-		confirmButtonColor: '#212529',
-	}).then((result) => {
-		/* Read more about isConfirmed, isDenied below */
-		/*if (result.isConfirmed) {
-			window.location.replace('/masterproducts');
-		}
-	});*/
+	})
+		.then((response) => response.json())
+		.then((data) => {
+			//cuando obtengo la respuesta redirijo
+			if (data.status === 'success') {
+				//alert con confirmación de operación
+				Swal.fire({
+					title: 'Producto agregado correctamente!',
+					icon: 'success',
+					confirmButtonColor: '#212529',
+				}).then((result) => {
+					/* Read more about isConfirmed, isDenied below */
+					if (result.isConfirmed) {
+						window.location.replace('/masterproducts');
+					}
+				});
+			}
+			if (data.status === 'error') {
+				//sino, indico error de logueo
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: `${data.message}`,
+				});
+			}
+		});
 });

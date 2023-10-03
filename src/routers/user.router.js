@@ -68,7 +68,6 @@ usersRouter.post('/auth', async (req, res) => {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });
 	}
-	//res.json({ status: 'success', message: 'user login authorized' });
 });
 
 //Endpoint para restablecer contraseña
@@ -98,7 +97,7 @@ usersRouter.get('/faillogin', async (req, res) => {
 	});
 });
 
-//Endpoitn para destruir sesion
+//Endpoint para destruir sesion
 usersRouter.post('/logout/:uid', async (req, res) => {
 	const user = await userController.getById(req.params.uid); //obtengo usuario
 	user.last_connection = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS);
