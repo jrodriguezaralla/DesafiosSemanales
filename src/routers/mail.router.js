@@ -6,7 +6,7 @@ import environment from '../config/environment.js';
 const mailRouter = Router();
 const RESTORE_PASS_URL = 'http://localhost:8080/restorepassview';
 
-const transport = nodemailer.createTransport({
+export const transport = nodemailer.createTransport({
 	service: 'gmail',
 	port: 587,
 	auth: {

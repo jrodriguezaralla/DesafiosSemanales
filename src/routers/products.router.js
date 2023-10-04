@@ -12,6 +12,9 @@ import {
 	generateUpdateErrorInfo,
 } from '../tools/info.js';
 import EErrors from '../tools/EErrors.js';
+import userController from '../controllers/user.controller.js';
+import { transport } from './mail.router.js';
+
 
 //Inicializo Router
 const productsRouter = Router();
@@ -104,6 +107,7 @@ productsRouter.delete('/:pid', middlewarePassportJWT, isAdminOrPremium, async (r
 	try {
 		let idBuscado = req.params.pid;
 		let prodToDel = await productController.getProductsById(idBuscado);
+		let userOwner = await userController.getByEmail(prodToDel.owner)
 		let product;
 
 		if ((req.user.role === 'premium' && prodToDel[0].owner === req.user.email) || req.user.role === 'admin') {
@@ -114,6 +118,19 @@ productsRouter.delete('/:pid', middlewarePassportJWT, isAdminOrPremium, async (r
 				cause: `User Premium try to delete product with another owner`,
 				message: 'Error trying to delete product',
 				code: EErrors.DELETE_ERROR,
+			});
+		}
+		if (userOwner.role === 'premium') {
+			await transport.sendMail({
+				from: environment.hostMail,
+				to: `${userOwner.email}`,
+				subject: `Su producto ha sido eliminado`,
+				html: `
+					<div>
+						<h1>Le informamos que su producto ${prodToDel.code} - ${prodToDel.title} ha sido eliminado</h1>
+					</div>
+					`,
+				attachments: [],
 			});
 		}
 
