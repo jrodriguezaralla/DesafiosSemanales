@@ -27,7 +27,7 @@ class UserController {
 
 	//método para actualizar un usuario
 	async updateUser(newUser) {
-		return await this.service.updateUser(newUser);
+		await this.service.updateUser(newUser);
 	}
 
 	//Método para eliminar un usuario

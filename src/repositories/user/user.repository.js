@@ -28,7 +28,7 @@ export default class UserRepository {
 
 	//método para actualizar un usuario
 	async updateUser(newUser) {
-		return await this.dao.updateUser(newUser);
+		await this.dao.updateUser(newUser);
 	}
 
 	//Método para eliminar un usuario

@@ -5,6 +5,9 @@ import { middlewarePassportJWT } from '../middleware/jwt.middleware.js';
 import productController from '../controllers/product.controller.js';
 import cartController from '../controllers/cart.controller.js';
 import { validateTokenRestorePass } from '../middleware/jwtrestorepass.middleware.js';
+import userController from '../controllers/user.controller.js';
+import ViewUserDTO from '../dto/viewuser.dto.js';
+import { usersRouter } from './user.router.js';
 
 //Inicializo Router
 const viewsRouter = Router();
@@ -123,7 +126,7 @@ viewsRouter.get('/masterproducts', middlewarePassportJWT, isAdminOrPremium, asyn
 		res.render('masterproducts', {
 			products,
 			user,
-			style: 'masterproducts.css', // Envío los estilos css
+			style: 'master.css', // Envío los estilos css
 		});
 	} catch (error) {
 		res.status(400).send(error);
@@ -142,7 +145,7 @@ viewsRouter.get('/loginmasterproducts', async (req, res) => {
 
 viewsRouter.get('/loginmasterusers', async (req, res) => {
 	try {
-		res.render('loginmasteruser', {
+		res.render('loginmasterusers', {
 			style: 'index.css', // Envío los estilos css
 		});
 	} catch (error) {
@@ -150,6 +153,22 @@ viewsRouter.get('/loginmasterusers', async (req, res) => {
 	}
 });
 
+viewsRouter.get('/masterusers', middlewarePassportJWT, isAdminOrPremium, async (req, res) => {
+	let user = req.user;
+	const allUsers = await userController.getAll();
+	const users = allUsers.map((usr) => {
+		return new ViewUserDTO(usr);
+	});
+	try {
+		res.render('masterusers', {
+			user,
+			users,
+			style: 'master.css', // Envío los estilos css
+		});
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
 
 
 export { viewsRouter };

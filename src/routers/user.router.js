@@ -17,7 +17,13 @@ const usersRouter = Router();
 usersRouter.post('/', passport.authenticate('register', { failureRedirect: 'failregister' }), async (req, res) => {
 	//console.log("req.user")
 	//console.log(req.user)
-	res.send({ status: 'success', payload: req.user });
+	let user = req.user
+	user.last_connection = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS);
+
+	await userController.updateUser(user);
+	let newUser = new ViewUserDTO(user);
+
+	res.send({ status: 'success', payload: newUser});
 	//res.redirect('/registerok');
 });
 
@@ -121,7 +127,7 @@ usersRouter.get('/premium/:uid', async (req, res) => {
 	//res.json({ status: 'success', message: 'user login authorized' });
 });
 
-//Endpoint para destruir sesion
+//Endpoint para  eliminar usuario
 usersRouter.delete('/:uid', async (req, res) => {
 	try {
 		const userId = req.params.uid;
@@ -204,5 +210,34 @@ usersRouter.delete('/', async (req, res) => {
 	}
 	//res.json({ status: 'success', message: 'user login authorized' });
 });
+
+//Endpoint para actualizar un usuario
+usersRouter.put('/', async (req, res) => {
+	try {
+		const user = req.body
+		await userController.updateUser(user);		
+		res.json({ status: 'success', message: "User role modified"});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ status: 'error', message: 'Internal server error' });
+	}
+	//res.json({ status: 'success', message: 'user login authorized' });
+});
+
+//Endpoint para traer un usuario por su id
+usersRouter.get('/:id', async (req, res) => {
+	try {
+		const userId = req.params.id
+		const user = await userController.getById(userId);
+		const viewUser = new ViewUserDTO(user);
+		
+		res.json({ status: 'success', payload: viewUser});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ status: 'error', message: 'Internal server error' });
+	}
+	//res.json({ status: 'success', message: 'user login authorized' });
+});
+
 
 export { usersRouter };
