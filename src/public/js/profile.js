@@ -27,7 +27,6 @@ async function BePremium(){
 					icon: 'success',
 					confirmButtonColor: '#212529',
 				}).then((result) => {
-					/* Read more about isConfirmed, isDenied below */
 					if (result.isConfirmed) {
 						window.location.replace('/products');
 					}

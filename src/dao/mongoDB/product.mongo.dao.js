@@ -6,13 +6,13 @@ class ProductMongo {
 		this.model = ProductModel;
 	}
 
-	//Método para traer todos los productos de la base de datos
+	//Método para traer todos los productos de la base de datos con paginación
 	async getProducts(query, options) {
 		let products = await this.model.paginate(query, options); // realizo la paginación
 		return products; //retorno estructura
 	}
 
-	//Método para traer todos los productos de la base de datos
+	//Método para traer todos los productos de la base de datos en crudo
 	async getAllProducts() {
 		return await this.model.find().lean(); //retorno estructura
 	}

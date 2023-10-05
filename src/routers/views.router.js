@@ -12,7 +12,7 @@ import { usersRouter } from './user.router.js';
 //Inicializo Router
 const viewsRouter = Router();
 
-//Endpoint que muestra los produuctos
+//Endpoint que muestra los productos
 viewsRouter.get('/products', middlewarePassportJWT, async (req, res) => {
 	let user = req.user;
 	try {
@@ -50,7 +50,7 @@ viewsRouter.get('/chat', middlewarePassportJWT, isUser, async (req, res) => {
 	}
 });
 
-//Endpoint que muestra los produuctos de un carrito
+//Endpoint que muestra los productos de un carrito
 viewsRouter.get('/carts/:cid', async (req, res) => {
 	try {
 		const cartId = req.params.cid;
@@ -65,6 +65,7 @@ viewsRouter.get('/carts/:cid', async (req, res) => {
 	}
 });
 
+//Endpint para confirmar que el registro fue ok
 viewsRouter.get('/registerok', async (req, res) => {
 	try {
 		res.render('registerok', {
@@ -86,7 +87,7 @@ viewsRouter.get('/login', isGuest, async (req, res) => {
 	}
 });
 
-//Endpoint que muestra la pantalla de login
+//Endpoint que muestra la pantalla pra recuperar contraseña
 viewsRouter.get('/restorepassview', isGuest, validateTokenRestorePass, async (req, res) => {
 	try {
 		res.render('restorepass', {
@@ -106,6 +107,7 @@ viewsRouter.get('/', async (req, res) => {
 	}
 });
 
+//Endpoint que muestra la pantalla de profile
 viewsRouter.get('/profile', middlewarePassportJWT, async (req, res) => {
 	let user = req.user;
 	try {
@@ -118,10 +120,12 @@ viewsRouter.get('/profile', middlewarePassportJWT, async (req, res) => {
 	}
 });
 
+
+//Endpoint que muestra la pantalla de master de productos
 viewsRouter.get('/masterproducts', middlewarePassportJWT, isAdminOrPremium, async (req, res) => {
-	let user = req.user;
+	let user = req.user; // obtengo usuario
 	const { limit, page, category, availability, sort } = req.query;
-	let products = await productController.getProducts(parseInt(limit), parseInt(page), category, sort, availability); //traigo el listado de productos y los renderizo en home
+	let products = await productController.getProducts(parseInt(limit), parseInt(page), category, sort, availability); //traigo el listado de productos para mostrarlos en pantalla
 	try {
 		res.render('masterproducts', {
 			products,
@@ -133,6 +137,7 @@ viewsRouter.get('/masterproducts', middlewarePassportJWT, isAdminOrPremium, asyn
 	}
 });
 
+//Endpoint que muestra el login de master de productos
 viewsRouter.get('/loginmasterproducts', async (req, res) => {
 	try {
 		res.render('loginmasterproduct', {
@@ -143,6 +148,7 @@ viewsRouter.get('/loginmasterproducts', async (req, res) => {
 	}
 });
 
+//Endpoint que muestra el login de master de usuarios
 viewsRouter.get('/loginmasterusers', async (req, res) => {
 	try {
 		res.render('loginmasterusers', {
@@ -153,6 +159,7 @@ viewsRouter.get('/loginmasterusers', async (req, res) => {
 	}
 });
 
+//Endpoint que muestra el login de master de usuarios
 viewsRouter.get('/masterusers', middlewarePassportJWT, isAdminOrPremium, async (req, res) => {
 	let user = req.user;
 	const allUsers = await userController.getAll();

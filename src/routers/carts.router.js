@@ -110,6 +110,7 @@ cartRouter.post('/:cid/purchase', async (req, res, next) => {
 	}
 });
 
+//Endpoint para eliminar un carrito
 cartRouter.delete('/delete/:cid', async (req, res) => {
 	try {
 		const cartId = req.params.cid;
@@ -119,7 +120,6 @@ cartRouter.delete('/delete/:cid', async (req, res) => {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });
 	}
-	//res.json({ status: 'success', message: 'user login authorized' });
 });
 
 

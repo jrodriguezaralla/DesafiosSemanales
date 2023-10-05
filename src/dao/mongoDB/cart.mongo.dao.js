@@ -25,7 +25,7 @@ class CartMongo {
 
 	//Método para borrar un producto del carrito
 	async deleteProduct(cartId, productId) {
-		await this.model.findOneAndUpdate({ _id: cartId }, { $pull: { products: { product: productId } } }); //busco el carrito y modifico el campo
+		await this.model.findOneAndUpdate({ _id: cartId }, { $pull: { products: { product: productId } } });
 	}
 
 	//Método para actualizar todo el array de productos

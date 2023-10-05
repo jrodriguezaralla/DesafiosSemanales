@@ -54,7 +54,7 @@ const initializePassport = () => {
 			}
 		})
 	);
-
+	//estrategia para obtener sesion actual con JWT
 	passport.use(
 		'current',
 		new jwtStrategy(

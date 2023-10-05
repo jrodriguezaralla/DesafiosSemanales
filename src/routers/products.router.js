@@ -120,6 +120,8 @@ productsRouter.delete('/:pid', middlewarePassportJWT, isAdminOrPremium, async (r
 				code: EErrors.DELETE_ERROR,
 			});
 		}
+
+		//si se elimina un producto de un usuario premium envio email de aviso.
 		if (userOwner.role === 'premium') {
 			await transport.sendMail({
 				from: environment.hostMail,

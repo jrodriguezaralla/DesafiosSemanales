@@ -1,6 +1,8 @@
 const btnLogInMasterUsers = document.getElementById('btnLogInMasterUsers');
 
+//evento al hacer click en el botón.
 btnLogInMasterUsers.addEventListener('click', async () => {
+	//obtengo los valores de los inputs y genero un objeto con los datos
 	const username = document.getElementById('LogInInputEmailMasterUsers').value;
 	const password = document.getElementById('LogInInputPassMasterUsers').value;
 	const user = { username, password };

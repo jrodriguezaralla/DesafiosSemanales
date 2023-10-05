@@ -19,6 +19,7 @@ export function isGuest(req, res, next) {
 	}
 }
 
+//Middleware para corroborar que el usuario sea admin para ingresar a ciertas rutas
 export function isAdmin(req, res, next) {
 	const dateTime = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS);
 	if (req.user.role === 'admin') {
@@ -29,7 +30,7 @@ export function isAdmin(req, res, next) {
 	}
 }
 
-//Middleware para corroborar si el usuario esta autenticado, sino redirijo a login
+//Middleware para corroborar que el usuario sea premium para ingresar a ciertas rutasn
 export function isPremium(req, res, next) {
 	if (req.user.role === 'premium') {
 		next();
@@ -38,7 +39,7 @@ export function isPremium(req, res, next) {
 	}
 }
 
-
+//Middleware para corroborar que el usuario sea admin o premium para ingresar a ciertas rutas
 export function isAdminOrPremium(req, res, next) {
 	const dateTime = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS);
 	if (req.user.role === 'admin' || req.user.role === 'premium') {
@@ -49,7 +50,7 @@ export function isAdminOrPremium(req, res, next) {
 	}
 }
 
-//Middleware para corroborar si el usuario esta autenticado, sino redirijo a login
+//Middleware para corroborar que el usuario sea user para ingresar a ciertas rutas
 export function isUser(req, res, next) {
 	if (req.user.role === 'user') {
 		next();
@@ -58,7 +59,7 @@ export function isUser(req, res, next) {
 	}
 }
 
-//Middleware para corroborar si el usuario esta autenticado, sino redirijo a login
+//Middleware para corroborar que el usuario sea user o premium para ingresar a ciertas rutas
 export function isUserOrPremium(req, res, next) {
 	if (req.user.role === 'user' || req.user.role === 'premium') {
 		next();

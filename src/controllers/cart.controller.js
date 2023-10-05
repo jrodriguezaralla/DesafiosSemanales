@@ -54,7 +54,7 @@ class CartController {
 		return { status: 'success', message: `product ID=${productId} added to cart ID=${cartId}` }; // retorno el carrito con el producto agregado
 
 		/*if (user.role === 'premium' && product.owner === user.email) {
-			return { status: 'error', message: 'you cannot add a product created by yourself' }; // retorno el carrito con el producto agregado
+			return { status: 'error', message: 'you cannot add a product created by yourself' }; // indico que un usuario primum no peude agregar su propio producto al carrito
 		} else {
 			await this.service.addProductToCart(cartId, cart);
 			return { status: 'success', message: `product ID=${productId} added to cart ID=${cartId}` }; // retorno el carrito con el producto agregado

@@ -94,9 +94,9 @@ usersRouter.post('/restorepass', async (req, res) => {
 			res.json({ status: 'error', message: 'Password already use' });
 		}
 	} catch (error) {}
-	//res.json({ status: 'success', message: 'user login authorized' });
 });
 
+//endpoint para error de passport
 usersRouter.get('/faillogin', async (req, res) => {
 	res.render('loginerror', {
 		title: 'Error: error al ingresar',
@@ -124,7 +124,6 @@ usersRouter.get('/premium/:uid', async (req, res) => {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });
 	}
-	//res.json({ status: 'success', message: 'user login authorized' });
 });
 
 //Endpoint para  eliminar usuario
@@ -137,7 +136,6 @@ usersRouter.delete('/:uid', async (req, res) => {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });
 	}
-	//res.json({ status: 'success', message: 'user login authorized' });
 });
 
 //Endpoitn para guardar documentación
@@ -180,13 +178,11 @@ usersRouter.get('/', async (req, res) => {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });
 	}
-	//res.json({ status: 'success', message: 'user login authorized' });
 });
 
 //Endpoint para borrar todos los usuarios
 usersRouter.delete('/', async (req, res) => {
 	try {
-		// Supongamos que tienes un array de usuarios llamado 'users'
 		const users = await userController.getAll()
 		
 		// Función para verificar si no se ha conectado en el período especificado
@@ -199,7 +195,7 @@ usersRouter.delete('/', async (req, res) => {
 
 		// Filtra los usuarios que no se han conectado en el período especificado y obtiene sus IDs
 		const period = 2; // Por ejemplo, verifica si han pasado 2
-		const unit = 'days'; // Puedes cambiar esto a 'hours', 'minutes', 'months', 'years', etc.
+		const unit = 'days'; // Pse puede modificar a 'hours', 'minutes', 'months', 'years', etc.
 		const usersNotConnectedInPeriod = users.filter((user) => hasNotConnectedInPeriod(user, period, unit)).map((user) => user._id);
 
 		const usersDeleted= await userController.deleteManyUser(usersNotConnectedInPeriod)
@@ -208,7 +204,6 @@ usersRouter.delete('/', async (req, res) => {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });
 	}
-	//res.json({ status: 'success', message: 'user login authorized' });
 });
 
 //Endpoint para actualizar un usuario
@@ -221,7 +216,6 @@ usersRouter.put('/', async (req, res) => {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });
 	}
-	//res.json({ status: 'success', message: 'user login authorized' });
 });
 
 //Endpoint para traer un usuario por su id
@@ -236,7 +230,6 @@ usersRouter.get('/:id', async (req, res) => {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });
 	}
-	//res.json({ status: 'success', message: 'user login authorized' });
 });
 
 
