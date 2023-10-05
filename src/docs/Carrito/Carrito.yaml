@@ -320,6 +320,41 @@ paths:
                   }
         500:
           description: Error del servidor
+  /api/carts/delete/{cid}:
+    delete:
+      summary: Endpoint para borrar un carrito en particular
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: ID del carrito a buscar
+          schema:
+            type: string
+      responses:
+        200:
+          description: Carrito eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Estado success o error.
+                  message:
+                    type: string
+                    description: se indica el ID del carrito eliminado.
+                example:
+                  status: success
+                  message: cart ID 64b69c20f1e9b8983e155a8a deleted 
+        400:
+          description: Error de campo invalido o faltante.
+        401:
+          description: Debe autenticarse primero
+        500:
+          description: Error del servidor
 components:
   schemas:
     Cart:

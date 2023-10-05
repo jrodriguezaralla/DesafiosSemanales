@@ -199,7 +199,7 @@ usersRouter.delete('/', async (req, res) => {
 		const usersNotConnectedInPeriod = users.filter((user) => hasNotConnectedInPeriod(user, period, unit)).map((user) => user._id);
 
 		const usersDeleted= await userController.deleteManyUser(usersNotConnectedInPeriod)
-		res.json({ status: 'success', payload: usersDeleted });
+		res.json({ status: 'success', message: 'users deleted' });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });
@@ -211,7 +211,7 @@ usersRouter.put('/', async (req, res) => {
 	try {
 		const user = req.body
 		await userController.updateUser(user);		
-		res.json({ status: 'success', message: "User role modified"});
+		res.json({ status: 'success', message: "User modified"});
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });

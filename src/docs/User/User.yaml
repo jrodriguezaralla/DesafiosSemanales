@@ -35,6 +35,83 @@ paths:
           description: Usuario Registrado, se redirije a login
         500:
           description: Error del servidor
+    get:
+      summary: Endpoint para mostrar todos los usuarios
+      tags:
+        - Users
+      responses:
+        200:
+          description: Listado de usuarios
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Estado success o error.
+                  payload:
+                    type: array
+                    description: array de objetos con todos los usuarios
+                example:
+                  status: success
+                  payload: [{
+                    _id: ObjectId("64b68bb0c6575fad1946999d"),
+                    first_name: cosme,
+                    last_name: fulanito,
+                    email: cosme_fulanito@gmail.com,
+                    cartId: ObjectId("64b69c20f1e9b8983e155a8a"),
+                    role: user,
+                    last_connection: "4/10/2023, 22:05:31" 
+                  }]
+        500:
+          description: Error del servidor
+    delete:
+      summary: Endpoint para borrar todos los usuarios
+      tags:
+        - Users
+      responses:
+        200:
+          description: Elimina los usuarios que no hayan conectado hace más de 2 días.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Estado success o error.
+                  message:
+                    type: string
+                    description: se indica que se han eliminado los usuario
+                example:
+                  status: success
+                  message: users deleted
+        500:
+          description: Error del servidor
+    put:
+      summary: Endpoint para actualizar un usuario
+      tags:
+        - Users
+      responses:
+        200:
+          description: Actualiza un usuario.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Estado success o error.
+                  message:
+                    type: string
+                    description: se indica que se han eliminado los usuario
+                example:
+                  status: success
+                  message: User modified
+        500:
+          description: Error del servidor
   /api/users/failregister:
     get:
       summary: Endpoint para indicar error de registro en passport
@@ -139,11 +216,18 @@ paths:
           description: Redirije a una pagina indicativa
         500:
           description: Error del servidor
-  /api/users/logout:
+  /api/users/logout/{uid}:
     post:
       summary: Endpoint para destruir sesion
       tags:
         - Users
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          description: ID del usuario que va a cerrar sesion
+          schema:
+            type: string
       responses:
         200:
           description: Redirije a pagina de login, elimina token de autenticación.
@@ -178,6 +262,37 @@ paths:
                 example:
                   status: success
                   message: user cosme_fulanito@gmail has change his role to premium
+        500:
+          description: Error del servidor
+  /api/users/{uid}:
+    delete:
+      summary: Endpoint para  eliminar usuario
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          description: ID del usuario a eliminar
+          schema:
+            type: string
+      responses:
+        200:
+          description: Usuario eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Estado success o error.
+                  message:
+                    type: string
+                    description: se indica que el usuario ha sido eliminado
+                example:
+                  status: success
+                  message: user ID 64e5749286aba34b2cb1d376 deleted
         500:
           description: Error del servidor
 components:
