@@ -20,6 +20,8 @@ class CartMongo {
 
 	//Método agregar un producto al carrito
 	async addProductToCart(cartId, newArray) {
+		console.log(cartId)
+		console.log(newArray)
 		await this.model.findOneAndUpdate({ _id: cartId }, { products: newArray.products }); //busco el carrito y modifico el campo
 	}
 

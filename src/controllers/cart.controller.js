@@ -27,12 +27,9 @@ class CartController {
 
 	//Método agregar un producto al carrito
 	async addProductToCart(cartId, productId) {
+		
 		const product = await productController.getProductsById(productId);
 		const user = await userController.getByEmail(product[0].owner);
-
-		if (user.role === 'premium' && product[0].owner === user.email) {
-			return { status: 'error', message: 'you cannot add a product created by yourself' }; // retorno el carrito con el producto agregado
-		}
 
 		const newProduct = {
 			product: productId,
@@ -40,7 +37,7 @@ class CartController {
 		};
 		const cart = await this.service.getCartById(cartId); //me quedo con el carrito a modificar
 		// busco el elemento que coincida con el ID indicado
-		const index = this.service.getIndex(cart, productId);
+		const index = await this.service.getIndex(cart, productId);
 
 		if (index >= 0) {
 			//Si existe sumo una unidad
@@ -49,16 +46,9 @@ class CartController {
 			//Si no axiste el producto lo agrego
 			cart.products.push(newProduct);
 		}
-
+		
 		await this.service.addProductToCart(cartId, cart);
 		return { status: 'success', message: `product ID=${productId} added to cart ID=${cartId}` }; // retorno el carrito con el producto agregado
-
-		/*if (user.role === 'premium' && product.owner === user.email) {
-			return { status: 'error', message: 'you cannot add a product created by yourself' }; // indico que un usuario primum no peude agregar su propio producto al carrito
-		} else {
-			await this.service.addProductToCart(cartId, cart);
-			return { status: 'success', message: `product ID=${productId} added to cart ID=${cartId}` }; // retorno el carrito con el producto agregado
-		}*/
 	}
 
 	//Método para borrar un producto del carrito
