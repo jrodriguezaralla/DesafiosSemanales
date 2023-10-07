@@ -15,7 +15,7 @@ export const transport = nodemailer.createTransport({
 	},
 });
 
-//Endpoint que envia email
+//Endpoint que envia email con la compra
 mailRouter.post('/', async (req, res) => {
 	try {
 		let { newTicket } = req.body; //recibo por body los datos

@@ -142,7 +142,10 @@ btnFinalizarCompra.addEventListener('click', async () => {
 					//alert con confirmación de operación
 					Swal.fire({
 						title: 'Compra Realizada!',
-						text: 'Muchas Gracias, vuelva pronto.',
+						text:
+							unpurchasedProducts.length > 0
+								? 'Muchas Gracias, vuelva pronto.'
+								: `Muchas Gracias, vuelva pronto. Lamentablemente no contamos con el stock solicitado de los productos que quedaron en el carrito`,
 						icon: 'success',
 						confirmButtonColor: '#212529',
 					}).then((result) => {

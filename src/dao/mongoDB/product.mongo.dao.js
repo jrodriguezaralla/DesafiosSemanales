@@ -24,7 +24,7 @@ class ProductMongo {
 
 	//Método para adquirir un producto especifico por ID
 	async getProductsById(idBuscado) {
-		return this.model.find({ _id: idBuscado }); // busco el elemento que
+		return this.model.findOne({ _id: idBuscado }); // busco el elemento que
 	}
 
 	//Método para actualizar producto
