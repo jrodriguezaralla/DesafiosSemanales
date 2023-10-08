@@ -29,7 +29,7 @@ class CartController {
 	async addProductToCart(cartId, productId) {
 		
 		const product = await productController.getProductsById(productId);
-		const user = await userController.getByEmail(product[0].owner);
+		const user = await userController.getByEmail(product.owner);
 
 		const newProduct = {
 			product: productId,

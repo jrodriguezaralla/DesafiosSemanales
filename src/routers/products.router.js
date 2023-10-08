@@ -107,10 +107,9 @@ productsRouter.delete('/:pid', middlewarePassportJWT, isAdminOrPremium, async (r
 	try {
 		let idBuscado = req.params.pid;
 		let prodToDel = await productController.getProductsById(idBuscado);
-		let userOwner = await userController.getByEmail(prodToDel.owner)
 		let product;
 
-		if ((req.user.role === 'premium' && prodToDel[0].owner === req.user.email) || req.user.role === 'admin') {
+		if ((req.user.role === 'premium' && prodToDel.owner === req.user.email) || req.user.role === 'admin') {
 			product = await productController.deleteProduct(idBuscado);
 		} else {
 			CustomError.createError({
@@ -120,22 +119,6 @@ productsRouter.delete('/:pid', middlewarePassportJWT, isAdminOrPremium, async (r
 				code: EErrors.DELETE_ERROR,
 			});
 		}
-
-		//si se elimina un producto de un usuario premium envio email de aviso.
-		if (userOwner.role === 'premium') {
-			await transport.sendMail({
-				from: environment.hostMail,
-				to: `${userOwner.email}`,
-				subject: `Su producto ha sido eliminado`,
-				html: `
-					<div>
-						<h1>Le informamos que su producto ${prodToDel.code} - ${prodToDel.title} ha sido eliminado</h1>
-					</div>
-					`,
-				attachments: [],
-			});
-		}
-
 		if (!product === EErrors.DELETE_ERROR) {
 			CustomError.createError({
 				name: 'Product Delete error',
@@ -144,9 +127,12 @@ productsRouter.delete('/:pid', middlewarePassportJWT, isAdminOrPremium, async (r
 				code: EErrors.DELETE_ERROR,
 			});
 		}
-
+		const responseObj = {
+			prodToDel: prodToDel,
+			user: req.user,
+		};
 		io.emit('real_time_products', await productController.getProducts());
-		res.send(product);
+		res.json(responseObj);
 	} catch (error) {
 		next(error);
 	}

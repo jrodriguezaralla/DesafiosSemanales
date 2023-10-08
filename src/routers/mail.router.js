@@ -72,10 +72,10 @@ mailRouter.post('/deleteproduct', async (req, res) => {
 		let result = await transport.sendMail({
 			from: environment.hostMail,
 			to: `${email}`,
-			subject: `Eliminación de prodcuto`,
+			subject: 'producto eliminado',
 			html: `
             <div>
-                <p>Informamos que el producto codigo: ${product.code} y ID:${product._id} fue eliminado</p>
+                <p>Informamos que su producto ${product.code} - ${product.title} fue eliminado</p>
             </div>
             `,
 			attachments: [],

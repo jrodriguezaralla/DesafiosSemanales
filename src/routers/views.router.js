@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { io } from '../app.js';
-import { isAuth, isGuest, isUser, isAdminOrPremium } from '../middleware/auth.middleware.js';
+import { isAuth, isGuest, isUser, isAdminOrPremium, isAdmin } from '../middleware/auth.middleware.js';
 import { middlewarePassportJWT } from '../middleware/jwt.middleware.js';
 import productController from '../controllers/product.controller.js';
 import cartController from '../controllers/cart.controller.js';
@@ -160,7 +160,7 @@ viewsRouter.get('/loginmasterusers', async (req, res) => {
 });
 
 //Endpoint que muestra el login de master de usuarios
-viewsRouter.get('/masterusers', middlewarePassportJWT, isAdminOrPremium, async (req, res) => {
+viewsRouter.get('/masterusers', middlewarePassportJWT, isAdmin, async (req, res) => {
 	let user = req.user;
 	const allUsers = await userController.getAll();
 	const users = allUsers.map((usr) => {

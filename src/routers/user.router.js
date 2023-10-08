@@ -15,8 +15,6 @@ const usersRouter = Router();
 
 //Endpoint para registrar usuario
 usersRouter.post('/', passport.authenticate('register', { failureRedirect: 'failregister' }), async (req, res) => {
-	//console.log("req.user")
-	//console.log(req.user)
 	let user = req.user
 	user.last_connection = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS);
 
@@ -36,10 +34,9 @@ usersRouter.get('/failregister', async (req, res) => {
 //Endpoint para autenticar usuario y contraseña
 usersRouter.post('/auth', async (req, res) => {
 	const { username, password } = req.body;
-
+	
 	try {
-		let user = await userController.getByEmail(username);
-
+		let user; 
 		// Chequeo de datos
 		if (username === environment.adminName && password === environment.adminPassword) {
 			user = {
@@ -48,12 +45,14 @@ usersRouter.post('/auth', async (req, res) => {
 				role: 'admin',
 				email: username,
 			};
+		} else {
+			user = await userController.getByEmail(username);
 		}
 		if (!user) {
 			//Existe el usuario?
 			return res.json({ status: 'error', message: 'user doesn´t exist' });
 		}
-
+		
 		if (username != environment.adminName) {
 			if (!user.password || !comparePassword(user, password)) {
 				// La contraseña es correcta?
@@ -63,13 +62,14 @@ usersRouter.post('/auth', async (req, res) => {
 
 		user.last_connection = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS);
 		await userController.updateUser(user);
-
+		
 		const token = generateToken(user);
 		res.cookie('token', token, {
 				httpOnly: true,
 				maxAge: 6000000,
 			})
 			.send({ status: 'success', message: 'user login authorized' });
+		
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ status: 'error', message: 'Internal server error' });

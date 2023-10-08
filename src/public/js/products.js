@@ -20,7 +20,7 @@ btnAgregarCarrito.forEach((el) => {
 		await fetch(`/api/products/${e.target.id}`)
 			.then((res) => res.json())
 			.then((data) => {
-				productOwner = data[0].owner;
+				productOwner = data.owner;
 			});
 
 		if (userRole === 'premium' && productOwner === email) {

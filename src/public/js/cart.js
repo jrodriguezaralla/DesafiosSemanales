@@ -101,6 +101,7 @@ btnVaciarCarrito.addEventListener('click', async () => {
 btnFinalizarCompra.addEventListener('click', async () => {
 	let email;
 	let cartId;
+	let unpurchasedProducts = [];
 	//fetch para obtener datos de la sesion actual
 	await fetch('/api/sessions/current')
 		.then((res) => res.json())
@@ -129,6 +130,15 @@ btnFinalizarCompra.addEventListener('click', async () => {
 			})
 				.then((res) => res.json())
 				.then(async (response) => {
+
+					//recupero el listado de productos que no se tenia stock
+					response.notStock.map(async (id)=>{
+						await fetch(`/api/products/${id}`)
+							.then((res) => res.json())
+							.then((data) => {
+								unpurchasedProducts.push(data)
+							});
+					})
 					//envio email solo si tengo productos que pude comprar
 					if (response.newTicket.amount) {
 						await fetch(`/email`, {
@@ -139,13 +149,15 @@ btnFinalizarCompra.addEventListener('click', async () => {
 							body: JSON.stringify(response),
 						});
 					}
+					console.log(unpurchasedProducts);
+					console.log(unpurchasedProducts.length)
 					//alert con confirmación de operación
 					Swal.fire({
 						title: 'Compra Realizada!',
 						text:
-							unpurchasedProducts.length > 0
-								? 'Muchas Gracias, vuelva pronto.'
-								: `Muchas Gracias, vuelva pronto. Lamentablemente no contamos con el stock solicitado de los productos que quedaron en el carrito`,
+							unpurchasedProducts.length != 0
+								? 'Muchas Gracias, vuelva pronto. Lamentablemente no contamos con el stock solicitado en los productos que quedaron en el carrito'
+								: 'Muchas Gracias, vuelva pronto.',
 						icon: 'success',
 						confirmButtonColor: '#212529',
 					}).then((result) => {

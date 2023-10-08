@@ -41,7 +41,7 @@ describe('Test de integracion - Productos', () => {
 
 	it('Verificando buscar producto por su ID', async () => {
 		const response = await request.get(`/api/products/${productId}`);
-		expect(response._body[0]).to.have.property('_id');
+		expect(response._body).to.have.property('_id');
 	});
 
 	it('Verificando modificar producto', async () => {
