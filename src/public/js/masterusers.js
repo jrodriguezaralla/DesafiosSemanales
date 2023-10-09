@@ -49,7 +49,7 @@ btnDeleteUser.forEach((el) => {
 		cartId = user.cartId; // obtengo el cart id
 		//alert para confirmar el borrado
 		Swal.fire({
-			title: 'Esta seguro que desea eliminar producto?',
+			title: 'Esta seguro que desea eliminar usuario?',
 			text: 'No podra volver atras!',
 			icon: 'warning',
 			showCancelButton: true,

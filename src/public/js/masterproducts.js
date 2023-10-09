@@ -87,19 +87,17 @@ btnDeleteProduct.forEach((el) => {
 				})	.then((res) => res.json())
 					.then(async (data) => {
 						let responseObj = {
-							email: data.user.email,
-							product: data.prodToDel
+							email: data.prodToDel.owner,
+							product: data.prodToDel,
 						};
-						//fetch para enviar email si el producto pertenece a un usuario premium
-						if (data.user.role === "premium"){
-							await fetch(`/email/deleteproduct`, {
-								method: 'POST',
-								headers: {
-									'Content-Type': 'application/json',
-								},
-								body: JSON.stringify(responseObj),
-							});
-						}
+						//fetch para enviar email dando aviso que el producto fue eliminado
+						await fetch(`/email/deleteproduct`, {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json',
+							},
+							body: JSON.stringify(responseObj),
+						});
 					});
 				//Alert con la confirmación del borrado
 				Swal.fire({
