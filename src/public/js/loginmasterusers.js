@@ -7,6 +7,7 @@ btnLogInMasterUsers.addEventListener('click', async () => {
 	const password = document.getElementById('LogInInputPassMasterUsers').value;
 	const user = { username, password };
 
+	console.log(user)
 	//realizo un post para loguear
 	fetch('/api/users/auth', {
 		method: 'POST',

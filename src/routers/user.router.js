@@ -61,7 +61,9 @@ usersRouter.post('/auth', async (req, res) => {
 		}
 
 		user.last_connection = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS);
-		await userController.updateUser(user);
+		if (username !== environment.adminName) {
+			await userController.updateUser(user);
+		}
 		
 		const token = generateToken(user);
 		res.cookie('token', token, {
@@ -111,6 +113,12 @@ usersRouter.post('/logout/:uid', async (req, res) => {
 
 	return res.clearCookie('token').redirect('/login');
 });
+
+//Endpoint para destruir sesion de admin
+usersRouter.post('/logoutmasteruser', async (req, res) => {
+	return res.clearCookie('token').redirect('/loginmasterusers');
+});
+
 
 //Endpoint para cambiar el rol de un usuario
 usersRouter.get('/premium/:uid', async (req, res) => {

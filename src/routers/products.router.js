@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { io } from '../app.js';
 import { middlewarePassportJWT } from '../middleware/jwt.middleware.js';
-import { isAdminOrPremium } from '../middleware/auth.middleware.js';
+import { isAdminOrPremium, isUserOrPremium } from '../middleware/auth.middleware.js';
 
 import productController from '../controllers/product.controller.js';
 import CustomError from '../tools/CustomErrors.js';
