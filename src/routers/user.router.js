@@ -9,7 +9,7 @@ import ViewUserDTO from '../dto/viewuser.dto.js';
 //importación de libreria de dating
 import { DateTime } from 'luxon';
 import { uploadGeneric } from '../middleware/uploadgeneric.middleware.js';
-
+const documentsFolderPath = '../public/documents';
 
 const usersRouter = Router();
 
@@ -147,7 +147,7 @@ usersRouter.delete('/:uid', async (req, res) => {
 });
 
 //Endpoitn para guardar documentación
-usersRouter.post('/:uid/documents', uploadGeneric('../public/documents').array('archivo'), async (req, res) => {
+usersRouter.post('/:uid/documents', uploadGeneric(documentsFolderPath).array('archivo'), async (req, res) => {
 	try {
 		const tipo = req.body.tipo; // Obtén el tipo de formulario
 		const archivo = req.files; // Obtén el archivo cargado
