@@ -147,7 +147,7 @@ usersRouter.delete('/:uid', async (req, res) => {
 });
 
 //Endpoitn para guardar documentación
-usersRouter.post('/:uid/documents', uploadGeneric('src/public/documents').array('archivo'), async (req, res) => {
+usersRouter.post('/:uid/documents', uploadGeneric('/src/public/documents').array('archivo'), async (req, res) => {
 	try {
 		const tipo = req.body.tipo; // Obtén el tipo de formulario
 		const archivo = req.files; // Obtén el archivo cargado
