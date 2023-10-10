@@ -147,7 +147,7 @@ usersRouter.delete('/:uid', async (req, res) => {
 });
 
 //Endpoitn para guardar documentación
-usersRouter.post('/:uid/documents', uploadGeneric('/src/public/documents').array('archivo'), async (req, res) => {
+usersRouter.post('/:uid/documents', uploadGeneric('../public/documents').array('archivo'), async (req, res) => {
 	try {
 		const tipo = req.body.tipo; // Obtén el tipo de formulario
 		const archivo = req.files; // Obtén el archivo cargado
@@ -159,10 +159,9 @@ usersRouter.post('/:uid/documents', uploadGeneric('/src/public/documents').array
 				type: tipo,
 			};
 
-			user.documents.push(document)
-
-		})
-		await userController.updateUser(user)
+			user.documents.push(document);
+		});
+		await userController.updateUser(user);
 
 		if (!req.files) {
 			return res.status(400).send({ status: 'error', message: 'No se pudo guardar la imagen' });
