@@ -9,7 +9,7 @@ import ViewUserDTO from '../dto/viewuser.dto.js';
 //importación de libreria de dating
 import { DateTime } from 'luxon';
 import { uploadGeneric } from '../middleware/uploadgeneric.middleware.js';
-const documentsFolderPath = '../public/documents';
+const documentsFolderPath = 'src/public/documents';
 
 const usersRouter = Router();
 
